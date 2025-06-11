@@ -21,7 +21,7 @@ namespace SistemaInmobiliaria.Controllers
             DataTable dataTable = new DataTable();
             using (SqlConnection sqlConnection = conexion.Open())
             {
-                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("SELECT IdCliente,Identificacion, CONCAT(Nombre,' ',Apellido) AS Nombre, Telefono, Direccion FROM Cliente", sqlConnection);
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("SELECT IdCliente,Identificacion, CONCAT(Nombre,' ',Apellido) AS Nombre, Telefono, Direccion FROM Cliente ORDER BY IdCliente", sqlConnection);
                 sqlDataAdapter.SelectCommand.CommandType = CommandType.Text;
                 sqlDataAdapter.Fill(dataTable);
                 return dataTable;
@@ -38,7 +38,7 @@ namespace SistemaInmobiliaria.Controllers
                       CONCAT(Cliente.Nombre,' ',Cliente.Apellido) as Nombre,
                         Cliente.Telefono,
                         Cliente.Direccion
-                    FROM Cliente;";
+                    FROM Cliente ORDER BY Cliente.IdCliente;";
                 using (SqlCommand cmd = new SqlCommand(query, conexion.Open()))
                 {
 
