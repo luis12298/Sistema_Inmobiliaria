@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmInicio));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.clientesToolStripMenuItem = new FontAwesome.Sharp.IconMenuItem();
             this.verClientesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,7 +74,7 @@
             this.reportesToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(9, 9);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(832, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(682, 28);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -122,7 +123,7 @@
             this.registrarContratoToolStripMenuItem.IconColor = System.Drawing.Color.Black;
             this.registrarContratoToolStripMenuItem.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.registrarContratoToolStripMenuItem.Name = "registrarContratoToolStripMenuItem";
-            this.registrarContratoToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.registrarContratoToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
             this.registrarContratoToolStripMenuItem.Text = "Ver contratos";
             this.registrarContratoToolStripMenuItem.Click += new System.EventHandler(this.registrarContratoToolStripMenuItem_Click);
             // 
@@ -132,7 +133,7 @@
             this.registrarContratoToolStripMenuItem1.IconColor = System.Drawing.Color.Black;
             this.registrarContratoToolStripMenuItem1.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.registrarContratoToolStripMenuItem1.Name = "registrarContratoToolStripMenuItem1";
-            this.registrarContratoToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.registrarContratoToolStripMenuItem1.Size = new System.Drawing.Size(211, 26);
             this.registrarContratoToolStripMenuItem1.Text = "Registrar contrato";
             this.registrarContratoToolStripMenuItem1.Click += new System.EventHandler(this.registrarContratoToolStripMenuItem1_Click);
             // 
@@ -142,7 +143,7 @@
             this.cobrarToolStripMenuItem.IconColor = System.Drawing.Color.Black;
             this.cobrarToolStripMenuItem.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.cobrarToolStripMenuItem.Name = "cobrarToolStripMenuItem";
-            this.cobrarToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.cobrarToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
             this.cobrarToolStripMenuItem.Text = "Tramites";
             this.cobrarToolStripMenuItem.Click += new System.EventHandler(this.cobrarToolStripMenuItem_Click);
             // 
@@ -340,6 +341,7 @@
             this.Controls.Add(this.menuStrip2);
             this.Controls.Add(this.Main);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "frmInicio";
             this.Text = "Inicio";
