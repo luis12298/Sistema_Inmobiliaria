@@ -181,5 +181,112 @@ namespace SistemaInmobiliaria.Views
                 e.FormattingApplied = true;
             }
         }
+
+        private void dgvDatos_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+
+            if (e.Button == MouseButtons.Right && e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                // Obtener el DataGridView que generó el evento
+                DataGridView dgv = sender as DataGridView;
+
+                // Seleccionar la celda en la que se hizo clic derecho
+                dgv.CurrentCell = dgv.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+                // Crear el menú contextual
+                ContextMenuStrip contextMenu = new ContextMenuStrip();
+
+                // Opción "Copiar"
+                var copyCell = new ToolStripMenuItem("Copiar");
+                copyCell.Click += (s, ev) =>
+                {
+                    if (dgv.SelectedCells.Count > 1)
+                    {
+                        // Copiar rango de celdas seleccionadas
+                        StringBuilder sb = new StringBuilder();
+                        int minRow = dgv.SelectedCells.Cast<DataGridViewCell>().Min(c => c.RowIndex);
+                        int maxRow = dgv.SelectedCells.Cast<DataGridViewCell>().Max(c => c.RowIndex);
+                        int minCol = dgv.SelectedCells.Cast<DataGridViewCell>().Min(c => c.ColumnIndex);
+                        int maxCol = dgv.SelectedCells.Cast<DataGridViewCell>().Max(c => c.ColumnIndex);
+
+                        for (int row = minRow; row <= maxRow; row++)
+                        {
+                            List<string> rowValues = new List<string>();
+                            for (int col = minCol; col <= maxCol; col++)
+                            {
+                                var cell = dgv.Rows[row].Cells[col];
+                                rowValues.Add(cell.Value?.ToString() ?? "");
+                            }
+                            sb.AppendLine(string.Join("\t", rowValues));
+                        }
+
+                        Clipboard.SetText(sb.ToString());
+                    }
+                    else if (dgv.CurrentCell != null && !dgv.CurrentCell.IsInEditMode)
+                    {
+                        Clipboard.SetText(dgv.CurrentCell.Value?.ToString());
+                    }
+                };
+                contextMenu.Items.Add(copyCell);
+
+                // Opción "Copiar toda la fila"
+                var copyRow = new ToolStripMenuItem("Copiar fila");
+                copyRow.Click += (s, ev) =>
+                {
+                    if (dgv.CurrentRow != null)
+                    {
+                        var row = dgv.CurrentRow;
+                        string rowData = "";
+
+                        // Concatenar los valores de todas las celdas de la fila
+                        foreach (DataGridViewCell cell in row.Cells)
+                        {
+                            if (cell.Value != null)
+                            {
+                                rowData += cell.Value.ToString() + "\t"; // Separador de tabulación
+                            }
+                        }
+
+                        // Copiar al portapapeles
+                        Clipboard.SetText(rowData.TrimEnd('\t'));
+                    }
+                };
+                contextMenu.Items.Add(copyRow);
+
+                // Opción "Copiar fila con encabezados"
+                var copyRowWithHeaders = new ToolStripMenuItem("Copiar fila con encabezado");
+                copyRowWithHeaders.Click += (s, ev) =>
+                {
+                    if (dgv.CurrentRow != null)
+                    {
+                        var row = dgv.CurrentRow;
+                        StringBuilder sb = new StringBuilder();
+
+                        // Agregar encabezados
+                        foreach (DataGridViewColumn column in dgv.Columns)
+                        {
+                            sb.Append(column.HeaderText + "\t");
+                        }
+                        sb.AppendLine();
+
+                        // Agregar valores de la fila
+                        foreach (DataGridViewCell cell in row.Cells)
+                        {
+                            sb.Append((cell.Value?.ToString() ?? "") + "\t");
+                        }
+
+                        // Copiar al portapapeles
+                        Clipboard.SetText(sb.ToString().TrimEnd('\t'));
+                    }
+                };
+                contextMenu.Items.Add(copyRowWithHeaders);
+
+                // Mostrar el menú contextual en la posición del clic derecho
+                contextMenu.Show(dgv, dgv.PointToClient(Cursor.Position));
+            }
+
+        }
+
     }
 }
+

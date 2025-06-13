@@ -59,7 +59,7 @@ INNER JOIN Lote ON Contrato.IdLote = Lote.IdLote ORDER BY Contrato.IdContrato;";
             {
                 string query = @"SELECT 
     Contrato.IdContrato,
-    Contrato.IdLote,            
+    Contrato.IdLote,
     Lote.LoteNo AS LoteNo,
     Cliente.Identificacion,
     CONCAT(Cliente.Nombre,' ',Cliente.Apellido) as Nombre,
@@ -271,6 +271,28 @@ INNER JOIN Lote ON Contrato.IdLote = Lote.IdLote ORDER BY Contrato.IdContrato;";
                 {
                     sqlCommand.CommandType = CommandType.Text;
                     sqlCommand.Parameters.AddWithValue("@IdContrato", IdContrato);
+                    sqlCommand.ExecuteNonQuery();
+                    try
+                    {
+                        return true;
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+            }
+            return false;
+        }
+        public bool EliminarContratoPorIdCliente(int IdCliente)
+        {
+            using (SqlConnection sqlConnection = conexion.Open())
+            {
+                string query = @"DELETE FROM Contrato WHERE IdCliente = @IdCliente";
+                ;
+                using (SqlCommand sqlCommand = new SqlCommand(query, sqlConnection))
+                {
+                    sqlCommand.CommandType = CommandType.Text;
+                    sqlCommand.Parameters.AddWithValue("@IdCliente", IdCliente);
                     sqlCommand.ExecuteNonQuery();
                     try
                     {

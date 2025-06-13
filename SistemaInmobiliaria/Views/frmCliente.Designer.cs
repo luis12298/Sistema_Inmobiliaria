@@ -74,7 +74,7 @@
             this.btnCancelar.IconSize = 25;
             this.btnCancelar.Location = new System.Drawing.Point(6, 228);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(147, 35);
+            this.btnCancelar.Size = new System.Drawing.Size(122, 35);
             this.btnCancelar.TabIndex = 8;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -90,9 +90,9 @@
             this.btnEliminar.IconColor = System.Drawing.Color.White;
             this.btnEliminar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnEliminar.IconSize = 25;
-            this.btnEliminar.Location = new System.Drawing.Point(742, 228);
+            this.btnEliminar.Location = new System.Drawing.Point(760, 228);
             this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(131, 35);
+            this.btnEliminar.Size = new System.Drawing.Size(113, 35);
             this.btnEliminar.TabIndex = 7;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -108,9 +108,9 @@
             this.btnActualizar.IconColor = System.Drawing.Color.White;
             this.btnActualizar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnActualizar.IconSize = 25;
-            this.btnActualizar.Location = new System.Drawing.Point(589, 228);
+            this.btnActualizar.Location = new System.Drawing.Point(631, 228);
             this.btnActualizar.Name = "btnActualizar";
-            this.btnActualizar.Size = new System.Drawing.Size(147, 35);
+            this.btnActualizar.Size = new System.Drawing.Size(123, 35);
             this.btnActualizar.TabIndex = 6;
             this.btnActualizar.Text = "Actualizar";
             this.btnActualizar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -126,9 +126,9 @@
             this.btnRegistrar.IconColor = System.Drawing.Color.White;
             this.btnRegistrar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnRegistrar.IconSize = 25;
-            this.btnRegistrar.Location = new System.Drawing.Point(420, 228);
+            this.btnRegistrar.Location = new System.Drawing.Point(456, 228);
             this.btnRegistrar.Name = "btnRegistrar";
-            this.btnRegistrar.Size = new System.Drawing.Size(163, 35);
+            this.btnRegistrar.Size = new System.Drawing.Size(169, 35);
             this.btnRegistrar.TabIndex = 5;
             this.btnRegistrar.Text = "Registrar nuevo";
             this.btnRegistrar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;

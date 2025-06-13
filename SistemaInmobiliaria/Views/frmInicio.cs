@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -33,8 +34,9 @@ namespace SistemaInmobiliaria.Views
             loadform(new frmDashboard());
             IniciarReloj();
 
-
         }
+        // Para un MenuItem que ya tienes creado
+
         private void IniciarReloj()
         {
             Timer timer = new Timer();
