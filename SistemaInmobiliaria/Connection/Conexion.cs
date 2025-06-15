@@ -13,7 +13,7 @@ namespace SistemaInmobiliaria.Connection
         public static string conexion;
         public Conexion()
         {
-            conexion = ConfigurationManager.ConnectionStrings["Dev"].ConnectionString;
+            conexion = ConfigurationManager.ConnectionStrings["Prod"].ConnectionString;
 
         }
         public SqlConnection Open()
