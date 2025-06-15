@@ -1,4 +1,5 @@
-﻿using Humanizer;
+﻿using FontAwesome.Sharp;
+using Humanizer;
 using Microsoft.Reporting.WinForms;
 using SistemaInmobiliaria.Controllers;
 using SistemaInmobiliaria.Models;
@@ -26,7 +27,6 @@ namespace SistemaInmobiliaria.Views
         {
             InitializeComponent();
             this.WindowState = FormWindowState.Maximized;
-            userLog.Text = UsuarioModel.Usuario;
             // Agrega un separador flexible que empuja los ítems siguientes hacia la derecha
             //obtener año actual
             int year = DateTime.Now.Year;
@@ -34,9 +34,67 @@ namespace SistemaInmobiliaria.Views
             loadform(new frmDashboard());
             IniciarReloj();
 
+
         }
         // Para un MenuItem que ya tienes creado
 
+        private void MostrarMenu(Button boton)
+        {
+            try
+            {
+                // Crear el menú
+                ContextMenuStrip menu = new ContextMenuStrip();
+
+                // Agregar opciones
+                ToolStripMenuItem opcion1 = new ToolStripMenuItem("Opción 1");
+                var userLog = FontAwesome.Sharp.IconChar.UserAlt.ToBitmap(16, 16, Color.Black);
+                opcion1.Image = userLog;
+
+                opcion1.Text = $"Usuario: {UsuarioModel.Usuario}"; // Icono usuario
+
+
+
+                ToolStripMenuItem opcion2 = new ToolStripMenuItem("Ayuda");
+                var help = FontAwesome.Sharp.IconChar.QuestionCircle.ToBitmap(16, 16, Color.Black);
+                //abrir url de ayuda
+                opcion2.Click += (s, e) => { System.Diagnostics.Process.Start("https://github.com/luis12298/Sistema_Inmobiliaria"); };
+                opcion2.Image = help;
+
+
+                // Separador
+                ToolStripSeparator separador = new ToolStripSeparator();
+
+                ToolStripMenuItem Msalir = new ToolStripMenuItem("Salir");
+                var salir = FontAwesome.Sharp.IconChar.SignOutAlt.ToBitmap(16, 16, Color.Black);
+                Msalir.Image = salir;
+                Msalir.Click += (s, e) =>
+                {
+
+                    this.Hide();
+                    frmLogin frmLogin = new frmLogin();
+                    frmLogin.ShowDialog();
+                    this.Close();
+                };
+
+                menu.Items.Add(opcion1);
+                menu.Items.Add(opcion2);
+                menu.Items.Add(separador);
+                menu.Items.Add(Msalir);
+
+                // Mostrar el menú debajo del botón
+                menu.Show(boton, new Point(0, boton.Height));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        // Ejemplo de cómo conectar tu botón:
+
+
+        // O llámalo directamente así:
+        // MostrarMenu(tuBoton);
         private void IniciarReloj()
         {
             Timer timer = new Timer();
@@ -187,6 +245,12 @@ namespace SistemaInmobiliaria.Views
         private void agregarCorreoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             loadform(new frmCorreo());
+        }
+
+        private void iconButton1_Click(object sender, EventArgs e)
+        {
+            MostrarMenu((Button)sender);
+
         }
     }
 }
