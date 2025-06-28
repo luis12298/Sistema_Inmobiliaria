@@ -113,6 +113,7 @@
             this.Name = "frmRecuperar";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Recuperar";
+            this.Load += new System.EventHandler(this.frmRecuperar_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

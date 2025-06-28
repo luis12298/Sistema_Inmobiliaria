@@ -180,7 +180,7 @@
             // 
             this.txtDescripcion.Location = new System.Drawing.Point(20, 182);
             this.txtDescripcion.Name = "txtDescripcion";
-            this.txtDescripcion.Size = new System.Drawing.Size(352, 22);
+            this.txtDescripcion.Size = new System.Drawing.Size(513, 22);
             this.txtDescripcion.TabIndex = 5;
             // 
             // txtPrecio

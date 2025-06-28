@@ -20,6 +20,7 @@ namespace SistemaInmobiliaria.Views
         ContratoController contratoC = new ContratoController();
         PaginationManager paginationManager = new PaginationManager();
         Toast toast = new Toast();
+
         public int IdContratoG = 0;
         public frmListaCobro()
         {
@@ -92,6 +93,17 @@ namespace SistemaInmobiliaria.Views
 
                 frmPrincipal.loadform(frm);
             }
+            frmInicio formPrincipal = Application.OpenForms.OfType<frmInicio>().FirstOrDefault();
+
+            if (formPrincipal != null) // Verificar que el formulario exista
+            {
+
+
+                // O mejor, si tienes un método público en frmInicio:
+                formPrincipal.SetRutaText("Contratos / Tramites / Cobrar");
+            }
+
+
         }
 
         private void dgvDatos_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -113,6 +125,7 @@ namespace SistemaInmobiliaria.Views
             // Si existe el formulario principal, mostrar su panel de inicio
             if (formPrincipal != null)
             {
+                formPrincipal.SetRutaText("Inicio");
                 formPrincipal.loadform(new frmDashboard());
             }
 

@@ -53,7 +53,7 @@ SELECT
     e.IdContrato,
     e.IdCliente,
     e.NoCuota,
-    e.Mes AS Frecuencia,
+    e.Mes AS MesCuota,
     e.FechaPago,
     CASE 
         WHEN e.PagoDirecto > 0 OR (TotalCuotas - NoCuota) < FLOOR(ExcedenteTotal / MontoCuota) THEN e.MontoCuota

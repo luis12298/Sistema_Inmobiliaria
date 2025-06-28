@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cmbEstadoL = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.txtDescripcionL = new System.Windows.Forms.TextBox();
             this.txtVaras = new System.Windows.Forms.TextBox();
             this.txtMetros = new System.Windows.Forms.TextBox();
@@ -81,8 +83,6 @@
             this.iconPictureBox1 = new FontAwesome.Sharp.IconPictureBox();
             this.panel5 = new System.Windows.Forms.Panel();
             this.btnCancelarTodo = new FontAwesome.Sharp.IconButton();
-            this.label2 = new System.Windows.Forms.Label();
-            this.cmbEstadoL = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtDia)).BeginInit();
             this.panel1.SuspendLayout();
@@ -113,6 +113,31 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos lote o terreno";
+            // 
+            // cmbEstadoL
+            // 
+            this.cmbEstadoL.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbEstadoL.FormattingEnabled = true;
+            this.cmbEstadoL.Items.AddRange(new object[] {
+            "Disponible",
+            "Vendido",
+            "Apartado",
+            "No disponible"});
+            this.cmbEstadoL.Location = new System.Drawing.Point(632, 62);
+            this.cmbEstadoL.Name = "cmbEstadoL";
+            this.cmbEstadoL.Size = new System.Drawing.Size(304, 24);
+            this.cmbEstadoL.TabIndex = 60;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.Red;
+            this.label2.Location = new System.Drawing.Point(641, 42);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(15, 20);
+            this.label2.TabIndex = 59;
+            this.label2.Text = "*";
             // 
             // txtDescripcionL
             // 
@@ -687,10 +712,10 @@
             // 
             // btnCancelarTodo
             // 
-            this.btnCancelarTodo.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.btnCancelarTodo.BackColor = System.Drawing.SystemColors.Control;
             this.btnCancelarTodo.FlatAppearance.BorderSize = 0;
             this.btnCancelarTodo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancelarTodo.IconChar = FontAwesome.Sharp.IconChar.FloppyDisk;
+            this.btnCancelarTodo.IconChar = FontAwesome.Sharp.IconChar.Ban;
             this.btnCancelarTodo.IconColor = System.Drawing.Color.Black;
             this.btnCancelarTodo.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnCancelarTodo.IconSize = 40;
@@ -703,31 +728,6 @@
             this.btnCancelarTodo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnCancelarTodo.UseVisualStyleBackColor = false;
             this.btnCancelarTodo.Click += new System.EventHandler(this.btnCancelarTodo_Click);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(641, 42);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(15, 20);
-            this.label2.TabIndex = 59;
-            this.label2.Text = "*";
-            // 
-            // cmbEstadoL
-            // 
-            this.cmbEstadoL.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbEstadoL.FormattingEnabled = true;
-            this.cmbEstadoL.Items.AddRange(new object[] {
-            "Disponible",
-            "Vendido",
-            "Apartado",
-            "No disponible"});
-            this.cmbEstadoL.Location = new System.Drawing.Point(632, 62);
-            this.cmbEstadoL.Name = "cmbEstadoL";
-            this.cmbEstadoL.Size = new System.Drawing.Size(304, 24);
-            this.cmbEstadoL.TabIndex = 60;
             // 
             // frmContrato
             // 

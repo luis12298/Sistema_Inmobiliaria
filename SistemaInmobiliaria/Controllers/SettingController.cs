@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,60 +27,34 @@ namespace SistemaInmobiliaria.Controllers
         }
         public void AjustarColumnas(DataGridView dgvDatos)
         {
-            // Desactivar la actualización visual para mejorar el rendimiento
             dgvDatos.SuspendLayout();
 
-            try
-            {
-                using (Graphics g = dgvDatos.CreateGraphics())
-                {
-                    foreach (DataGridViewColumn col in dgvDatos.Columns)
-                    {
-                        col.ReadOnly = true;
-
-                        // Obtener el ancho del texto más largo en la columna
-                        float maxWidth = g.MeasureString(col.HeaderText, dgvDatos.Font).Width;
-
-                        // Recorrer las filas visibles para encontrar el texto más ancho
-                        foreach (DataGridViewRow row in dgvDatos.Rows)
-                        {
-                            if (row.Cells[col.Index].Value != null)
-                            {
-                                float textWidth = g.MeasureString(row.Cells[col.Index].Value.ToString(), dgvDatos.Font).Width;
-                                if (textWidth > maxWidth)
-                                {
-                                    maxWidth = textWidth;
-                                }
-                            }
-                        }
-
-                        // Ajustar el ancho de la columna sumando un pequeño margen
-                        col.Width = (int)maxWidth + 50;
-                    }
-                }
-
-                // Ajustar la última columna para que ocupe el espacio restante
-                if (dgvDatos.Columns.Count > 0)
-                {
-                    dgvDatos.Columns[dgvDatos.Columns.Count - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                }
-            }
-            finally
-            {
-                // Reactivar la actualización visual
-                dgvDatos.ResumeLayout();
-            }
-
-            // Evitar que se agreguen filas manualmente
+            // Configuración general
+            dgvDatos.ReadOnly = true; // Hace todas las celdas de solo lectura de una vez
+            dgvDatos.ColumnHeadersDefaultCellStyle.Font = new Font(dgvDatos.Font.FontFamily, 10.5f, FontStyle.Bold);
+            dgvDatos.EnableHeadersVisualStyles = false;
+            dgvDatos.ColumnHeadersDefaultCellStyle.BackColor = Color.LightSkyBlue;
             dgvDatos.AllowUserToAddRows = false;
+            dgvDatos.AllowUserToOrderColumns = false;
+            dgvDatos.AllowUserToResizeRows = false;
+            dgvDatos.ColumnHeadersHeight = 45;
+            dgvDatos.ScrollBars = ScrollBars.Both;
 
-            // Aumentar la altura de los encabezados
-            dgvDatos.ColumnHeadersDefaultCellStyle.Font = new Font(dgvDatos.ColumnHeadersDefaultCellStyle.Font, FontStyle.Bold);
+            // Ajuste de columnas (optimizado)
+            foreach (DataGridViewColumn column in dgvDatos.Columns)
+            {
+                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            }
 
-            // **Aumentar aún más la altura de los encabezados**
-            dgvDatos.ColumnHeadersHeight = 45; // Puedes cambiar a un valor mayor si lo deseas
-            dgvDatos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            // Ajustar la última columna para que ocupe el espacio restante
+            if (dgvDatos.Columns.Count > 0)
+            {
+                dgvDatos.Columns[dgvDatos.Columns.Count - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+
+            dgvDatos.ResumeLayout();
         }
+
         public void AjustarColumnas(ListView listView)
         {
             if (listView.Columns.Count == 0) return;
@@ -230,7 +205,7 @@ namespace SistemaInmobiliaria.Controllers
 
         }
 
-        private static void ActualizarRegionRedondeada(Control control, int radio)
+        public static void ActualizarRegionRedondeada(Control control, int radio)
         {
             IntPtr regionPtr = CreateRoundRectRgn(0, 0, control.Width + 1, control.Height + 1, radio * 2, radio * 2);
 
@@ -248,7 +223,115 @@ namespace SistemaInmobiliaria.Controllers
         }
 
 
+        private ProgressBar progressBar;
+        private Label labelStatus;
+        private Panel panelProgress; // Panel contenedor para mayor control
+        private Timer progressTimer;
+        private int puntoCount = 0;
+        private bool isWorking = false;
 
+        // MÉTODO ÚNICO - Solo llamas este método: MostrarTrabajando()
+        public async void MostrarTrabajando(Form form)
+        {
+            try
+            {
+                if (isWorking) return;
+                isWorking = true;
+
+                // Crear panel contenedor si no existe
+                if (panelProgress == null)
+                {
+                    panelProgress = new Panel();
+                    panelProgress.Size = new System.Drawing.Size(300, 100); // Tamaño fijo para el panel
+                    panelProgress.Location = new System.Drawing.Point(
+                        (form.ClientSize.Width - 300) / 2,
+                        (form.ClientSize.Height - 100) / 2); // Centrado en la pantalla
+                    panelProgress.BackColor = Color.FromArgb(200, Color.White); // Semitransparente
+                    panelProgress.BorderStyle = BorderStyle.None;
+                    panelProgress.Anchor = AnchorStyles.None; // Sin anclaje para mantenerlo centrado
+                    form.Controls.Add(panelProgress);
+                }
+
+                // Crear ProgressBar si no existe
+                if (progressBar == null)
+                {
+                    progressBar = new ProgressBar();
+                    progressBar.Style = ProgressBarStyle.Marquee;
+                    progressBar.MarqueeAnimationSpeed = 30;
+                    progressBar.Size = new System.Drawing.Size(260, 25);
+                    progressBar.Location = new System.Drawing.Point(20, 60); // Centrado en el panel
+                    panelProgress.Controls.Add(progressBar);
+                }
+
+                // Crear Label si no existe
+                if (labelStatus == null)
+                {
+                    labelStatus = new Label();
+                    labelStatus.Size = new System.Drawing.Size(260, 25);
+                    labelStatus.Location = new System.Drawing.Point(20, 20); // Arriba del ProgressBar
+                    labelStatus.TextAlign = ContentAlignment.MiddleCenter;
+                    labelStatus.Font = new System.Drawing.Font("Arial", 10);
+                    panelProgress.Controls.Add(labelStatus);
+                }
+
+                // Crear Timer si no existe
+                if (progressTimer == null)
+                {
+                    progressTimer = new Timer();
+                    progressTimer.Interval = 500;
+                    progressTimer.Tick += (s, e) =>
+                    {
+                        puntoCount = (puntoCount + 1) % 4;
+                        string puntos = new string('.', puntoCount);
+                        labelStatus.Text = $"Trabajando{puntos}";
+                    };
+                }
+
+                // Ajustar posición del panel si el formulario cambia de tamaño
+                form.Resize += (s, e) =>
+                {
+                    if (panelProgress != null)
+                    {
+                        panelProgress.Location = new System.Drawing.Point(
+                            (form.ClientSize.Width - panelProgress.Width) / 2,
+                            (form.ClientSize.Height - panelProgress.Height) / 2);
+                    }
+                };
+
+                // Mostrar elementos y traer al frente
+                panelProgress.Visible = true;
+                panelProgress.BringToFront();
+                progressTimer.Start();
+
+                // Deshabilitar todos los controles excepto el panel
+                foreach (Control control in form.Controls)
+                {
+                    if (control != panelProgress)
+                        control.Enabled = false;
+                }
+
+                // Simular tarea
+                Random random = new Random();
+                int tiempoTrabajo = random.Next(1000, 10000);
+                await Task.Delay(tiempoTrabajo);
+
+                // Aquí tu lógica real
+            }
+            finally
+            {
+                // Limpiar al final
+                progressTimer?.Stop();
+                panelProgress?.SendToBack();
+                panelProgress.Visible = false;
+
+                foreach (Control control in form.Controls)
+                {
+                    control.Enabled = true;
+                }
+
+                isWorking = false;
+            }
+        }
 
     }
 }

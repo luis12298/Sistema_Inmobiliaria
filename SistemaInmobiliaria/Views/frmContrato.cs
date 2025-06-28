@@ -61,6 +61,8 @@ namespace SistemaInmobiliaria.Views
             SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Info, btnEjecutar);
             SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Secondary, btnCancelar);
             SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Info, btnCargar);
+            SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Info, btnCargarC);
+
             ApplyBootstrapToAllTextBoxes(this);
             txtDia.Font = new Font("Segoe UI", 10.75F, FontStyle.Regular, GraphicsUnit.Point);
         }

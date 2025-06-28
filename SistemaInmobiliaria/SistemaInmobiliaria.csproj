@@ -316,6 +316,7 @@
     <Compile Include="Controllers\FactPrimaController.cs" />
     <Compile Include="Controllers\FloatingController.cs" />
     <Compile Include="Controllers\LoteController.cs" />
+    <Compile Include="Controllers\MenuUsuarioFlotante.cs" />
     <Compile Include="Controllers\Pagination.cs" />
     <Compile Include="Controllers\PagoController.cs" />
     <Compile Include="Controllers\PlaceholderController.cs" />

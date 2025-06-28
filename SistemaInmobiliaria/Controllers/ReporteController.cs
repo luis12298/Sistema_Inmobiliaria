@@ -53,7 +53,7 @@ CuotasAtrasadas AS (
         cp.IdContrato,
         cp.NoCuota AS NumeroCuota,
         cp.FechaCuota,
-        cp.MontoCuota AS MontoCuotaOriginal,
+        cp.MontoCuota AS Cuota,
         CAST(
             CASE 
                 WHEN cp.MontoPagado = 0 AND cp.DiasAtraso >= 90 THEN cp.MontoCuota * 1.05
@@ -71,9 +71,9 @@ SELECT
     IdContrato,
     Identidad,
     Cliente,
-    NumeroCuota,
+    NumeroCuota as NoCuota,
     FechaCuota,
-    MontoCuotaOriginal,
+    Cuota,
     MontoAtrasado,
     MesAtrasado,
     Estado
@@ -125,9 +125,9 @@ CuotasDelMes AS (
         c.Nombre + ' ' + c.Apellido AS Cliente,
         cp.IdContrato,
         cp.FechaInicio,
-        cp.NoCuota AS NumeroCuota,
+        cp.NoCuota as NumeroCuota,
         cp.FechaCuota,
-        cp.MontoCuota AS MontoCuotaOriginal,
+        cp.MontoCuota AS Cuota,
         cp.MontoPagado,
         CAST(cp.MontoCuota - cp.MontoPagado AS DECIMAL(18,2)) AS Saldo,
         cp.DiasAtraso,
@@ -149,15 +149,15 @@ SELECT
     Identidad,
     Cliente,
     FechaInicio,
-    NumeroCuota,
+    NumeroCuota as NoCuota,
     FechaCuota,
-    MontoCuotaOriginal,
+    Cuota,
     MontoPagado,
     Saldo,
     Mes,
     Estado
 FROM CuotasDelMes
-ORDER BY IdContrato, NumeroCuota;";
+ORDER BY IdContrato, NoCuota;";
                 SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(query, sqlConnection);
                 sqlDataAdapter.SelectCommand.CommandType = CommandType.Text;
                 sqlDataAdapter.Fill(data);

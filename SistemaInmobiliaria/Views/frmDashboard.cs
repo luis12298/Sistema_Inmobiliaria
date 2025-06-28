@@ -1,4 +1,5 @@
-﻿using SistemaInmobiliaria.Controllers;
+﻿using Handy.DotNETCoreCompatibility.ColourTranslations;
+using SistemaInmobiliaria.Controllers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,9 +31,68 @@ namespace SistemaInmobiliaria.Views
             };
 
             CargarCobros(dgvDatos2);
+            this.dgvDatos.CellFormatting += (sender, e) =>
+            {
+                var columnasFormateadas = new List<string> { "Cuota", "MontoAtrasado" };
+
+                string nombreColumna = dgvDatos.Columns[e.ColumnIndex].Name;
+
+                if (columnasFormateadas.Contains(nombreColumna) && e.Value != null && e.Value is decimal)
+                {
+                    decimal valor = (decimal)e.Value;
+                    e.Value = string.Format(new System.Globalization.CultureInfo("es-Hn"), "{0:C2}", valor);
+                    e.FormattingApplied = true;
+                }
+                if (dgvDatos.Columns[e.ColumnIndex].Name == "Estado" && e.Value != null)
+                {
+                    if (e.Value.ToString() == "Atrasado")
+                    {
+                        // Cambiar el color de la fuente a rojo
+                        e.CellStyle.BackColor = ColorTranslator.FromHtml("#F7374F");
+                        e.CellStyle.ForeColor = Color.White;
+
+                    }
+
+                }
+            };
+            this.dgvDatos2.CellFormatting += (sender, e) =>
+            {
+                var columnasFormateadas = new List<string> { "Cuota", "MontoPagado", "Saldo" };
+
+                string nombreColumna = dgvDatos2.Columns[e.ColumnIndex].Name;
+
+                if (columnasFormateadas.Contains(nombreColumna) && e.Value != null && e.Value is decimal)
+                {
+                    decimal valor = (decimal)e.Value;
+                    e.Value = string.Format(new System.Globalization.CultureInfo("es-Hn"), "{0:C2}", valor);
+                    e.FormattingApplied = true;
+                }
+                if (dgvDatos2.Columns[e.ColumnIndex].Name == "Estado" && e.Value != null)
+                {
+                    if (e.Value.ToString() == "Atrasado")
+                    {
+                        // Cambiar el color de la fuente a rojo
+                        e.CellStyle.BackColor = ColorTranslator.FromHtml("#F7374F");
+                        e.CellStyle.ForeColor = Color.White;
+
+                    }
+                    else if (e.Value.ToString() == "Pagado")
+                    {
+
+                        e.CellStyle.BackColor = ColorTranslator.FromHtml("#1DCD9F");
+                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#222222");
+
+                    }
+                    else if (e.Value.ToString() == "Pendiente")
+                    {
+
+                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#344CB7");
+                        e.CellStyle.BackColor = ColorTranslator.FromHtml("#D4EBF8");
+                    }
+                }
+            };
 
         }
-
 
         private async void CargarDatos(DataGridView dataGridView)
         {
@@ -75,7 +135,7 @@ namespace SistemaInmobiliaria.Views
         {
             return dgvDatos2.Rows
                 .Cast<DataGridViewRow>()
-                .Sum(row => Convert.ToDouble(row.Cells["MontoCuotaOriginal"].Value ?? 0))
+                .Sum(row => Convert.ToDouble(row.Cells["Cuota"].Value ?? 0))
                 .ToString("N2");
         }
         private async void CargarCobros(DataGridView dataGridView)
@@ -163,6 +223,7 @@ namespace SistemaInmobiliaria.Views
             //si exsite el boton
             if (e.ColumnIndex == dgvDatos.Columns["colMixta"].Index)
             {
+                frmPrincipal.SetRutaText("Contrato / Tramites / Cobrar");
                 frmPrincipal.loadform(frm);
             }
 
@@ -221,6 +282,7 @@ namespace SistemaInmobiliaria.Views
             //si exsite el boton
             if (e.ColumnIndex == dgvDatos2.Columns["colMixta"].Index)
             {
+                frmPrincipal.SetRutaText("Contrato / Tramites / Cobrar");
                 frmPrincipal.loadform(frm);
             }
         }

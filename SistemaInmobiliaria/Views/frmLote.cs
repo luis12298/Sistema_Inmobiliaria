@@ -43,8 +43,22 @@ namespace SistemaInmobiliaria.Views
             SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Secondary, btnMostrar);
             Formatear(txtPrecio);
             CrearMenuContextual(lsvDatos);
+            ApplyBootstrapToAllTextBoxes(this);
         }
-
+        private void ApplyBootstrapToAllTextBoxes(Control container)
+        {
+            foreach (Control control in container.Controls)
+            {
+                if (control is TextBox textBox)
+                {
+                    BootstrapStyler.ApplyBootstrapStyle(textBox);
+                }
+                else if (control.HasChildren)
+                {
+                    ApplyBootstrapToAllTextBoxes(control);
+                }
+            }
+        }
         private void btnNuevo_Click(object sender, EventArgs e)
         {
             if (!ValidarCampos((txtNo, "Ingrese #Lote"), (txtMetros, "Ingrese los mts2"), (txtPrecio, "Ingrese precio"), (txtDescripcion, "Ingrese Descripcion")))
@@ -379,6 +393,7 @@ namespace SistemaInmobiliaria.Views
             // Si existe el formulario principal, mostrar su panel de inicio
             if (formPrincipal != null)
             {
+                formPrincipal.SetRutaText("Inicio");
                 formPrincipal.loadform(new frmDashboard());
             }
 

@@ -200,7 +200,6 @@ namespace SistemaInmobiliaria.Views
 
                 // Cargar datos asíncronamente
                 DataTable datos = await Task.Run(() => pagoC.CargarPagos(Id));
-
                 // Asignar DataSource (el DataGridView manejará los datos automáticamente)
                 dgvDatos.DataSource = datos;
 
@@ -348,6 +347,7 @@ namespace SistemaInmobiliaria.Views
         private void btnVolver_Click(object sender, EventArgs e)
         {
             frmInicio frmPrincipal = (frmInicio)this.Parent.FindForm();
+            frmPrincipal.SetRutaText("Contratos / Tramites");
             frmPrincipal.loadform(new frmListaCobro());
         }
 
@@ -462,6 +462,7 @@ namespace SistemaInmobiliaria.Views
                 toastC.Show(Toast.ToastType.Warning, "Seleccione un registro");
                 return;
             }
+            new SettingController().MostrarTrabajando(this);
             mostrarinform(IdG);
         }
         private void mostrarinform(int Id)
@@ -548,10 +549,13 @@ namespace SistemaInmobiliaria.Views
                 List<PagoContratoModel> datosFactura = new ReporteController().ReportePagoContrato(Id, lblCliente.Text, TotalPagado.Text, TotalRestante.Text, txtCuotaPagada.Text, txtCuotaPendiente.Text);
 
                 ReportDataSource rds = new ReportDataSource("DataSet4", datosFactura);
+
                 reportViewer.LocalReport.DataSources.Clear();
                 reportViewer.LocalReport.DataSources.Add(rds);
 
                 reportViewer.RefreshReport();
+
+
 
                 formularioVistaPrevia.Controls.Add(reportViewer);
                 formularioVistaPrevia.ShowDialog();
@@ -569,6 +573,8 @@ namespace SistemaInmobiliaria.Views
                 toastC.Show(Toast.ToastType.Warning, "Seleccione un contrato");
                 return;
             }
+            new SettingController().MostrarTrabajando(this);
+
             PagosClientes(IdG);
         }
     }

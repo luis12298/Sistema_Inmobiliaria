@@ -7,11 +7,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -33,68 +35,165 @@ namespace SistemaInmobiliaria.Views
             label2.Text = $"Sistema Inmobiliaria {year}";
             loadform(new frmDashboard());
             IniciarReloj();
+            ColorGradient(pnlSidebar);
 
-
+            SetLeftAlignedIcon(btnDropCliente, IconChar.UserGroup, 35, Color.Black);
+            SetLeftAlignedIcon(btnDropContrato, IconChar.FileSignature, 35, Color.Black);
+            SetLeftAlignedIcon(btnDropLote, IconChar.MapLocation, 35, Color.Black);
+            SetLeftAlignedIcon(btnDropUsuario, IconChar.UserAlt, 35, Color.Black);
+            SetLeftAlignedIcon(btnDropOtros, IconChar.Cogs, 35, Color.Black);
         }
-        // Para un MenuItem que ya tienes creado
+        //hacer publico el label
 
-        private void MostrarMenu(Button boton)
+        public void SetRutaText(string text)
         {
-            try
-            {
-                // Crear el menú
-                ContextMenuStrip menu = new ContextMenuStrip();
-
-                // Agregar opciones
-                ToolStripMenuItem opcion1 = new ToolStripMenuItem("Opción 1");
-                var userLog = FontAwesome.Sharp.IconChar.UserAlt.ToBitmap(16, 16, Color.Black);
-                opcion1.Image = userLog;
-
-                opcion1.Text = $"Usuario: {UsuarioModel.Usuario}"; // Icono usuario
-
-
-
-                ToolStripMenuItem opcion2 = new ToolStripMenuItem("Ayuda");
-                var help = FontAwesome.Sharp.IconChar.QuestionCircle.ToBitmap(16, 16, Color.Black);
-                //abrir url de ayuda
-                opcion2.Click += (s, e) => { System.Diagnostics.Process.Start("https://github.com/luis12298/Sistema_Inmobiliaria"); };
-                opcion2.Image = help;
-
-
-                // Separador
-                ToolStripSeparator separador = new ToolStripSeparator();
-
-                ToolStripMenuItem Msalir = new ToolStripMenuItem("Salir");
-                var salir = FontAwesome.Sharp.IconChar.SignOutAlt.ToBitmap(16, 16, Color.Black);
-                Msalir.Image = salir;
-                Msalir.Click += (s, e) =>
-                {
-
-                    this.Hide();
-                    frmLogin frmLogin = new frmLogin();
-                    frmLogin.ShowDialog();
-                    this.Close();
-                };
-
-                menu.Items.Add(opcion1);
-                menu.Items.Add(opcion2);
-                menu.Items.Add(separador);
-                menu.Items.Add(Msalir);
-
-                // Mostrar el menú debajo del botón
-                menu.Show(boton, new Point(0, boton.Height));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
-            }
+            lblRuta.Text = text;
         }
 
-        // Ejemplo de cómo conectar tu botón:
 
 
-        // O llámalo directamente así:
-        // MostrarMenu(tuBoton);
+        public void SetLeftAlignedIcon(Button button, IconChar icon, int iconSize, Color iconColor)
+        {
+            // Crear el ícono como imagen
+
+            Image iconImage = icon.ToBitmap(iconSize, iconSize, iconColor);
+
+            // Crear una nueva imagen con el ancho del botón y altura del ícono
+            Bitmap composedImage = new Bitmap(button.Width, iconSize);
+
+            using (Graphics g = Graphics.FromImage(composedImage))
+            {
+                // Dibujar el ícono alineado a la izquierda, centrado verticalmente
+                int x = 5; // izquierda forzada
+                int y = 0; // ya que la imagen tiene la misma altura que el ícono, está centrado verticalmente
+                g.DrawImage(iconImage, x, y, iconSize, iconSize);
+            }
+
+            // Asignar la imagen como fondo del botón
+            button.BackgroundImage = composedImage;
+            button.BackgroundImageLayout = ImageLayout.None; // Para que no lo estire
+            button.TextAlign = ContentAlignment.MiddleLeft; // Mueve el texto a la derecha del ícono
+            button.Padding = new Padding(iconSize + 4, 0, 0, 0); // Espacio entre ícono y texto
+        }
+
+
+        //private void MostrarMenu(Button boton)
+        //{
+        //    try
+        //    {
+        //        // Crear el menú primero
+        //        ContextMenuStrip menu = new ContextMenuStrip();
+        //        menu.Renderer = new ToolStripProfessionalRenderer();
+        //        menu.ShowImageMargin = true;
+        //        menu.ShowCheckMargin = false;
+
+        //        // Usuario
+        //        ToolStripMenuItem opcion1 = new ToolStripMenuItem($"Usuario: {UsuarioModel.Usuario}");
+        //        opcion1.Image = FontAwesome.Sharp.IconChar.UserAlt.ToBitmap(16, 16, Color.Black);
+
+        //        // Ayuda
+        //        ToolStripMenuItem opcion2 = new ToolStripMenuItem("Ayuda");
+        //        opcion2.Image = FontAwesome.Sharp.IconChar.QuestionCircle.ToBitmap(16, 16, Color.Black);
+        //        opcion2.Click += (s, e) =>
+        //        {
+        //            System.Diagnostics.Process.Start("https://github.com/luis12298/Sistema_Inmobiliaria");
+        //        };
+
+        //        // Salir
+        //        ToolStripMenuItem Msalir = new ToolStripMenuItem("Salir");
+        //        Msalir.Image = FontAwesome.Sharp.IconChar.SignOutAlt.ToBitmap(16, 16, Color.Black);
+        //        Msalir.Click += (s, e) =>
+        //        {
+        //            this.Hide();
+        //            frmLogin frmLogin = new frmLogin();
+        //            frmLogin.ShowDialog();
+        //            this.Close();
+        //        };
+
+        //        // Agregar ítems al menú
+        //        menu.Items.Add(opcion1);
+        //        menu.Items.Add(opcion2);
+        //        menu.Items.Add(new ToolStripSeparator());
+        //        menu.Items.Add(Msalir);
+
+        //        // OBTENER EL TAMAÑO REAL DEL MENÚ
+        //        // Necesitamos mostrarlo temporalmente para obtener sus dimensiones
+        //        Point tempPoint = new Point(-1000, -1000); // Fuera de la pantalla
+        //        menu.Show(tempPoint);
+
+        //        // Obtener dimensiones reales del menú
+        //        int menuWidth = menu.Width;
+        //        int menuHeight = menu.Height;
+
+        //        // Cerrar el menú temporal
+        //        menu.Hide();
+
+        //        // Crear el panel con las dimensiones del menú + espacio para el triángulo
+        //        Panel panelMenu = new Panel();
+        //        panelMenu.BackColor = Color.White;
+        //        panelMenu.Size = new Size(menuWidth, 20); // Solo altura para el triángulo
+
+        //        // Calcular posición
+        //        Point botonPantalla = boton.PointToScreen(Point.Empty);
+        //        Point posicionForm = this.PointToClient(botonPantalla);
+        //        int offsetX = -120;
+        //        int offsetY = boton.Height + 15;
+
+        //        panelMenu.Location = new Point(posicionForm.X + offsetX, posicionForm.Y + offsetY - 10);
+
+        //        // Agregar el panel al formulario
+        //        this.Controls.Add(panelMenu);
+        //        panelMenu.BringToFront();
+
+        //        // Evento Paint del panel para dibujar el triángulo
+        //        panelMenu.Paint += (s, e) =>
+        //        {
+        //            Graphics g = e.Graphics;
+        //            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+        //            int trianguloWidth = 16;
+        //            int trianguloHeight = 13;
+        //            int trianguloX = panelMenu.Width - 30; // Ajustado según el ancho real del menú
+
+        //            // Crear puntos del triángulo (apuntando hacia arriba)
+        //            Point[] triangulo = {
+        //        new Point(trianguloX, trianguloHeight),
+        //        new Point(trianguloX + trianguloWidth/2, 0),
+        //        new Point(trianguloX + trianguloWidth, trianguloHeight)
+        //    };
+
+        //            // Dibujar triángulo relleno
+        //            using (SolidBrush brush = new SolidBrush(Color.Black))
+        //            {
+        //                g.FillPolygon(brush, triangulo);
+        //            }
+
+        //            // Dibujar borde del triángulo
+        //            using (Pen pen = new Pen(Color.Black, 1))
+        //            {
+        //                g.DrawPolygon(pen, triangulo);
+        //            }
+        //        };
+
+        //        // Evento para remover el panel cuando se cierre el menú
+        //        menu.Closed += (s, e) =>
+        //        {
+        //            this.Controls.Remove(panelMenu);
+        //            panelMenu.Dispose();
+        //        };
+
+        //        // Mostrar el menú en la posición correcta (debajo del panel)
+        //        menu.Show(new Point(botonPantalla.X + offsetX, botonPantalla.Y + offsetY));
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Error: " + ex.Message);
+        //    }
+        //}
+
+
+
         private void IniciarReloj()
         {
             Timer timer = new Timer();
@@ -115,29 +214,7 @@ namespace SistemaInmobiliaria.Views
                 return myCp;
             }
         }
-        private void verClientesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmListaCliente frm = new frmListaCliente();
-            frm.ShowDialog();
-        }
 
-        private void verLotesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmListaLote frm = new frmListaLote();
-            frm.ShowDialog();
-        }
-
-
-
-        private void registrarContratoToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            loadform(new frmListaContrato());
-        }
-
-        private void calculadoraDeCuotasToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            loadform(new frmCalculadora());
-        }
         public void loadform(object Form)
         {
             try
@@ -190,31 +267,12 @@ namespace SistemaInmobiliaria.Views
             }
         }
 
-        private void registrarClienteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            loadform(new frmCliente());
-        }
-
-        private void registrarLoteOTerrenoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            loadform(new frmLote());
-        }
-
-        private void registrarContratoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmVerListaContrato frm = new frmVerListaContrato(this);
-            frm.ShowDialog();
-        }
-
-        private void cobrarToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            loadform(new frmListaCobro());
-        }
 
         public void cobrar(string id)
         {
 
             loadform(new frmRegistrarPago(int.Parse(id)));
+            lblRuta.Text = "Contrato / Cobrar";
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
@@ -225,31 +283,210 @@ namespace SistemaInmobiliaria.Views
             this.Close();
         }
 
-        private void agregarUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
+
+
+
+
+
+
+
+        private void iconButton1_Click(object sender, EventArgs e)
         {
-            loadform(new frmUsuario());
+            EventHandler cerrarSesionHandler = (s, ex) =>
+            {
+                this.Hide();
+                frmLogin frmLogin = new frmLogin();
+                frmLogin.ShowDialog();
+                this.Close();
+            };
+            EventHandler ayuda = (s, ex) =>
+            {
+                Process.Start("https://www.google.com");
+            };
+            MenuUsuarioFlotante.Mostrar(this, (Button)sender, UsuarioModel.Usuario, cerrarSesionHandler, ayuda);
 
         }
 
-        private void frmInicio_Load(object sender, EventArgs e)
+
+        private void ColorGradient(Panel panel1)
         {
+
+            panel1.Paint += (s, e) =>
+            {
+
+                if (this.ClientRectangle.Width > 0 && this.ClientRectangle.Height > 0)
+                {
+                    Color color1 = ColorTranslator.FromHtml("#f2f2f2");
+                    Color color2 = ColorTranslator.FromHtml("#CEE0ED");
+                    using (LinearGradientBrush brush = new LinearGradientBrush(this.ClientRectangle, color1, color2, 90f))
+                    {
+                        e.Graphics.FillRectangle(brush, this.ClientRectangle);
+                    }
+                }
+            };
+        }
+
+        private void btnDropCliente_Click(object sender, EventArgs e)
+        {
+            if (pnlDrop2.Height == 40)
+            {
+                pnlDrop2.Height = 120;
+                btnDropCliente.IconChar = IconChar.AngleUp;
+            }
+            else
+            {
+                pnlDrop2.Height = 40;
+                btnDropCliente.IconChar = IconChar.AngleDown;
+            }
 
         }
 
-        private void verReporteGeneralToolStripMenuItem_Click(object sender, EventArgs e)
+        private void btnDropContrato_Click(object sender, EventArgs e)
+        {
+            if (pnlDrop3.Height == 40)
+            {
+                pnlDrop3.Height = 160;
+                btnDropContrato.IconChar = IconChar.AngleUp;
+            }
+            else
+            {
+                pnlDrop3.Height = 40;
+                btnDropContrato.IconChar = IconChar.AngleDown;
+            }
+        }
+
+        private void btnDropLote_Click(object sender, EventArgs e)
+        {
+            if (pnlDrop4.Height == 40)
+            {
+                pnlDrop4.Height = 120;
+                btnDropLote.IconChar = IconChar.AngleUp;
+            }
+            else
+            {
+                pnlDrop4.Height = 40;
+                btnDropLote.IconChar = IconChar.AngleDown;
+            }
+        }
+
+        private void btnDropUsuario_Click(object sender, EventArgs e)
+        {
+            if (pnlDrop5.Height == 40)
+            {
+                pnlDrop5.Height = 120;
+                btnDropUsuario.IconChar = IconChar.AngleUp;
+            }
+            else
+            {
+                pnlDrop5.Height = 40;
+                btnDropUsuario.IconChar = IconChar.AngleDown;
+            }
+        }
+
+        private void btnDropOtros_Click(object sender, EventArgs e)
+        {
+            if (pnlDrop6.Height == 120)
+            {
+                pnlDrop6.Height = 40;
+                btnDropOtros.IconChar = IconChar.AngleDown;
+            }
+            else
+            {
+                pnlDrop6.Height = 120;
+                btnDropOtros.IconChar = IconChar.AngleUp;
+            }
+        }
+
+        private void btnVerContrato_Click(object sender, EventArgs e)
+        {
+            frmVerListaContrato frm = new frmVerListaContrato(this);
+            frm.ShowDialog();
+        }
+
+        private void btnRegistrarContrato_Click(object sender, EventArgs e)
+        {
+            loadform(new frmListaContrato());
+            lblRuta.Text = "Contratos / Registrar Contrato";
+        }
+
+        private void btnTramites_Click(object sender, EventArgs e)
+        {
+            loadform(new frmListaCobro());
+            lblRuta.Text = "Contratos / Tramites";
+        }
+
+        private void btnVerLotes_Click(object sender, EventArgs e)
+        {
+            frmListaLote frm = new frmListaLote();
+            frm.ShowDialog();
+        }
+
+        private void btnRegisLote_Click(object sender, EventArgs e)
+        {
+            loadform(new frmLote());
+            lblRuta.Text = "Lotes / Registrar Lote";
+        }
+
+        private void btnCalculadora_Click(object sender, EventArgs e)
+        {
+            loadform(new frmCalculadora());
+            lblRuta.Text = "Calculadora";
+        }
+
+        private void btnReportes_Click(object sender, EventArgs e)
         {
             frmReporteGeneral frmReporte = new frmReporteGeneral();
             frmReporte.ShowDialog();
         }
 
-        private void agregarCorreoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void btnRegisUsuario_Click(object sender, EventArgs e)
         {
-            loadform(new frmCorreo());
+            loadform(new frmUsuario());
+            lblRuta.Text = "Usuarios / Registrar Usuario";
         }
 
-        private void iconButton1_Click(object sender, EventArgs e)
+        private void btnRegisCorreo_Click(object sender, EventArgs e)
         {
-            MostrarMenu((Button)sender);
+            loadform(new frmCorreo());
+            lblRuta.Text = "Usuarios / Registrar Correo";
+        }
+
+        private void btnVerCliente_Click(object sender, EventArgs e)
+        {
+            frmListaCliente frm = new frmListaCliente();
+            frm.ShowDialog();
+        }
+
+        private void btnRegisCliente_Click(object sender, EventArgs e)
+        {
+            loadform(new frmCliente());
+            lblRuta.Text = "Clientes / Registrar Cliente";
+        }
+
+        private void btnToggle_Click(object sender, EventArgs e)
+        {
+
+
+            if (this.pnlSidebar.Width == 250)
+            {
+                // Oculta la barra lateral
+                this.pnlSidebar.Width = 0;
+                this.Main.Location = new Point(this.Main.Location.X - 100, this.Main.Location.Y);
+                int locationx = btnToggle.Location.X;
+                int location2x = lblRuta.Location.X;
+                this.btnToggle.Location = new Point(locationx - 100, 0);
+                lblRuta.Location = new Point(lblRuta.Location.X - 100, lblRuta.Location.Y);
+            }
+            else
+            {
+                // Restaura la barra lateral
+                this.pnlSidebar.Width = 250;
+                this.Main.Location = new Point(this.Main.Location.X + 100, this.Main.Location.Y);
+                this.btnToggle.Location = new Point(263, 0);
+                lblRuta.Location = new Point(lblRuta.Location.X + 100, lblRuta.Location.Y);
+            }
+
+
 
         }
     }

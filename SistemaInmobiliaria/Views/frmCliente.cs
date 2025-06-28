@@ -376,6 +376,7 @@ namespace SistemaInmobiliaria.Views
             // Si existe el formulario principal, mostrar su panel de inicio
             if (formPrincipal != null)
             {
+                formPrincipal.SetRutaText("Inicio");
                 formPrincipal.loadform(new frmDashboard());
             }
 

@@ -15,6 +15,7 @@ using System.Data;
 using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -73,20 +74,125 @@ namespace SistemaInmobiliaria.Views
             {
                 txtUsuario.Focus();
             };
-        }
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-
-            Color color1 = ColorTranslator.FromHtml("#4E71FF");
-            Color color2 = ColorTranslator.FromHtml("#5409DA");
-
-            // Crear el gradiente en 135 grados (ángulo en sentido horario desde la horizontal)
-            using (LinearGradientBrush brush = new LinearGradientBrush(this.ClientRectangle, color1, color2, 90f))
+            this.SetStyle(ControlStyles.ResizeRedraw, true);
+            this.Paint += (s, e) =>
             {
-                e.Graphics.FillRectangle(brush, this.ClientRectangle);
-            }
+                // Verificar que el rectángulo tenga dimensiones válidas
+                if (this.ClientRectangle.Width > 0 && this.ClientRectangle.Height > 0)
+                {
+                    Color color1 = ColorTranslator.FromHtml("#4E71FF");
+                    Color color2 = ColorTranslator.FromHtml("#5409DA");
+                    using (LinearGradientBrush brush = new LinearGradientBrush(this.ClientRectangle, color1, color2, 90f))
+                    {
+                        e.Graphics.FillRectangle(brush, this.ClientRectangle);
+                    }
+                }
+            };
+            AgregarSombraConPanel(panel1);
+            panel1.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, panel1.Width, panel1.Height, 15, 15));
         }
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect, int nWidthEllipse, int nHeightEllipse);
+        public void AgregarSombraConPanel(Panel panelPrincipal)
+        {
+            int sombraTamaño = 8;  // Aumenté el tamaño para mejor difuminado
+            int radio = 8;
+
+            // Crear el panel de sombra (más grande que el panel principal)
+            Panel sombra = new Panel
+            {
+                BackColor = Color.Transparent,
+                Size = new Size(panelPrincipal.Width + sombraTamaño * 2,
+                               panelPrincipal.Height + sombraTamaño * 2),
+                Location = new Point(panelPrincipal.Left - sombraTamaño,
+                                   panelPrincipal.Top - sombraTamaño),
+                Parent = panelPrincipal.Parent
+            };
+
+            // Dibujar la sombra difuminada
+            sombra.Paint += (s, e) =>
+            {
+                // Crear un rectángulo del tamaño del panel principal
+                Rectangle rectPrincipal = new Rectangle(
+                    sombraTamaño,
+                    sombraTamaño,
+                    panelPrincipal.Width,
+                    panelPrincipal.Height);
+
+                using (GraphicsPath path = RoundedRect(rectPrincipal, radio))
+                {
+                    // Configuración para mejor difuminado
+                    int pasosDifuminado = sombraTamaño;
+                    Color colorSombra = Color.FromArgb(30, 0, 0, 0);
+
+                    for (int i = pasosDifuminado; i >= 1; i--)
+                    {
+                        int alpha = colorSombra.A * i / pasosDifuminado;
+                        using (Pen pen = new Pen(Color.FromArgb(alpha, colorSombra), i))
+                        {
+                            e.Graphics.DrawPath(pen, path);
+                        }
+                    }
+
+                    // Relleno central
+                    using (SolidBrush brush = new SolidBrush(Color.FromArgb(15, 0, 0, 0)))
+                    {
+                        e.Graphics.FillPath(brush, path);
+                    }
+                }
+            };
+
+            // Asegurar el orden z
+            sombra.SendToBack();
+            panelPrincipal.BringToFront();
+
+            // Manejar cambios en el panel principal
+            panelPrincipal.LocationChanged += (s, e) =>
+            {
+                sombra.Location = new Point(panelPrincipal.Left - sombraTamaño,
+                                          panelPrincipal.Top - sombraTamaño);
+            };
+
+            panelPrincipal.SizeChanged += (s, e) =>
+            {
+                sombra.Size = new Size(panelPrincipal.Width + sombraTamaño * 2,
+                                     panelPrincipal.Height + sombraTamaño * 2);
+                sombra.Invalidate();
+            };
+        }
+
+        private GraphicsPath RoundedRect(Rectangle bounds, int radius)
+        {
+            GraphicsPath path = new GraphicsPath();
+
+            if (radius <= 0)
+            {
+                path.AddRectangle(bounds);
+                return path;
+            }
+
+            int diameter = radius * 2;
+            Rectangle arc = new Rectangle(bounds.Location, new Size(diameter, diameter));
+
+            // Esquina superior izquierda
+            path.AddArc(arc, 180, 90);
+
+            // Esquina superior derecha
+            arc.X = bounds.Right - diameter;
+            path.AddArc(arc, 270, 90);
+
+            // Esquina inferior derecha
+            arc.Y = bounds.Bottom - diameter;
+            path.AddArc(arc, 0, 90);
+
+            // Esquina inferior izquierda
+            arc.X = bounds.Left;
+            path.AddArc(arc, 90, 90);
+
+            path.CloseFigure();
+            return path;
+        }
+
         private void frmLogin_Resize(object sender, EventArgs e)
         {
             panel1.Left = (this.ClientSize.Width - panel1.Width) / 2;
