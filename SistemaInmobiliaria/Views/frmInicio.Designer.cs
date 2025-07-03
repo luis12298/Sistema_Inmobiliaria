@@ -62,6 +62,7 @@
             this.pnlSidebar = new System.Windows.Forms.Panel();
             this.btnToggle = new System.Windows.Forms.Button();
             this.lblRuta = new System.Windows.Forms.Label();
+            this.txtFiltrar = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.pnlDrop1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconPictureBox1)).BeginInit();
@@ -78,9 +79,9 @@
             this.Main.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Main.Location = new System.Drawing.Point(260, 40);
+            this.Main.Location = new System.Drawing.Point(260, 43);
             this.Main.Name = "Main";
-            this.Main.Size = new System.Drawing.Size(1113, 525);
+            this.Main.Size = new System.Drawing.Size(1113, 522);
             this.Main.TabIndex = 1;
             // 
             // panel1
@@ -635,11 +636,21 @@
             this.lblRuta.TabIndex = 7;
             this.lblRuta.Text = "Inicio";
             // 
+            // txtFiltrar
+            // 
+            this.txtFiltrar.Location = new System.Drawing.Point(547, 5);
+            this.txtFiltrar.Multiline = true;
+            this.txtFiltrar.Name = "txtFiltrar";
+            this.txtFiltrar.Size = new System.Drawing.Size(492, 32);
+            this.txtFiltrar.TabIndex = 8;
+            this.txtFiltrar.TextChanged += new System.EventHandler(this.txtFiltrar_TextChanged);
+            // 
             // frmInicio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1385, 619);
+            this.Controls.Add(this.txtFiltrar);
             this.Controls.Add(this.lblRuta);
             this.Controls.Add(this.btnToggle);
             this.Controls.Add(this.iconButton1);
@@ -699,5 +710,6 @@
         private System.Windows.Forms.Button btnToggle;
         private FontAwesome.Sharp.IconPictureBox iconPictureBox1;
         private System.Windows.Forms.Label lblRuta;
+        private System.Windows.Forms.TextBox txtFiltrar;
     }
 }

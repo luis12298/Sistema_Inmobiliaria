@@ -24,7 +24,7 @@ namespace SistemaInmobiliaria.Controllers
                 return;
             }
 
-            Color bcolor = ColorTranslator.FromHtml("#F3F8FF");
+            Color bcolor = ColorTranslator.FromHtml("#f8f9fa");
 
             menuFlotante = new Panel
             {
@@ -34,17 +34,17 @@ namespace SistemaInmobiliaria.Controllers
             };
             botonAncla = boton;
             formActual = form;
-            menuFlotante.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, menuFlotante.Width + 1, menuFlotante.Height + 1, 12, 12));
+            //menuFlotante.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, menuFlotante.Width + 1, menuFlotante.Height + 1, 12, 12));
+            AplicarBordesRedondeados(menuFlotante, 10);
             menuFlotante.Paint += (sender, e) =>
             {
-                using (Pen borderPen = new Pen(ColorTranslator.FromHtml("#D3D3D3"), 1))
+                using (Pen borderPen = new Pen(ColorTranslator.FromHtml("#D3D3D3"), 2))
                 {
                     e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
                     e.Graphics.DrawRoundedRectangle(borderPen, new Rectangle(0, 0, menuFlotante.Width - 1, menuFlotante.Height - 1), 10);
                 }
             };
             ReposicionarMenu();
-
 
             PictureBox avatar = new PictureBox
             {
@@ -141,9 +141,48 @@ namespace SistemaInmobiliaria.Controllers
             form.MouseDown += CerrarMenuAlHacerClicFuera;
             form.Resize += Form_ResizeReposicionarMenu;
             AgregarEventosCerrarMenu(form, form);
+            //agregar la sombra
+
         }
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect, int nWidthEllipse, int nHeightEllipse);
+        private static GraphicsPath RoundedRect(Rectangle bounds, int radius)
+        {
+            GraphicsPath path = new GraphicsPath();
+
+            if (radius <= 0)
+            {
+                path.AddRectangle(bounds);
+                return path;
+            }
+
+            int diameter = radius * 2;
+            Rectangle arc = new Rectangle(bounds.Location, new Size(diameter, diameter));
+
+            // Esquina superior izquierda
+            path.AddArc(arc, 180, 90);
+
+            // Esquina superior derecha
+            arc.X = bounds.Right - diameter;
+            path.AddArc(arc, 270, 90);
+
+            // Esquina inferior derecha
+            arc.Y = bounds.Bottom - diameter;
+            path.AddArc(arc, 0, 90);
+
+            // Esquina inferior izquierda
+            arc.X = bounds.Left;
+            path.AddArc(arc, 95, 90);
+
+            path.CloseFigure();
+            return path;
+        }
+        private static void AplicarBordesRedondeados(Panel panel, int radius)
+        {
+            Rectangle bounds = new Rectangle(0, 0, panel.Width, panel.Height);
+            using (GraphicsPath path = RoundedRect(bounds, radius))
+            {
+                panel.Region = new Region(path);
+            }
+        }
 
         public static void DrawRoundedRectangle(this Graphics graphics, Pen pen, Rectangle bounds, int cornerRadius)
         {
@@ -244,6 +283,73 @@ namespace SistemaInmobiliaria.Controllers
                 botonAncla = null;
                 formActual = null;
             }
+        }
+        public static void AgregarSombraConPanel(Panel panelPrincipal)
+        {
+            int sombraTamaño = 20;  // Aumenté el tamaño para mejor difuminado
+            int radio = 8;
+
+            // Crear el panel de sombra (más grande que el panel principal)
+            Panel sombra = new Panel
+            {
+                BackColor = Color.Transparent,
+                Size = new Size(panelPrincipal.Width + sombraTamaño * 2,
+                               panelPrincipal.Height + sombraTamaño * 2),
+                Location = new Point(panelPrincipal.Left - sombraTamaño,
+                                   panelPrincipal.Top - sombraTamaño),
+                Parent = panelPrincipal.Parent
+            };
+
+            // Dibujar la sombra difuminada
+            sombra.Paint += (s, e) =>
+            {
+                // Crear un rectángulo del tamaño del panel principal
+                Rectangle rectPrincipal = new Rectangle(
+                    sombraTamaño,
+                    sombraTamaño,
+                    panelPrincipal.Width,
+                    panelPrincipal.Height);
+
+                using (GraphicsPath path = RoundedRect(rectPrincipal, radio))
+                {
+                    // Configuración para mejor difuminado
+                    int pasosDifuminado = sombraTamaño;
+                    Color colorSombra = Color.FromArgb(4, 0, 0, 0);
+
+                    for (int i = pasosDifuminado; i >= 1; i--)
+                    {
+                        int alpha = colorSombra.A * i / pasosDifuminado;
+                        using (Pen pen = new Pen(Color.FromArgb(alpha, colorSombra), i))
+                        {
+                            e.Graphics.DrawPath(pen, path);
+                        }
+                    }
+
+                    // Relleno central
+                    using (SolidBrush brush = new SolidBrush(Color.FromArgb(15, 0, 0, 0)))
+                    {
+                        e.Graphics.FillPath(brush, path);
+                    }
+                }
+            };
+
+            // Asegurar el orden z
+            sombra.SendToBack();
+            panelPrincipal.BringToFront();
+
+            // Manejar cambios en el panel principal
+            panelPrincipal.LocationChanged += (s, e) =>
+            {
+                sombra.Location = new Point(panelPrincipal.Left - sombraTamaño,
+                                          panelPrincipal.Top - sombraTamaño);
+            };
+
+            panelPrincipal.SizeChanged += (s, e) =>
+            {
+                sombra.Size = new Size(panelPrincipal.Width + sombraTamaño * 2,
+                                     panelPrincipal.Height + sombraTamaño * 2);
+                sombra.Invalidate();
+            };
         }
     }
 }

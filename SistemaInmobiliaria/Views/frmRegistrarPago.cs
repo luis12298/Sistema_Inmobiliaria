@@ -395,6 +395,7 @@ namespace SistemaInmobiliaria.Views
                 ckModificar.Checked = false;
                 txtMontoPagar.Text = string.Empty;
                 txtNoCuota.Text = string.Empty;
+                resumen();
             }
             else
             {

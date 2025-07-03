@@ -118,9 +118,17 @@ namespace SistemaInmobiliaria.Controllers
         {
             using (SqlConnection sqlConnection = conexion.Open())
             {
-                using (SqlCommand sqlCommand = new SqlCommand("sp_Cliente_update", sqlConnection))
+                string query = @"UPDATE Cliente
+    SET 
+		Identificacion = @Identificacion,
+        Nombre = @Nombre,
+        Apellido = @Apellido,
+        Telefono = @Telefono,
+        Direccion = @Direccion
+    WHERE IdCliente = @IdCliente";
+                using (SqlCommand sqlCommand = new SqlCommand(query, sqlConnection))
                 {
-                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.CommandType = CommandType.Text;
                     sqlCommand.Parameters.AddWithValue("@IdCliente", clienteM.IdCliente);
                     sqlCommand.Parameters.AddWithValue("@Identificacion", clienteM.Identificacion);
                     sqlCommand.Parameters.AddWithValue("@Nombre", clienteM.Nombre);

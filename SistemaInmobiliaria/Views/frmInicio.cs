@@ -42,6 +42,9 @@ namespace SistemaInmobiliaria.Views
             SetLeftAlignedIcon(btnDropLote, IconChar.MapLocation, 35, Color.Black);
             SetLeftAlignedIcon(btnDropUsuario, IconChar.UserAlt, 35, Color.Black);
             SetLeftAlignedIcon(btnDropOtros, IconChar.Cogs, 35, Color.Black);
+            BootstrapStyler.ApplyBootstrapStyle(txtFiltrar);
+            PlaceholderController.SetPlaceholder(txtFiltrar, "Ingresa una opcion para filtrar");
+            this.Resize += (s, e) => (txtFiltrar).Location = new Point((this.Width - txtFiltrar.Width) / 2, txtFiltrar.Location.Y);
         }
         //hacer publico el label
 
@@ -287,9 +290,6 @@ namespace SistemaInmobiliaria.Views
 
 
 
-
-
-
         private void iconButton1_Click(object sender, EventArgs e)
         {
             EventHandler cerrarSesionHandler = (s, ex) =>
@@ -304,6 +304,11 @@ namespace SistemaInmobiliaria.Views
                 Process.Start("https://www.google.com");
             };
             MenuUsuarioFlotante.Mostrar(this, (Button)sender, UsuarioModel.Usuario, cerrarSesionHandler, ayuda);
+
+
+
+            // Quitar el foco del botón
+            this.ActiveControl = null; // Qita el foco de cualquier control
 
         }
 
@@ -488,6 +493,90 @@ namespace SistemaInmobiliaria.Views
 
 
 
+        }
+        // Método para crear el buscador dropdown y filtrar botones
+        void CrearBuscadorBotones(TextBox txtBuscar, List<Button> botones)
+        {
+            // Buscar si ya existe el ListBox de sugerencias en el formulario
+            ListBox lstOpciones = txtBuscar.Parent.Controls
+                .OfType<ListBox>()
+                .FirstOrDefault(l => l.Name == "lstOpcionesDropdown");
+
+            // Si no existe, crearlo
+            if (lstOpciones == null)
+            {
+                lstOpciones = new ListBox
+                {
+                    Name = "lstOpcionesDropdown",
+                    Visible = false,
+                    Width = txtBuscar.Width,
+                    Height = 100,
+                    Top = txtBuscar.Bottom + 1,
+                    Left = txtBuscar.Left
+                };
+
+                // Cuando se selecciona un item
+                lstOpciones.Click += (s, e) =>
+                {
+                    if (lstOpciones.SelectedItem != null)
+                    {
+                        string seleccionado = lstOpciones.SelectedItem.ToString();
+                        var boton = botones.FirstOrDefault(b => b.Text == seleccionado);
+                        if (boton != null)
+                        {
+                            boton.PerformClick();
+                        }
+                        lstOpciones.Visible = false;
+                        txtBuscar.Clear();
+                        txtBuscar.Focus();
+                    }
+                };
+
+                // Añadir a controles del contenedor padre del TextBox
+                txtBuscar.Parent.Controls.Add(lstOpciones);
+                lstOpciones.BringToFront();
+            }
+
+            // Evento para filtrar cada vez que cambie el texto
+            txtBuscar.TextChanged += (s, e) =>
+            {
+                string filtro = txtBuscar.Text.ToLower();
+                lstOpciones.Items.Clear();
+
+                if (!string.IsNullOrWhiteSpace(filtro))
+                {
+                    foreach (var btn in botones)
+                    {
+                        if (btn.Text.ToLower().Contains(filtro))
+                            lstOpciones.Items.Add(btn.Text);
+                    }
+                    lstOpciones.Visible = lstOpciones.Items.Count > 0;
+                }
+                else
+                {
+                    lstOpciones.Visible = false;
+                }
+            };
+
+            // Ocultar dropdown si el TextBox pierde foco (opcional)
+            txtBuscar.LostFocus += (s, e) =>
+            {
+                // Dejar un pequeño delay para que se registre el click en ListBox
+                Task.Delay(200).ContinueWith(_ =>
+                {
+                    txtBuscar.Invoke(new Action(() =>
+                    {
+                        if (!lstOpciones.Focused)
+                            lstOpciones.Visible = false;
+                    }));
+                });
+            };
+        }
+
+        private void txtFiltrar_TextChanged(object sender, EventArgs e)
+        {
+            List<Button> botones = new List<Button> { btnReportes, btnCalculadora, btnRegisCliente, btnVerCliente, btnRegisCorreo, btnVerLotes, btnVerContrato, btnRegistrarContrato, btnTramites };
+            CrearBuscadorBotones(txtFiltrar, botones);
         }
     }
 }

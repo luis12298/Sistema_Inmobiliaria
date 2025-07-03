@@ -88,14 +88,15 @@ namespace SistemaInmobiliaria.Views
                     }
                 }
             };
+            AplicarBordesRedondeados(panel1, 8);
             AgregarSombraConPanel(panel1);
-            panel1.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, panel1.Width, panel1.Height, 15, 15));
+
         }
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect, int nWidthEllipse, int nHeightEllipse);
+
+
         public void AgregarSombraConPanel(Panel panelPrincipal)
         {
-            int sombraTamaño = 8;  // Aumenté el tamaño para mejor difuminado
+            int sombraTamaño = 20;  // Aumenté el tamaño para mejor difuminado
             int radio = 8;
 
             // Crear el panel de sombra (más grande que el panel principal)
@@ -123,7 +124,7 @@ namespace SistemaInmobiliaria.Views
                 {
                     // Configuración para mejor difuminado
                     int pasosDifuminado = sombraTamaño;
-                    Color colorSombra = Color.FromArgb(30, 0, 0, 0);
+                    Color colorSombra = Color.FromArgb(4, 0, 0, 0);
 
                     for (int i = pasosDifuminado; i >= 1; i--)
                     {
@@ -161,7 +162,8 @@ namespace SistemaInmobiliaria.Views
             };
         }
 
-        private GraphicsPath RoundedRect(Rectangle bounds, int radius)
+
+        private static GraphicsPath RoundedRect(Rectangle bounds, int radius)
         {
             GraphicsPath path = new GraphicsPath();
 
@@ -192,7 +194,14 @@ namespace SistemaInmobiliaria.Views
             path.CloseFigure();
             return path;
         }
-
+        private void AplicarBordesRedondeados(Panel panel, int radius)
+        {
+            Rectangle bounds = new Rectangle(0, 0, panel.Width, panel.Height);
+            using (GraphicsPath path = RoundedRect(bounds, radius))
+            {
+                panel.Region = new Region(path);
+            }
+        }
         private void frmLogin_Resize(object sender, EventArgs e)
         {
             panel1.Left = (this.ClientSize.Width - panel1.Width) / 2;

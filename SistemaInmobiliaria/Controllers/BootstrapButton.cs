@@ -59,7 +59,7 @@ namespace SistemaInmobiliaria.Controllers
                     break;
                 case ButtonType.Secondary:
                     boton.BackColor = Color.FromArgb(108, 117, 125);
-                    boton.FlatAppearance.MouseOverBackColor = Color.FromArgb(53, 58, 51);
+                    boton.FlatAppearance.MouseOverBackColor = Color.FromArgb(0, 6, 12);
                     boton.FlatAppearance.MouseDownBackColor = Color.FromArgb(92, 99, 106);
                     boton.ForeColor = Color.White;
                     break;
