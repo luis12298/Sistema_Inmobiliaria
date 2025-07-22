@@ -188,7 +188,7 @@ namespace SistemaInmobiliaria.Views
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            if (IdUsuarioG > 0)
+            if (IdUsuarioG != 0)
             {
                 if (CustomAlert.ShowConfirm(AlertType.Warning, "Mensaje", "¿Estas seguro de eliminar el usuario?") == DialogResult.OK)
                 {

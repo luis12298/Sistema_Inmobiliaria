@@ -20,8 +20,10 @@ namespace SistemaInmobiliaria.Views
         ContratoController contratoC = new ContratoController();
         PaginationManager paginationManager = new PaginationManager();
         Toast toast = new Toast();
+        private string _textoInicial;
 
         public int IdContratoG = 0;
+
         public frmListaCobro()
         {
             InitializeComponent();
@@ -34,6 +36,24 @@ namespace SistemaInmobiliaria.Views
             CargarDatos();
 
         }
+        public frmListaCobro(string nombre)
+        {
+            InitializeComponent();
+
+            BootstrapStyler.ApplyBootstrapStyle(txtFiltrar);
+            TextBoxIndent.AplicarIndentacionVisual(txtFiltrar, 35);
+            PlaceholderController.SetPlaceholder(txtFiltrar, "Filtrar");
+
+            BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Warning, btnRegistrarPago);
+            CargarDatos();
+            this.Shown += (s, e) =>
+            {
+                txtFiltrar.Text = nombre;
+
+            };
+        }
+
+
         private async void CargarDatos()
         {
 
@@ -136,27 +156,30 @@ namespace SistemaInmobiliaria.Views
 
         private void txtFiltrar_TextChanged(object sender, EventArgs e)
         {
+            var dt = dgvDatos.DataSource as DataTable;
+            if (dt == null) return;
+
             string filtro = txtFiltrar.Text.Trim().ToLower();
 
             if (string.IsNullOrEmpty(filtro))
             {
-                dgvDatos.DataSource = originalDataTable;
-                return;
+                dt.DefaultView.RowFilter = string.Empty;
             }
-
-            // Creamos una copia filtrada
-            DataTable filtrada = originalDataTable.Clone();
-
-            foreach (DataRow fila in originalDataTable.Rows)
+            else
             {
-                if (fila.ItemArray.Any(valor =>
-                    valor != null && valor.ToString().ToLower().Contains(filtro)))
+                var condiciones = new List<string>();
+
+                foreach (DataColumn columna in dt.Columns)
                 {
-                    filtrada.ImportRow(fila);
+                    // Puedes quitar el chequeo de tipo si quieres filtrar todo
+                    condiciones.Add($"CONVERT([{columna.ColumnName}], 'System.String') LIKE '%{filtro}%'");
                 }
+
+                dt.DefaultView.RowFilter = string.Join(" OR ", condiciones);
             }
-            lblTotalRegistros.Text = filtrada.Rows.Count.ToString();
-            dgvDatos.DataSource = filtrada;
+
+            lblTotalRegistros.Text = dt.DefaultView.Count.ToString();
+
         }
     }
 }

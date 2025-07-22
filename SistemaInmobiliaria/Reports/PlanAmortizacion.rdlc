@@ -399,6 +399,13 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
+                    <Value>L</Value>
+                    <Style>
+                      <FontSize>12pt</FontSize>
+                      <Format>#,0.00;(#,0.00)</Format>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
                     <Value>=Fields!CuotaFinal.Value</Value>
                     <Style>
                       <FontSize>12pt</FontSize>
@@ -413,7 +420,7 @@
             <Top>3.56926cm</Top>
             <Left>17.75362cm</Left>
             <Height>0.6cm</Height>
-            <Width>2.09783cm</Width>
+            <Width>2.62702cm</Width>
             <ZIndex>12</ZIndex>
             <Style>
               <Border>

@@ -1,9 +1,11 @@
-﻿using Handy.DotNETCoreCompatibility.ColourTranslations;
+﻿using FontAwesome.Sharp;
+using Handy.DotNETCoreCompatibility.ColourTranslations;
 using SistemaInmobiliaria.Controllers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -11,8 +13,12 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using System.Windows.Input;
+using System.Windows.Media.TextFormatting;
+using static SistemaInmobiliaria.Controllers.Alert.SweetAlert;
 
 namespace SistemaInmobiliaria.Views
 {
@@ -44,17 +50,7 @@ namespace SistemaInmobiliaria.Views
                     e.Value = string.Format(new System.Globalization.CultureInfo("es-Hn"), "{0:C2}", valor);
                     e.FormattingApplied = true;
                 }
-                if (dgvDatos.Columns[e.ColumnIndex].Name == "Estado" && e.Value != null)
-                {
-                    if (e.Value.ToString() == "Atrasado")
-                    {
-                        // Cambiar el color de la fuente a rojo
-                        e.CellStyle.BackColor = ColorTranslator.FromHtml("#F7374F");
-                        e.CellStyle.ForeColor = Color.White;
 
-                    }
-
-                }
             };
             this.dgvDatos2.CellFormatting += (sender, e) =>
             {
@@ -68,31 +64,135 @@ namespace SistemaInmobiliaria.Views
                     e.Value = string.Format(new System.Globalization.CultureInfo("es-Hn"), "{0:C2}", valor);
                     e.FormattingApplied = true;
                 }
-                if (dgvDatos2.Columns[e.ColumnIndex].Name == "Estado" && e.Value != null)
+
+            };
+            BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Warning, btnRecordatorio);
+            BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Success, btnWhatsApp);
+            dgvDatos.CellPainting += (sender, e) =>
+            {
+                if (e.RowIndex >= 0 && e.ColumnIndex == dgvDatos.Columns["Estado"].Index)
                 {
-                    if (e.Value.ToString() == "Atrasado")
+                    e.Handled = true;
+                    e.PaintBackground(e.CellBounds, true);
+
+                    string estado = e.FormattedValue?.ToString() ?? "";
+                    Color backColor = Color.Gray;
+                    Color foreColor = Color.White;
+                    //size
+
+                    // Definir colores según el estado
+                    if (estado == "Pagado")
                     {
-                        // Cambiar el color de la fuente a rojo
-                        e.CellStyle.BackColor = ColorTranslator.FromHtml("#F7374F");
-                        e.CellStyle.ForeColor = Color.White;
-
+                        backColor = Color.FromArgb(198, 239, 206);  // verde suave
+                        foreColor = Color.FromArgb(0, 97, 0);        // verde oscuro
                     }
-                    else if (e.Value.ToString() == "Pagado")
+                    else if (estado == "Atrasado")
                     {
-
-                        e.CellStyle.BackColor = ColorTranslator.FromHtml("#1DCD9F");
-                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#222222");
-
+                        backColor = Color.FromArgb(255, 199, 206);  // rojo suave
+                        foreColor = Color.FromArgb(156, 0, 6);       // rojo oscuro
                     }
-                    else if (e.Value.ToString() == "Pendiente")
+                    else if (estado == "Pendiente")
                     {
-
-                        e.CellStyle.ForeColor = ColorTranslator.FromHtml("#344CB7");
-                        e.CellStyle.BackColor = ColorTranslator.FromHtml("#D4EBF8");
+                        backColor = ColorTranslator.FromHtml("#fde68a");
+                        foreColor = ColorTranslator.FromHtml("#a5673f");
                     }
+                    Font customFont = new Font(e.CellStyle.Font.FontFamily, e.CellStyle.Font.Size - 1 / 2, FontStyle.Regular);
+                    Size textSize = TextRenderer.MeasureText(estado, customFont);
+
+                    Rectangle rect = new Rectangle(
+            e.CellBounds.X + 4,
+                    e.CellBounds.Y + 2,
+                        Math.Min(textSize.Width + 12, e.CellBounds.Width - 8),
+            e.CellBounds.Height - 6
+        );
+
+                    using (GraphicsPath path = GetRoundedRectPath(rect, 16))
+                    using (SolidBrush b = new SolidBrush(backColor))
+                    {
+                        e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                        e.Graphics.FillPath(b, path);
+                    }
+
+                    TextRenderer.DrawText(
+                    e.Graphics,
+                    estado,
+                    customFont,   // usar la fuente personalizada
+                    rect,
+                    foreColor,
+                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
+                    );
+
+                    e.Paint(e.CellBounds, DataGridViewPaintParts.Border);
+                }
+            };
+            dgvDatos2.CellPainting += (sender, e) =>
+            {
+                if (e.RowIndex >= 0 && e.ColumnIndex == dgvDatos2.Columns["Estado"].Index)
+                {
+                    e.Handled = true;
+                    e.PaintBackground(e.CellBounds, true);
+
+                    string estado = e.FormattedValue?.ToString() ?? "";
+                    Color backColor = Color.Gray;
+                    Color foreColor = Color.White;
+                    //size
+
+                    // Definir colores según el estado
+                    if (estado == "Pagado")
+                    {
+                        backColor = Color.FromArgb(198, 239, 206);  // verde suave
+                        foreColor = Color.FromArgb(0, 97, 0);        // verde oscuro
+                    }
+                    else if (estado == "Atrasado")
+                    {
+                        backColor = Color.FromArgb(255, 199, 206);  // rojo suave
+                        foreColor = Color.FromArgb(156, 0, 6);       // rojo oscuro
+                    }
+                    else if (estado == "Pendiente")
+                    {
+                        backColor = ColorTranslator.FromHtml("#fde68a");
+                        foreColor = ColorTranslator.FromHtml("#a5673f");
+                    }
+                    Font customFont = new Font(e.CellStyle.Font.FontFamily, e.CellStyle.Font.Size - 1 / 2, FontStyle.Regular);
+                    Size textSize = TextRenderer.MeasureText(estado, customFont);
+                    Rectangle rect = new Rectangle(
+              e.CellBounds.X + 4,
+              e.CellBounds.Y + 2,
+Math.Min(textSize.Width + 12, e.CellBounds.Width - 8),
+              e.CellBounds.Height - 6
+                      );
+
+                    using (GraphicsPath path = GetRoundedRectPath(rect, 16))
+                    using (SolidBrush b = new SolidBrush(backColor))
+                    {
+                        e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                        e.Graphics.FillPath(b, path);
+                    }
+
+                    TextRenderer.DrawText(
+                    e.Graphics,
+                    estado,
+                    customFont,   // usar la fuente personalizada
+                    rect,
+                    foreColor,
+                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
+                    );
+
+                    e.Paint(e.CellBounds, DataGridViewPaintParts.Border);
                 }
             };
 
+        }
+        private GraphicsPath GetRoundedRectPath(Rectangle rect, int radius)
+        {
+            GraphicsPath path = new GraphicsPath();
+            path.StartFigure();
+            path.AddArc(rect.Left, rect.Top, radius, radius, 180, 90);
+            path.AddArc(rect.Right - radius, rect.Top, radius, radius, 270, 90);
+            path.AddArc(rect.Right - radius, rect.Bottom - radius, radius, radius, 0, 90);
+            path.AddArc(rect.Left, rect.Bottom - radius, radius, radius, 90, 90);
+            path.CloseFigure();
+            return path;
         }
 
         private async void CargarDatos(DataGridView dataGridView)
@@ -227,7 +327,7 @@ namespace SistemaInmobiliaria.Views
                 frmPrincipal.SetRutaText("Contrato / Tramites / Cobrar");
                 frmPrincipal.loadform(frm);
             }
-
+            btnRecordatorio.Visible = true;
         }
         public void GraficarClientesAtrasadosPorMes(DataGridView dataGridView1, Chart chart1)
         {
@@ -286,6 +386,8 @@ namespace SistemaInmobiliaria.Views
                 frmPrincipal.SetRutaText("Contrato / Tramites / Cobrar");
                 frmPrincipal.loadform(frm);
             }
+            btnWhatsApp.Visible = true;
+
         }
 
         private void dgvDatos_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -429,6 +531,7 @@ namespace SistemaInmobiliaria.Views
                         }
 
                         Clipboard.SetText(sb.ToString());
+
                     }
                     else if (dgv.CurrentCell != null && !dgv.CurrentCell.IsInEditMode)
                     {
@@ -457,6 +560,7 @@ namespace SistemaInmobiliaria.Views
 
                         // Copiar al portapapeles
                         Clipboard.SetText(rowData.TrimEnd('\t'));
+
                     }
                 };
                 contextMenu.Items.Add(copyRow);
@@ -485,6 +589,7 @@ namespace SistemaInmobiliaria.Views
 
                         // Copiar al portapapeles
                         Clipboard.SetText(sb.ToString().TrimEnd('\t'));
+
                     }
                 };
                 contextMenu.Items.Add(copyRowWithHeaders);
@@ -495,5 +600,130 @@ namespace SistemaInmobiliaria.Views
                 contextMenu.Show(dgv, dgv.PointToClient(Control.MousePosition));
             }
         }
+
+        private void btnRecordatorio_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string cliente = dgvDatos.SelectedRows[0].Cells[3].Value.ToString();
+                string cuota = dgvDatos.SelectedRows[0].Cells[6].Value.ToString();
+                string fecha = Convert.ToDateTime(dgvDatos.SelectedRows[0].Cells[5].Value.ToString().ToString()).ToShortDateString();
+                string residencial = "Residencial El Ciprés";
+                string cuenta = "21-602-032425-0 Luis Gerardo Guevara";
+
+                string mensaje = $"Estimado/a {cliente} recordarle que tiene un pago de L.{Convert.ToDouble(cuota).ToString("N2")} pendiente a su terreno en {residencial}. La Fecha de pago fue {fecha}. La cuenta a depositar es {cuenta}. Administrador General. Saludos.";
+                MostrarRecordatorio($"{mensaje}");
+
+
+            }
+            catch
+            {
+                return;
+            }
+
+
+        }
+        private void MostrarRecordatorio(string mensaje)
+        {
+            Form frm = new Form
+            {
+                Text = "Recordatorio",
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                StartPosition = FormStartPosition.CenterScreen,
+                Size = new System.Drawing.Size(400, 300),
+                MaximizeBox = false,
+                MinimizeBox = false,
+                Padding = new Padding(5),
+            };
+
+            TextBox txt = new TextBox
+            {
+                Multiline = true,
+                ReadOnly = true,
+                Dock = DockStyle.Fill,
+                Text = mensaje,
+                ScrollBars = ScrollBars.Both,
+                BackColor = Color.White,
+                Font = new Font("Arial", 11.5F)
+            };
+
+            IconButton btn = new IconButton
+            {
+                Text = "Copiar",
+                Dock = DockStyle.Bottom,
+                Height = 40,
+                IconSize = 28,
+                IconChar = FontAwesome.Sharp.IconChar.Copy,
+                IconColor = Color.White,
+                TextAlign = ContentAlignment.MiddleRight,
+                UseVisualStyleBackColor = true,
+                TextImageRelation = TextImageRelation.ImageBeforeText,
+
+            };
+
+            btn.Click += (s, e) =>
+            {
+                Clipboard.SetText(txt.Text);
+                new MiniToast().Show(MiniToast.ToastType.Success, "Copiado", frm);
+            };
+            BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Primary, btn);
+            frm.Controls.Add(txt);
+            frm.Controls.Add(btn);
+            frm.ShowDialog();
+        }
+
+        public void NotifyWhatsapp(string numero, string mensaje)
+        {
+
+
+            // Codificar el mensaje para que funcione en URL
+            string mensajeCodificado = HttpUtility.UrlEncode(mensaje);
+
+            // Crear la URL de WhatsApp Web con el número y el mensaje
+            string url = $"https://wa.me/{numero.Replace("+", "")}?text={mensajeCodificado}";
+
+            // Abrir el navegador con la URL
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = url,
+                UseShellExecute = true
+            });
+        }
+
+        private void btnWhatsApp_Click(object sender, EventArgs e)
+        {
+            string cliente = dgvDatos2.SelectedRows[0].Cells[3].Value.ToString();
+            string telefono = dgvDatos2.SelectedRows[0].Cells[2].Value.ToString();
+            string fecha = dgvDatos2.SelectedRows[0].Cells[6].Value.ToString();
+            string cuota = dgvDatos2.SelectedRows[0].Cells[7].Value.ToString();
+            string mensaje = $"Estimado/a *{cliente}*, le recordamos amablemente que el día *{Convert.ToDateTime(fecha).ToShortDateString()}* corresponde la cancelación de su cuota de *L.{cuota}* por concepto de terreno. El pago puede realizarse a la cuenta *21-602-032425-0* a nombre de *Luis Gerardo Guevara*. Agradecemos su atención y cumplimiento. Saludos cordiales.";
+            DialogResult result = CustomAlert.ShowConfirm(AlertType.Info, "Mensaje", "¿Enviar recordatorio por WhatsApp?");
+
+            if (result == DialogResult.OK)
+            {
+
+
+                NotifyWhatsapp(telefono, mensaje);
+            }
+            else
+            {
+                MostrarRecordatorio(mensaje);
+            }
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Escape))
+            {
+                dgvDatos.ClearSelection();
+                dgvDatos2.ClearSelection();
+                btnRecordatorio.Visible = false;
+                btnWhatsApp.Visible = false;
+                return true;
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
     }
 }

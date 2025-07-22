@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.labelResultado = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.btnCancelar = new FontAwesome.Sharp.IconButton();
             this.btnEliminar = new FontAwesome.Sharp.IconButton();
             this.btnActualizar = new FontAwesome.Sharp.IconButton();
@@ -48,6 +50,8 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.labelResultado);
+            this.groupBox1.Controls.Add(this.comboBox1);
             this.groupBox1.Controls.Add(this.btnCancelar);
             this.groupBox1.Controls.Add(this.btnEliminar);
             this.groupBox1.Controls.Add(this.btnActualizar);
@@ -64,10 +68,28 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos clientes";
             // 
+            // labelResultado
+            // 
+            this.labelResultado.AutoSize = true;
+            this.labelResultado.Location = new System.Drawing.Point(29, 178);
+            this.labelResultado.Name = "labelResultado";
+            this.labelResultado.Size = new System.Drawing.Size(44, 16);
+            this.labelResultado.TabIndex = 10;
+            this.labelResultado.Text = "label1";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(29, 138);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(138, 24);
+            this.comboBox1.TabIndex = 9;
+            // 
             // btnCancelar
             // 
-            this.btnCancelar.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnCancelar.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btnCancelar.BackColor = System.Drawing.SystemColors.Control;
+            this.btnCancelar.ForeColor = System.Drawing.Color.Black;
             this.btnCancelar.IconChar = FontAwesome.Sharp.IconChar.Ban;
             this.btnCancelar.IconColor = System.Drawing.Color.White;
             this.btnCancelar.IconFont = FontAwesome.Sharp.IconFont.Auto;
@@ -84,8 +106,8 @@
             // btnEliminar
             // 
             this.btnEliminar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnEliminar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(53)))), ((int)(((byte)(69)))));
-            this.btnEliminar.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btnEliminar.BackColor = System.Drawing.SystemColors.Control;
+            this.btnEliminar.ForeColor = System.Drawing.Color.Black;
             this.btnEliminar.IconChar = FontAwesome.Sharp.IconChar.UserXmark;
             this.btnEliminar.IconColor = System.Drawing.Color.White;
             this.btnEliminar.IconFont = FontAwesome.Sharp.IconFont.Auto;
@@ -102,8 +124,8 @@
             // btnActualizar
             // 
             this.btnActualizar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnActualizar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
-            this.btnActualizar.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btnActualizar.BackColor = System.Drawing.SystemColors.Control;
+            this.btnActualizar.ForeColor = System.Drawing.Color.Black;
             this.btnActualizar.IconChar = FontAwesome.Sharp.IconChar.UserEdit;
             this.btnActualizar.IconColor = System.Drawing.Color.White;
             this.btnActualizar.IconFont = FontAwesome.Sharp.IconFont.Auto;
@@ -120,8 +142,8 @@
             // btnRegistrar
             // 
             this.btnRegistrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRegistrar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(110)))), ((int)(((byte)(253)))));
-            this.btnRegistrar.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btnRegistrar.BackColor = System.Drawing.SystemColors.Control;
+            this.btnRegistrar.ForeColor = System.Drawing.Color.Black;
             this.btnRegistrar.IconChar = FontAwesome.Sharp.IconChar.UserPlus;
             this.btnRegistrar.IconColor = System.Drawing.Color.White;
             this.btnRegistrar.IconFont = FontAwesome.Sharp.IconFont.Auto;
@@ -137,17 +159,18 @@
             // 
             // txtDireccion
             // 
-            this.txtDireccion.Location = new System.Drawing.Point(259, 138);
+            this.txtDireccion.Location = new System.Drawing.Point(376, 138);
             this.txtDireccion.Name = "txtDireccion";
-            this.txtDireccion.Size = new System.Drawing.Size(614, 22);
+            this.txtDireccion.Size = new System.Drawing.Size(497, 22);
             this.txtDireccion.TabIndex = 4;
             // 
             // txtTelefono
             // 
-            this.txtTelefono.Location = new System.Drawing.Point(29, 138);
+            this.txtTelefono.Location = new System.Drawing.Point(173, 138);
             this.txtTelefono.Name = "txtTelefono";
-            this.txtTelefono.Size = new System.Drawing.Size(224, 22);
+            this.txtTelefono.Size = new System.Drawing.Size(197, 22);
             this.txtTelefono.TabIndex = 3;
+            this.txtTelefono.Leave += new System.EventHandler(this.txtTelefono_Leave);
             // 
             // txtApellido
             // 
@@ -245,5 +268,7 @@
         private System.Windows.Forms.TextBox txtFiltrar;
         private FontAwesome.Sharp.IconButton btnCancelar;
         private FontAwesome.Sharp.IconButton btnCerrar;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label labelResultado;
     }
 }

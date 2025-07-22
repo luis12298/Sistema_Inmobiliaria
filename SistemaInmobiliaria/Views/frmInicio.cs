@@ -1,5 +1,6 @@
 ﻿using FontAwesome.Sharp;
 using Humanizer;
+using iTextSharp.text.xml.simpleparser.handler;
 using Microsoft.Reporting.WinForms;
 using SistemaInmobiliaria.Controllers;
 using SistemaInmobiliaria.Models;
@@ -13,6 +14,7 @@ using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,9 +46,24 @@ namespace SistemaInmobiliaria.Views
             SetLeftAlignedIcon(btnDropOtros, IconChar.Cogs, 35, Color.Black);
             BootstrapStyler.ApplyBootstrapStyle(txtFiltrar);
             PlaceholderController.SetPlaceholder(txtFiltrar, "Ingresa una opcion para filtrar");
-            this.Resize += (s, e) => (txtFiltrar).Location = new Point((this.Width - txtFiltrar.Width) / 2, txtFiltrar.Location.Y);
+            SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Light, iconButton1);
+            this.Resize += (s, e) =>
+            {
+                (txtFiltrar).Location = new Point((this.Width - txtFiltrar.Width) / 2, txtFiltrar.Location.Y);
+                TextBoxIndent.AplicarIndentacionVisual(txtFiltrar, 35);
+
+                int x = txtFiltrar.Left = (panel2.Width - txtFiltrar.Width) / 2;
+                txtFiltrar.Left = (panel2.Width - txtFiltrar.Width) / 2;
+                txtFiltrar.Top = (panel2.Height - txtFiltrar.Height) / 2;
+                iconPictureBox2.Location = new Point((x + 2), iconPictureBox2.Location.Y);
+
+            };
+
+            new ToolTip().SetToolTip(label3, "Dashboard");
+            txtFiltrar.KeyPress += (s, e) => e.Handled = e.KeyChar == (char)Keys.Enter;
+
         }
-        //hacer publico el label
+
 
         public void SetRutaText(string text)
         {
@@ -278,6 +295,14 @@ namespace SistemaInmobiliaria.Views
             lblRuta.Text = "Contrato / Cobrar";
         }
 
+        public void Cobrar2(string nombre)
+        {
+
+            loadform(new frmListaCobro(nombre));
+            lblRuta.Text = "Contrato / Cobrar";
+
+        }
+
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -458,7 +483,7 @@ namespace SistemaInmobiliaria.Views
 
         private void btnVerCliente_Click(object sender, EventArgs e)
         {
-            frmListaCliente frm = new frmListaCliente();
+            frmListaCliente frm = new frmListaCliente(this);
             frm.ShowDialog();
         }
 
@@ -476,19 +501,19 @@ namespace SistemaInmobiliaria.Views
             {
                 // Oculta la barra lateral
                 this.pnlSidebar.Width = 0;
-                this.Main.Location = new Point(this.Main.Location.X - 100, this.Main.Location.Y);
-                int locationx = btnToggle.Location.X;
-                int location2x = lblRuta.Location.X;
-                this.btnToggle.Location = new Point(locationx - 100, 0);
-                lblRuta.Location = new Point(lblRuta.Location.X - 100, lblRuta.Location.Y);
+                //this.Main.Location = new Point(this.Main.Location.X - 100, this.Main.Location.Y);
+                //int locationx = btnToggle.Location.X;
+                //int location2x = lblRuta.Location.X;
+                //this.btnToggle.Location = new Point(locationx - 100, 0);
+                //lblRuta.Location = new Point(lblRuta.Location.X - 100, lblRuta.Location.Y);
             }
             else
             {
                 // Restaura la barra lateral
                 this.pnlSidebar.Width = 250;
-                this.Main.Location = new Point(this.Main.Location.X + 100, this.Main.Location.Y);
-                this.btnToggle.Location = new Point(263, 0);
-                lblRuta.Location = new Point(lblRuta.Location.X + 100, lblRuta.Location.Y);
+                //this.Main.Location = new Point(this.Main.Location.X + 100, this.Main.Location.Y);
+                //this.btnToggle.Location = new Point(263, 0);
+                //lblRuta.Location = new Point(lblRuta.Location.X + 100, lblRuta.Location.Y);
             }
 
 
@@ -497,12 +522,10 @@ namespace SistemaInmobiliaria.Views
         // Método para crear el buscador dropdown y filtrar botones
         void CrearBuscadorBotones(TextBox txtBuscar, List<Button> botones)
         {
-            // Buscar si ya existe el ListBox de sugerencias en el formulario
             ListBox lstOpciones = txtBuscar.Parent.Controls
                 .OfType<ListBox>()
                 .FirstOrDefault(l => l.Name == "lstOpcionesDropdown");
 
-            // Si no existe, crearlo
             if (lstOpciones == null)
             {
                 lstOpciones = new ListBox
@@ -511,33 +534,24 @@ namespace SistemaInmobiliaria.Views
                     Visible = false,
                     Width = txtBuscar.Width,
                     Height = 100,
-                    Top = txtBuscar.Bottom + 1,
+                    //Top = txtBuscar.Bottom + 1,
                     Left = txtBuscar.Left
                 };
 
-                // Cuando se selecciona un item
+                // Al hacer clic en una opción
                 lstOpciones.Click += (s, e) =>
                 {
-                    if (lstOpciones.SelectedItem != null)
-                    {
-                        string seleccionado = lstOpciones.SelectedItem.ToString();
-                        var boton = botones.FirstOrDefault(b => b.Text == seleccionado);
-                        if (boton != null)
-                        {
-                            boton.PerformClick();
-                        }
-                        lstOpciones.Visible = false;
-                        txtBuscar.Clear();
-                        txtBuscar.Focus();
-                    }
+                    SeleccionarOpcion();
                 };
 
-                // Añadir a controles del contenedor padre del TextBox
-                txtBuscar.Parent.Controls.Add(lstOpciones);
+                // Agregar al formulario
+                //txtBuscar.Parent.Controls.Add(lstOpciones);
+                Main.Controls.Add(lstOpciones);
+
                 lstOpciones.BringToFront();
             }
 
-            // Evento para filtrar cada vez que cambie el texto
+            // Evento de texto
             txtBuscar.TextChanged += (s, e) =>
             {
                 string filtro = txtBuscar.Text.ToLower();
@@ -558,10 +572,34 @@ namespace SistemaInmobiliaria.Views
                 }
             };
 
-            // Ocultar dropdown si el TextBox pierde foco (opcional)
+            // Evento de teclas: ↑ ↓ Enter
+            txtBuscar.KeyDown += (s, e) =>
+            {
+                if (lstOpciones.Visible)
+                {
+                    if (e.KeyCode == Keys.Down)
+                    {
+                        if (lstOpciones.SelectedIndex < lstOpciones.Items.Count - 1)
+                            lstOpciones.SelectedIndex++;
+                        e.Handled = true;
+                    }
+                    else if (e.KeyCode == Keys.Up)
+                    {
+                        if (lstOpciones.SelectedIndex > 0)
+                            lstOpciones.SelectedIndex--;
+                        e.Handled = true;
+                    }
+                    else if (e.KeyCode == Keys.Enter)
+                    {
+                        SeleccionarOpcion();
+                        e.Handled = true;
+                    }
+                }
+            };
+
+            // Opcional: ocultar si pierde foco
             txtBuscar.LostFocus += (s, e) =>
             {
-                // Dejar un pequeño delay para que se registre el click en ListBox
                 Task.Delay(200).ContinueWith(_ =>
                 {
                     txtBuscar.Invoke(new Action(() =>
@@ -571,12 +609,40 @@ namespace SistemaInmobiliaria.Views
                     }));
                 });
             };
+
+            // Método interno para seleccionar y ejecutar botón
+            void SeleccionarOpcion()
+            {
+                if (lstOpciones.SelectedItem != null)
+                {
+                    string seleccionado = lstOpciones.SelectedItem.ToString();
+                    var boton = botones.FirstOrDefault(b => b.Text == seleccionado);
+                    if (boton != null)
+                    {
+                        boton.PerformClick();
+                    }
+                    lstOpciones.Visible = false;
+                    txtBuscar.Clear();
+                    txtBuscar.Focus();
+                }
+            }
         }
+
 
         private void txtFiltrar_TextChanged(object sender, EventArgs e)
         {
-            List<Button> botones = new List<Button> { btnReportes, btnCalculadora, btnRegisCliente, btnVerCliente, btnRegisCorreo, btnVerLotes, btnVerContrato, btnRegistrarContrato, btnTramites };
+            List<Button> botones = new List<Button> { btnReportes, btnCalculadora, btnRegisCliente, btnVerCliente, btnRegisCorreo, btnVerLotes, btnVerContrato, btnRegistrarContrato, btnTramites, btnRegisLote, btnRegisUsuario };
             CrearBuscadorBotones(txtFiltrar, botones);
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+            loadform(new frmDashboard());
+        }
+
+        private void btnReporteFecha_Click(object sender, EventArgs e)
+        {
+            loadform(new frmReporteFecha());
         }
     }
 }

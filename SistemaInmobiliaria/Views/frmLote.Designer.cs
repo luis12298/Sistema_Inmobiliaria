@@ -45,7 +45,10 @@
             this.lblTotalRegistros = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btnCerrar = new FontAwesome.Sharp.IconButton();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -225,7 +228,7 @@
             this.lsvDatos.HideSelection = false;
             this.lsvDatos.Location = new System.Drawing.Point(12, 343);
             this.lsvDatos.Name = "lsvDatos";
-            this.lsvDatos.Size = new System.Drawing.Size(840, 326);
+            this.lsvDatos.Size = new System.Drawing.Size(840, 337);
             this.lsvDatos.TabIndex = 1;
             this.lsvDatos.UseCompatibleStateImageBehavior = false;
             this.lsvDatos.View = System.Windows.Forms.View.Details;
@@ -235,7 +238,7 @@
             // 
             this.lblTotalRegistros.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTotalRegistros.AutoSize = true;
-            this.lblTotalRegistros.Location = new System.Drawing.Point(780, 677);
+            this.lblTotalRegistros.Location = new System.Drawing.Point(780, 707);
             this.lblTotalRegistros.Name = "lblTotalRegistros";
             this.lblTotalRegistros.Size = new System.Drawing.Size(68, 16);
             this.lblTotalRegistros.TabIndex = 6;
@@ -245,7 +248,7 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(679, 677);
+            this.label1.Location = new System.Drawing.Point(679, 707);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(68, 16);
             this.label1.TabIndex = 5;
@@ -270,11 +273,32 @@
             this.btnCerrar.UseVisualStyleBackColor = false;
             this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Location = new System.Drawing.Point(12, 686);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(661, 48);
+            this.groupBox2.TabIndex = 19;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Reporte";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 21);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(44, 16);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "label3";
+            // 
             // frmLote
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(858, 714);
+            this.ClientSize = new System.Drawing.Size(858, 744);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnCerrar);
             this.Controls.Add(this.lblTotalRegistros);
             this.Controls.Add(this.label1);
@@ -284,6 +308,8 @@
             this.Text = "Lotes";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -308,5 +334,7 @@
         private System.Windows.Forms.ComboBox cmbEstado;
         private FontAwesome.Sharp.IconButton btnCancelar;
         private FontAwesome.Sharp.IconButton btnCerrar;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label3;
     }
 }

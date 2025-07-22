@@ -57,6 +57,7 @@ namespace SistemaInmobiliaria.Controllers
             _pageNumberTextBox = new TextBox
             {
                 Text = "1",
+                Font = new Font("Segoe UI", 8, FontStyle.Regular),
                 Width = 40,
                 Height = 22,
                 TextAlign = HorizontalAlignment.Center,
@@ -85,7 +86,7 @@ namespace SistemaInmobiliaria.Controllers
             {
                 Text = $"of {TotalPages}",
                 AutoSize = true,
-                Font = new Font("Segoe UI", 9, FontStyle.Regular),
+                Font = new Font("Segoe UI", 11, FontStyle.Regular),
                 TextAlign = ContentAlignment.MiddleCenter,
                 Margin = new Padding(2, 5, 2, 0)
             };
@@ -111,7 +112,7 @@ namespace SistemaInmobiliaria.Controllers
             {
                 Dock = DockStyle.Fill,
                 ColumnCount = 3,
-                RowCount = 1
+                RowCount = 1,
             };
 
             containerPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
@@ -124,6 +125,7 @@ namespace SistemaInmobiliaria.Controllers
 
             _paginationPanel.Controls.Add(containerPanel);
             container.Controls.Add(_paginationPanel);
+
         }
 
         private void ProcessPageNumberInput()
@@ -153,10 +155,10 @@ namespace SistemaInmobiliaria.Controllers
             return new Button
             {
                 Text = text,
-                Size = new Size(25, 30),
-                Font = new Font("Segoe UI", 8, FontStyle.Regular),
-                Margin = new Padding(0, 0, 0, 5),
-                Padding = new Padding(0),
+                Size = new Size(25, 35),
+                Font = new Font("Segoe UI", 11, FontStyle.Regular),
+                Margin = new Padding(0, 0, 0, 20),
+                //Padding = new Padding(0),
                 FlatStyle = FlatStyle.Flat,
                 FlatAppearance = { BorderSize = 0 },
                 Cursor = Cursors.Hand,

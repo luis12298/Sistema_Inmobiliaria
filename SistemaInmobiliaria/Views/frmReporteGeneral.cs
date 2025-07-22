@@ -23,13 +23,26 @@ namespace SistemaInmobiliaria.Views
             Semanal();
             Hoy();
             Dias();
+            dgvDatos.CellFormatting += (sender, e) =>
+            {
+                var columnasFormateadas = new List<string> { "TotalMontoPagado" };
+
+                string nombreColumna = dgvDatos.Columns[e.ColumnIndex].Name;
+
+                if (columnasFormateadas.Contains(nombreColumna) && e.Value != null && e.Value is decimal)
+                {
+                    decimal valor = (decimal)e.Value;
+                    e.Value = string.Format(new System.Globalization.CultureInfo("es-Hn"), "{0:C2}", valor);
+                    e.FormattingApplied = true;
+                }
+            };
         }
         private void Mes()
         {
             List<string> datos = reporteC.ReporteMes();
             if (datos == null) return;
             lblTotalMes.Text = $"Total pagos: {datos[0]}";
-            lblMontoMes.Text = $"Monto recibido: {datos[1].ToString()}";
+            lblMontoMes.Text = $"Monto recibido: L{datos[1].ToString()}";
 
         }
         private void Semanal()
@@ -37,14 +50,14 @@ namespace SistemaInmobiliaria.Views
             List<string> datos = reporteC.ReporteSemanal();
             if (datos == null) return;
             lblTotalSemanal.Text = $"Total pagos: {datos[0]}";
-            lblMontoSemanal.Text = $"Monto recibido: {datos[1].ToString()}";
+            lblMontoSemanal.Text = $"Monto recibido: L{datos[1].ToString()}";
         }
         private void Hoy()
         {
             List<string> datos = reporteC.ReporteHoy();
             if (datos == null) return;
             lblTotalHoy.Text = $"Total pagos: {datos[0]}";
-            lblMontoHoy.Text = $"Monto recibido: {datos[1].ToString()}";
+            lblMontoHoy.Text = $"Monto recibido: L{datos[1].ToString()}";
         }
         async private void Dias()
         {

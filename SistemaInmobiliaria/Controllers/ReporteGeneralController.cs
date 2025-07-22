@@ -123,5 +123,41 @@ ORDER BY Tipo DESC;";
                 return data;
             }
         }
+
+        public DataTable FechasPagadas(string fechaInicio, string fechaFin)
+        {
+            DataTable data = new DataTable();
+            using (SqlConnection sqlConnection = conexion.Open())
+            {
+                string query = @"SELECT 
+  Pago.IdPago, 
+  Cliente.Identificacion, 
+  Cliente.Nombre, 
+  Cliente.Apellido, 
+  Pago.NoCuota, 
+  Pago.FechaCuota,
+  CAST(Pago.MontoPagado AS DECIMAL(10,2)) AS MontoPagado,
+  Pago.FechaPago
+FROM Pago
+INNER JOIN Contrato ON Pago.IdContrato = Contrato.IdContrato
+INNER JOIN Cliente ON Contrato.IdCliente = Cliente.IdCliente
+WHERE FechaPago BETWEEN @FechaInicio AND @FechaFin;";
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(query, sqlConnection);
+                using (SqlCommand cmd = new SqlCommand(query, sqlConnection))
+                {
+
+                    // Configurar para mejor rendimiento
+                    cmd.Parameters.AddWithValue("@FechaInicio", fechaInicio);
+                    cmd.Parameters.AddWithValue("@FechaFin", fechaFin);
+                    cmd.CommandTimeout = 300;
+
+                    using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.SequentialAccess))
+                    {
+                        data.Load(reader);
+                    }
+                }
+                return data;
+            }
+        }
     }
 }

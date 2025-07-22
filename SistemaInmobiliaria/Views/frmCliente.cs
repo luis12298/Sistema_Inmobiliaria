@@ -7,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static SistemaInmobiliaria.Controllers.Alert.SweetAlert;
@@ -41,6 +42,34 @@ namespace SistemaInmobiliaria.Views
             SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Dark, btnCancelar);
             CrearMenuContextual(lvDatos);
             ApplyBootstrapToAllTextBoxes(this);
+            CargarCombo();
+            labelResultado.Text = "";
+            comboBox1.DrawMode = DrawMode.OwnerDrawFixed;
+            comboBox1.ItemHeight = 30;
+
+            comboBox1.DrawItem += (s, e) =>
+            {
+                if (e.Index < 0) return;
+
+                Font f = comboBox1.Font;
+                int itemHeight = comboBox1.ItemHeight;
+                string text = comboBox1.Items[e.Index].ToString();
+
+                e.DrawBackground();
+                // Cambia color de texto y fondo según selección
+                Brush textBrush = (e.State & DrawItemState.Selected) != 0 ? Brushes.White : Brushes.Black;
+                Brush backgroundBrush = (e.State & DrawItemState.Selected) != 0 ? Brushes.Blue : Brushes.White;
+
+                e.Graphics.FillRectangle(backgroundBrush, e.Bounds);
+
+                // Centrar texto verticalmente
+                SizeF textSize = e.Graphics.MeasureString(text, f);
+                float yOffset = (itemHeight - textSize.Height) / 2;
+
+                e.Graphics.DrawString(text, f, textBrush, new PointF(e.Bounds.X + 5, e.Bounds.Y + yOffset));
+
+                e.DrawFocusRectangle();
+            };
 
         }
         private void ApplyBootstrapToAllTextBoxes(Control container)
@@ -219,6 +248,7 @@ namespace SistemaInmobiliaria.Views
             {
                 caja.Clear();
             }
+            labelResultado.Text = string.Empty;
         }
         public void GuardarCliente()
         {
@@ -226,7 +256,9 @@ namespace SistemaInmobiliaria.Views
             clienteM.Identificacion = txtIdentidad.Text;
             clienteM.Nombre = txtNombre.Text;
             clienteM.Apellido = txtApellido.Text;
-            clienteM.Telefono = txtTelefono.Text;
+            string prefijo = paises[comboBox1.SelectedItem.ToString()];
+            string numero = txtTelefono.Text.Trim().Replace(" ", "").Replace("-", "");
+            clienteM.Telefono = prefijo + numero;
             clienteM.Direccion = txtDireccion.Text;
             if (clienteC.GuardarCliente(clienteM))
             {
@@ -247,7 +279,9 @@ namespace SistemaInmobiliaria.Views
             clienteM.Identificacion = txtIdentidad.Text;
             clienteM.Nombre = txtNombre.Text;
             clienteM.Apellido = txtApellido.Text;
-            clienteM.Telefono = txtTelefono.Text;
+            string prefijo = paises[comboBox1.SelectedItem.ToString()];
+            string numero = txtTelefono.Text.Trim().Replace(" ", "").Replace("-", "");
+            clienteM.Telefono = prefijo + numero;
             clienteM.Direccion = txtDireccion.Text;
             if (clienteC.ActualizarCliente(clienteM))
             {
@@ -268,7 +302,39 @@ namespace SistemaInmobiliaria.Views
             txtIdentidad.Text = datosCliente[1];
             txtNombre.Text = datosCliente[2];
             txtApellido.Text = datosCliente[3];
-            txtTelefono.Text = datosCliente[4];
+            comboBox1.Items.Clear();
+            foreach (var item in paises)
+            {
+                comboBox1.Items.Add(item.Key);
+            }
+
+            // Simulamos que el número está en datosCliente[3]
+            string telefonoCompleto = datosCliente[4]; // Ej: "+50498765432"
+
+            // Buscar el prefijo correcto
+            string prefijoSeleccionado = "";
+            string nombreSeleccionado = "";
+
+            foreach (var item in paises)
+            {
+                if (telefonoCompleto.StartsWith(item.Value))
+                {
+                    prefijoSeleccionado = item.Value;
+                    nombreSeleccionado = item.Key;
+                    break;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(prefijoSeleccionado))
+            {
+                comboBox1.SelectedItem = nombreSeleccionado;
+                txtTelefono.Text = telefonoCompleto.Substring(prefijoSeleccionado.Length);
+            }
+            else
+            {
+                // Prefijo no reconocido, dejar en blanco o dar un mensaje
+                txtTelefono.Text = telefonoCompleto;
+            }
             txtDireccion.Text = datosCliente[5];
 
         }
@@ -382,6 +448,65 @@ namespace SistemaInmobiliaria.Views
 
             // Cerrar este formulario
             this.Close();
+        }
+        //paises
+        Dictionary<string, string> paises = new Dictionary<string, string>()
+        {
+            { "Honduras (+504)", "+504" },
+            { "EE.UU. (+1)", "+1" },
+            { "México (+52)", "+52" },
+            { "España (+34)", "+34" },
+            { "Canadá (+1)", "+1" },
+            { "Reino Unido (+44)", "+44" },
+            { "Argentina (+54)", "+54" },
+            { "Colombia (+57)", "+57" },
+            { "Brasil (+55)", "+55" },
+            { "Japón (+81)", "+81" },
+            {"Costa Rica (+506)", "+506" },
+            {"El Salvador (+503)", "+503" },
+            {"Guatemala (+502)", "+502" },
+            {"Nicaragua (+505)", "+505" },
+            {"Panamá (+507)", "+507" },
+            {"Paraguay (+595)", "+595" },
+            {"Perú (+51)", "+51" },
+            {"Uruguay (+598)", "+598" },
+            {"Venezuela (+58)", "+58" }
+        };
+
+        private void CargarCombo()
+        {
+            // Carga los países en el ComboBox
+            foreach (var pais in paises)
+            {
+                comboBox1.Items.Add(pais.Key);
+            }
+
+            comboBox1.SelectedIndex = 0; // Seleccionar el primero
+        }
+
+        private void txtTelefono_Leave(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedItem != null)
+            {
+                string prefijo = paises[comboBox1.SelectedItem.ToString()];
+                string numero = txtTelefono.Text.Trim().Replace(" ", "").Replace("-", "");
+
+                string numeroCompleto = prefijo + numero;
+
+                // Validar: mínimo 10 dígitos luego del prefijo
+                if (Regex.IsMatch(numeroCompleto, @"^\+\d{10,15}$"))
+                {
+                    labelResultado.Text = "✅ Número válido: " + numeroCompleto;
+                    labelResultado.ForeColor = System.Drawing.Color.Green;
+
+                }
+                else
+                {
+                    labelResultado.Text = "❌ Número inválido";
+                    labelResultado.ForeColor = System.Drawing.Color.Red;
+
+                }
+            }
         }
     }
 }

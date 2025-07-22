@@ -44,6 +44,7 @@ namespace SistemaInmobiliaria.Views
             Formatear(txtPrecio);
             CrearMenuContextual(lsvDatos);
             ApplyBootstrapToAllTextBoxes(this);
+            Resumen();
         }
         private void ApplyBootstrapToAllTextBoxes(Control container)
         {
@@ -92,7 +93,7 @@ namespace SistemaInmobiliaria.Views
 
                 ListarLotes();
                 LimpiarCampos(txtNo, txtMetros, txtVaras, txtPrecio, txtDescripcion);
-
+                Resumen();
                 settingC.AjustarColumnas(lsvDatos);
             }
             else
@@ -119,6 +120,7 @@ namespace SistemaInmobiliaria.Views
                 CustomAlert.ShowAlert(AlertType.Success, "Mensaje", "Lote actualizado con éxito");
                 ListarLotes();
                 LimpiarCampos(txtNo, txtMetros, txtVaras, txtPrecio, txtDescripcion);
+                Resumen();
                 settingC.AjustarColumnas(lsvDatos);
             }
             else
@@ -143,17 +145,30 @@ namespace SistemaInmobiliaria.Views
             }
 
             // Agregar filas
+            // Agregar filas con formato en la columna Precio (índice 3)
             foreach (DataRow row in lotes.Rows)
             {
                 ListViewItem item = new ListViewItem(row[0].ToString());
+                //negrito
                 for (int i = 1; i < lotes.Columns.Count; i++)
                 {
-                    item.SubItems.Add(row[i].ToString());
+                    if (i == 4 && decimal.TryParse(row[i].ToString(), out decimal precio))
+                    {
+                        // Formato moneda con cultura de Honduras
+                        string precioFormateado = string.Format(new System.Globalization.CultureInfo("es-HN"), "{0:C2}", precio);
+                        item.SubItems.Add(precioFormateado);
+                    }
+                    else
+                    {
+                        item.SubItems.Add(row[i].ToString());
+                    }
                 }
+
                 lsvDatos.Items.Add(item);
                 //listView1.FullRowSelect = true;
                 lblTotalRegistros.Text = lsvDatos.Items.Count.ToString();
             }
+
         }
         public bool ValidarCampos(params (TextBox caja, string mensaje)[] campos)
         {
@@ -380,6 +395,7 @@ namespace SistemaInmobiliaria.Views
             {
                 loteC.EliminarLote(idLoteG);
                 ListarLotes();
+                Resumen();
                 settingC.AjustarColumnas(lsvDatos);
                 LimpiarCampos();
             }
@@ -399,6 +415,30 @@ namespace SistemaInmobiliaria.Views
 
             // Cerrar este formulario
             this.Close();
+        }
+        void Resumen()
+        {
+            //contar lotes vendidos de listview
+            int loteVendido = 0;
+            int loteDisponible = 0;
+            int loteNoDisponible = 0;
+            foreach (ListViewItem item in lsvDatos.Items)
+            {
+                if (item.SubItems[5].Text == "Vendido")
+                {
+                    loteVendido++;
+                }
+                else if (item.SubItems[5].Text == "Disponible")
+                {
+                    loteDisponible++;
+                }
+                else if (item.SubItems[5].Text == "No disponible")
+                {
+                    loteNoDisponible++;
+                }
+            }
+            label3.Text = $"Vendidos: {loteVendido.ToString()} | Disponibles: {loteDisponible.ToString()} | No Disponibles: {loteNoDisponible.ToString()}";
+
         }
     }
 }

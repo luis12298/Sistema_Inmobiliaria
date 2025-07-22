@@ -29,6 +29,9 @@ namespace SistemaInmobiliaria.Views
             listView1.Resize += (s, e) => settingC.AjustarColumnas(listView1);
             //altura del form
             this.Height = 800;
+            txtFiltrar.KeyPress += (s, e) => e.Handled = e.KeyChar == (char)Keys.Enter;
+            resumen();
+
         }
         public frmListaLote(frmContrato frmContrato)
         {
@@ -44,6 +47,50 @@ namespace SistemaInmobiliaria.Views
             _frmContrato = frmContrato;
             //evitar salto de linea al presionar enter
             txtFiltrar.KeyPress += (s, e) => e.Handled = e.KeyChar == (char)Keys.Enter;
+            resumen();
+            listView1.KeyDown += (s, e) =>
+            {
+                if (e.KeyCode == Keys.Enter && listView1.SelectedItems.Count > 0)
+                {
+                    if (_frmContrato == null) return;
+                    if (listView1.SelectedItems.Count > 0)
+                    {
+                        ListViewItem selectedItem = listView1.SelectedItems[0];
+                        int id = int.Parse(selectedItem.SubItems[0].Text);
+                        string numero = selectedItem.SubItems[1].Text;
+                        string metros = selectedItem.SubItems[2].Text;
+                        string varas = selectedItem.SubItems[3].Text;
+                        string precio = selectedItem.SubItems[4].Text;
+                        string Estado = selectedItem.SubItems[5].Text;
+                        string descripcion = selectedItem.SubItems[6].Text;
+                        _frmContrato.CargarLote(id, numero, precio, Estado, metros, varas, descripcion);
+
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se ha seleccionado ningún ítem.");
+                    }
+
+                    // Prevenir que suene el "ding"
+                    e.Handled = true;
+                    e.SuppressKeyPress = true;
+                }
+            };
+            txtFiltrar.KeyDown += (s, e) =>
+            {
+                if (e.KeyCode == Keys.Down)
+                {
+                    if (listView1.Items.Count > 0)
+                    {
+                        listView1.Focus();
+                        listView1.Items[0].Selected = true;
+                    }
+
+                    e.Handled = true;
+                    e.SuppressKeyPress = true;
+                }
+            };
         }
         public void CargarLotes()
         {
@@ -84,6 +131,7 @@ namespace SistemaInmobiliaria.Views
 
                 listView1.Items.Add(item);
             }
+            resumen();
         }
 
 
@@ -142,6 +190,38 @@ namespace SistemaInmobiliaria.Views
                     return;
                 }
             }
+        }
+        private void resumen()
+        {
+            label2.Text = $"Total de lotes registros: {listView1.Items.Count}";
+            //total vendidos
+            int totalVendidos = 0;
+            int totaldisponibles = 0;
+            int totalnodisponibles = 0;
+            foreach (ListViewItem item in listView1.Items)
+            {
+                if (item.SubItems.Count > 5 && item.SubItems[5].Text == "Vendido")
+                {
+                    totalVendidos++;
+                }
+            }
+            label3.Text = $"Total vendidos: {totalVendidos}";
+            foreach (ListViewItem item in listView1.Items)
+            {
+                if (item.SubItems.Count > 5 && item.SubItems[5].Text == "Disponible")
+                {
+                    totaldisponibles++;
+                }
+            }
+            label4.Text = $"Total disponibles: {totaldisponibles}";
+            foreach (ListViewItem item in listView1.Items)
+            {
+                if (item.SubItems.Count > 5 && item.SubItems[5].Text == "No disponible")
+                {
+                    totalnodisponibles++;
+                }
+            }
+            label5.Text = $"Total no disponibles: {totalnodisponibles}";
         }
     }
 }

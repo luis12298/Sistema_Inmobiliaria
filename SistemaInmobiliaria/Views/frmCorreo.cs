@@ -268,7 +268,7 @@ namespace SistemaInmobiliaria.Views
 
         private void txtCodigo_TextChanged(object sender, EventArgs e)
         {
-            if (txtCodigo.Text.Length >= 6)
+            if (txtCodigo.Text.Trim().Length >= 6)
             {
                 if (txtCodigo.Text == codigoEnviado)
                 {
@@ -399,7 +399,7 @@ namespace SistemaInmobiliaria.Views
             }
             if (correoController.EliminarCorreo(IdCorreoG))
             {
-                CustomAlert.ShowAlert(AlertType.Success, "Mensaje", "Correo eliminado con éxito");
+                new MiniToast().Show(MiniToast.ToastType.Success, "Correo Eliminado", this);
                 limpiar();
                 ListarCorreos(listView1);
                 settingC.AjustarColumnas(listView1);

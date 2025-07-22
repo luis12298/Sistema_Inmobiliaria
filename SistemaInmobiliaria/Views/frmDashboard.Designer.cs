@@ -28,16 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.dgvDatos = new System.Windows.Forms.DataGridView();
-            this.btnCerrar = new FontAwesome.Sharp.IconButton();
             this.label1 = new System.Windows.Forms.Label();
             this.lblTotal = new System.Windows.Forms.Label();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.dgvDatos2 = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
+            this.btnRecordatorio = new FontAwesome.Sharp.IconButton();
+            this.btnWhatsApp = new FontAwesome.Sharp.IconButton();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDatos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDatos2)).BeginInit();
@@ -56,25 +57,6 @@
             this.dgvDatos.TabIndex = 0;
             this.dgvDatos.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDatos_CellClick);
             this.dgvDatos.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvDatos_CellMouseClick);
-            // 
-            // btnCerrar
-            // 
-            this.btnCerrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCerrar.BackColor = System.Drawing.Color.Transparent;
-            this.btnCerrar.FlatAppearance.BorderSize = 0;
-            this.btnCerrar.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.btnCerrar.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCerrar.IconChar = FontAwesome.Sharp.IconChar.CircleXmark;
-            this.btnCerrar.IconColor = System.Drawing.Color.Black;
-            this.btnCerrar.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnCerrar.IconSize = 44;
-            this.btnCerrar.Location = new System.Drawing.Point(1125, 12);
-            this.btnCerrar.Name = "btnCerrar";
-            this.btnCerrar.Size = new System.Drawing.Size(48, 48);
-            this.btnCerrar.TabIndex = 19;
-            this.btnCerrar.UseVisualStyleBackColor = false;
-            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
             // 
             // label1
             // 
@@ -100,17 +82,17 @@
             // 
             this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea2.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chart1.Legends.Add(legend2);
-            this.chart1.Location = new System.Drawing.Point(39, 543);
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
+            this.chart1.Location = new System.Drawing.Point(39, 562);
             this.chart1.Name = "chart1";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chart1.Series.Add(series2);
-            this.chart1.Size = new System.Drawing.Size(1065, 300);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
+            this.chart1.Size = new System.Drawing.Size(1065, 281);
             this.chart1.TabIndex = 22;
             this.chart1.Text = "chart1";
             // 
@@ -119,11 +101,11 @@
             this.dgvDatos2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvDatos2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDatos2.Location = new System.Drawing.Point(12, 320);
+            this.dgvDatos2.Location = new System.Drawing.Point(12, 335);
             this.dgvDatos2.Name = "dgvDatos2";
             this.dgvDatos2.RowHeadersWidth = 51;
             this.dgvDatos2.RowTemplate.Height = 24;
-            this.dgvDatos2.Size = new System.Drawing.Size(1161, 217);
+            this.dgvDatos2.Size = new System.Drawing.Size(1161, 221);
             this.dgvDatos2.TabIndex = 23;
             this.dgvDatos2.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDatos2_CellClick);
             this.dgvDatos2.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvDatos2_CellMouseClick);
@@ -132,23 +114,58 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(12, 288);
+            this.label2.Location = new System.Drawing.Point(12, 294);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(184, 29);
             this.label2.TabIndex = 24;
             this.label2.Text = "Cobros del mes";
+            // 
+            // btnRecordatorio
+            // 
+            this.btnRecordatorio.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRecordatorio.IconChar = FontAwesome.Sharp.IconChar.Bell;
+            this.btnRecordatorio.IconColor = System.Drawing.Color.Black;
+            this.btnRecordatorio.IconFont = FontAwesome.Sharp.IconFont.Solid;
+            this.btnRecordatorio.IconSize = 32;
+            this.btnRecordatorio.Location = new System.Drawing.Point(958, 19);
+            this.btnRecordatorio.Name = "btnRecordatorio";
+            this.btnRecordatorio.Size = new System.Drawing.Size(198, 35);
+            this.btnRecordatorio.TabIndex = 25;
+            this.btnRecordatorio.Text = "Ver Recordatorio";
+            this.btnRecordatorio.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnRecordatorio.UseVisualStyleBackColor = true;
+            this.btnRecordatorio.Visible = false;
+            this.btnRecordatorio.Click += new System.EventHandler(this.btnRecordatorio_Click);
+            // 
+            // btnWhatsApp
+            // 
+            this.btnWhatsApp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnWhatsApp.IconChar = FontAwesome.Sharp.IconChar.Whatsapp;
+            this.btnWhatsApp.IconColor = System.Drawing.Color.White;
+            this.btnWhatsApp.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnWhatsApp.IconSize = 32;
+            this.btnWhatsApp.Location = new System.Drawing.Point(947, 294);
+            this.btnWhatsApp.Name = "btnWhatsApp";
+            this.btnWhatsApp.Size = new System.Drawing.Size(172, 35);
+            this.btnWhatsApp.TabIndex = 26;
+            this.btnWhatsApp.Text = "Whatsapp";
+            this.btnWhatsApp.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnWhatsApp.UseVisualStyleBackColor = true;
+            this.btnWhatsApp.Visible = false;
+            this.btnWhatsApp.Click += new System.EventHandler(this.btnWhatsApp_Click);
             // 
             // frmDashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1185, 852);
+            this.Controls.Add(this.btnWhatsApp);
+            this.Controls.Add(this.btnRecordatorio);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.dgvDatos2);
             this.Controls.Add(this.chart1);
             this.Controls.Add(this.lblTotal);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.btnCerrar);
             this.Controls.Add(this.dgvDatos);
             this.Name = "frmDashboard";
             this.Text = "Dashboard";
@@ -163,11 +180,12 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dgvDatos;
-        private FontAwesome.Sharp.IconButton btnCerrar;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblTotal;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.DataGridView dgvDatos2;
         private System.Windows.Forms.Label label2;
+        private FontAwesome.Sharp.IconButton btnRecordatorio;
+        private FontAwesome.Sharp.IconButton btnWhatsApp;
     }
 }

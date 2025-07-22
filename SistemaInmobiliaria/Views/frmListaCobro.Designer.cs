@@ -73,7 +73,7 @@
             this.btnRegistrarPago.Name = "btnRegistrarPago";
             this.btnRegistrarPago.Size = new System.Drawing.Size(114, 35);
             this.btnRegistrarPago.TabIndex = 5;
-            this.btnRegistrarPago.Text = "Cobrar";
+            this.btnRegistrarPago.Text = "Tramite";
             this.btnRegistrarPago.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnRegistrarPago.UseVisualStyleBackColor = false;
             this.btnRegistrarPago.Click += new System.EventHandler(this.btnRegistrarPago_Click);
@@ -100,24 +100,22 @@
             // 
             // txtFiltrar
             // 
-            this.txtFiltrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFiltrar.Location = new System.Drawing.Point(802, 110);
+            this.txtFiltrar.Location = new System.Drawing.Point(12, 110);
             this.txtFiltrar.Multiline = true;
             this.txtFiltrar.Name = "txtFiltrar";
-            this.txtFiltrar.Size = new System.Drawing.Size(422, 35);
+            this.txtFiltrar.Size = new System.Drawing.Size(595, 35);
             this.txtFiltrar.TabIndex = 9;
             this.txtFiltrar.TextChanged += new System.EventHandler(this.txtFiltrar_TextChanged);
             // 
             // iconPictureBox1
             // 
-            this.iconPictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.iconPictureBox1.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.iconPictureBox1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.iconPictureBox1.IconChar = FontAwesome.Sharp.IconChar.MagnifyingGlass;
             this.iconPictureBox1.IconColor = System.Drawing.SystemColors.ControlText;
             this.iconPictureBox1.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.iconPictureBox1.IconSize = 30;
-            this.iconPictureBox1.Location = new System.Drawing.Point(804, 113);
+            this.iconPictureBox1.Location = new System.Drawing.Point(14, 113);
             this.iconPictureBox1.Name = "iconPictureBox1";
             this.iconPictureBox1.Size = new System.Drawing.Size(30, 30);
             this.iconPictureBox1.TabIndex = 13;

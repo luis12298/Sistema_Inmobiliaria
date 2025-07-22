@@ -57,6 +57,10 @@ namespace SistemaInmobiliaria.Controllers
 
         public void AjustarColumnas(ListView listView)
         {
+            if (listView == null) return; // protección contra listView null
+            if (listView.Columns.Count == 0) return;
+            if (listView.Font == null) return; // protección contra fuente null
+            if (listView.Items == null) return; // protección contra items null
             if (listView.Columns.Count == 0) return;
 
             using (Graphics g = listView.CreateGraphics())

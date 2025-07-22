@@ -6,6 +6,8 @@ using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.Oauth2.v2;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SistemaInmobiliaria.Controllers;
 using SistemaInmobiliaria.Models;
 using System;
@@ -91,7 +93,40 @@ namespace SistemaInmobiliaria.Views
             AplicarBordesRedondeados(panel1, 8);
             AgregarSombraConPanel(panel1);
 
+            //InicializarArchivoLicencia();
+            DateTime fechaActual = DateTime.Now;
+            if (fechaActual.Day >= 28 && fechaActual.Day <= 30)
+            {
+                if (new LicenciaInfo().VerificarLicencia("cipres"))
+                {
+                    //MessageBox.Show("Nice");
+                }
+                else
+                {
+                    btnIniciar.Enabled = false;
+                    btnGoogle.Enabled = false;
+                }
+            }
+            else
+            {
+                //MessageBox.Show("Prosiga");
+            }
+
         }
+        //private void InicializarArchivoLicencia()
+        //{
+        //    string pathJson = @"C:\Data\licencia.json";
+
+        //    // Leer el archivo existente
+        //    string existingJson = File.ReadAllText(pathJson);
+        //    JObject jsonObject = JObject.Parse(existingJson);
+
+        //    // Modificar la propiedad estado
+        //    jsonObject["estado"] = "false";
+
+        //    // Escribir de vuelta al archivo
+        //    File.WriteAllText(pathJson, jsonObject.ToString(Formatting.Indented));
+        //}
 
 
         public void AgregarSombraConPanel(Panel panelPrincipal)
@@ -409,6 +444,12 @@ namespace SistemaInmobiliaria.Views
         {
             CerrarSesion();
         }
+
+        private static readonly string rutaArchivo = "licencia.json";
+        private static readonly string firebaseUrl = "https://tu-proyecto.firebaseio.com/";
+        private static readonly string clienteId = "cliente123"; // puede venir de config
+
+
 
 
     }

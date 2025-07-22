@@ -1,4 +1,6 @@
-﻿using Microsoft.Reporting.WinForms;
+﻿using iTextSharp.text.pdf;
+using iTextSharp.text;
+using Microsoft.Reporting.WinForms;
 using SistemaInmobiliaria.Controllers;
 using SistemaInmobiliaria.Properties;
 using System;
@@ -12,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 
 namespace SistemaInmobiliaria.Views
 {
@@ -41,8 +44,8 @@ namespace SistemaInmobiliaria.Views
             SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Success, btnEjecutar);
             SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Success, btnEjecutar2);
             ApplyBootstrapToAllTextBoxes(this);
-            txtDia.Font = new Font("Segoe UI", 11.75F, FontStyle.Regular, GraphicsUnit.Point);
-            txtDia2.Font = new Font("Segoe UI", 11.75F, FontStyle.Regular, GraphicsUnit.Point);
+            txtDia.Font = new System.Drawing.Font("Segoe UI", 11.75F, FontStyle.Regular, GraphicsUnit.Point);
+            txtDia2.Font = new System.Drawing.Font("Segoe UI", 11.75F, FontStyle.Regular, GraphicsUnit.Point);
         }
         private void formatear(TextBox txt, EventHandler handler)
         {
@@ -443,7 +446,22 @@ namespace SistemaInmobiliaria.Views
                 int cellHeight = 22;
                 int maxHeight = e.MarginBounds.Bottom;
                 int availableWidth = e.MarginBounds.Width;
+                // ENCABEZADO PERSONALIZADO
+                string cuota = string.IsNullOrWhiteSpace(txtCuota.Text) ? $"Cuota nivelada: {txtCuota2.Text}" : $"Cuota nivelada: {txtCuota.Text}";
+                string años = string.IsNullOrWhiteSpace(txtAnios.Text) ? $"Años: {txtAnios2.Text}" : $"Años: {txtAnios.Text}";
+                string cuotas = string.IsNullOrWhiteSpace(txtMeses.Text) ? $"#Cuotas: {txtMeses2.Text}" : $"#Cuotas: {txtMeses.Text}";
 
+                System.Drawing.Font headerFont = new System.Drawing.Font("Arial", 12, FontStyle.Bold);
+                int espacioEntreLineas = 25;
+
+                e.Graphics.DrawString(cuota, headerFont, Brushes.Black, x, y);
+                y += espacioEntreLineas;
+
+                e.Graphics.DrawString(años, headerFont, Brushes.Black, x, y);
+                y += espacioEntreLineas;
+
+                e.Graphics.DrawString(cuotas, headerFont, Brushes.Black, x, y);
+                y += espacioEntreLineas + 10; // espacio adicional antes de tabla
                 // Calcular ancho dinámico de columnas
                 int numColumns = dgv.Columns.Count;
                 int cellWidth = availableWidth / numColumns; // Ajuste automático
@@ -453,7 +471,7 @@ namespace SistemaInmobiliaria.Views
                 {
                     e.Graphics.DrawRectangle(Pens.Black, x, y, cellWidth, 30);
                     e.Graphics.DrawString(dgv.Columns[j].HeaderText,
-                                          new Font("Arial", 10, FontStyle.Bold),
+                                          new System.Drawing.Font("Arial", 10, FontStyle.Bold),
                                           Brushes.Black,
                                           new RectangleF(x, y, cellWidth, 30));
                     x += cellWidth;
@@ -476,7 +494,7 @@ namespace SistemaInmobiliaria.Views
                         e.Graphics.DrawRectangle(Pens.Black, x, y, cellWidth, cellHeight);
                         object value = dgv.Rows[currentRow].Cells[j].Value;
                         e.Graphics.DrawString(value != null ? value.ToString() : "",
-                                              new Font("Arial", 10),
+                                              new System.Drawing.Font("Arial", 10),
                                               Brushes.Black,
                                               new RectangleF(x, y, cellWidth, cellHeight));
                         x += cellWidth;
@@ -520,6 +538,87 @@ namespace SistemaInmobiliaria.Views
 
             // Cerrar este formulario
             this.Close();
+        }
+        public void ExportarDataGridViewAPdf(DataGridView dgv)
+        {
+            Toast toast = new Toast();
+            if (dgv.Rows.Count == 0)
+            {
+                MessageBox.Show("No hay datos para exportar.");
+                return;
+            }
+
+            // Crear documento con margen de 1 cm (28.35 puntos)
+            Document doc = new Document(PageSize.LETTER, 28.35f, 28.35f, 28.35f, 28.35f);
+
+            try
+            {
+                SaveFileDialog save = new SaveFileDialog();
+                save.Filter = "Archivo PDF (*.pdf)|*.pdf";
+                save.FileName = "Reporte.pdf";
+
+                if (save.ShowDialog() == DialogResult.OK)
+                {
+                    PdfWriter.GetInstance(doc, new FileStream(save.FileName, FileMode.Create));
+                    doc.Open();
+
+                    PdfPTable table = new PdfPTable(dgv.ColumnCount);
+                    table.WidthPercentage = 100;
+
+                    // Agregar encabezados
+                    foreach (DataGridViewColumn col in dgv.Columns)
+                    {
+                        PdfPCell cell = new PdfPCell(new Phrase(col.HeaderText));
+                        cell.BackgroundColor = BaseColor.LIGHT_GRAY;
+                        table.AddCell(cell);
+                    }
+
+                    // Agregar filas
+                    foreach (DataGridViewRow row in dgv.Rows)
+                    {
+                        if (!row.IsNewRow)
+                        {
+                            foreach (DataGridViewCell cell in row.Cells)
+                            {
+                                if (cell.Value is DateTime fecha)
+                                {
+                                    table.AddCell(fecha.ToShortDateString());
+                                }
+                                else
+                                {
+                                    table.AddCell(cell.Value?.ToString() ?? "");
+                                }
+                            }
+                        }
+                    }
+
+
+                    doc.Add(table);
+                    toast.Show(Toast.ToastType.Success, "Pdf generado");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al generar PDF: " + ex.Message);
+            }
+            finally
+            {
+                if (doc.IsOpen())
+                    doc.Close();
+            }
+        }
+
+        private void iconButton1_Click(object sender, EventArgs e)
+        {
+            if (dgvAmortizacion.Rows.Count > 0)
+            {
+                ExportarDataGridViewAPdf(dgvAmortizacion);
+            }
+            else
+            {
+                Toast toast = new Toast();
+                toast.Show(Toast.ToastType.Warning, "No hay datos para exportar");
+            }
         }
     }
 }

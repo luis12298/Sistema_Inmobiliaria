@@ -1,4 +1,5 @@
-﻿using SistemaInmobiliaria.Controllers;
+﻿using FontAwesome.Sharp;
+using SistemaInmobiliaria.Controllers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,17 +29,25 @@ namespace SistemaInmobiliaria.Views
         {
             InitializeComponent();
             ListarContratos();
-            new PaginationManager().Setup(dgvDatos, contratoC.CargarContratos(), panel3, 20);
+            new PaginationManager().Setup(dgvDatos, contratoC.CargarContratos(), panel3, 25);
 
-            BootstrapStyler.ApplyBootstrapStyle(txtFiltrar);
-            TextBoxIndent.AplicarIndentacionVisual(txtFiltrar, 35);
-            PlaceholderController.SetPlaceholder(txtFiltrar, "Filtrar");
+
 
             new FloatingController().FloatingLabelInput(txtProyeccion, "Proyeccion total");
             SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Primary, btnNuevoContrato);
             SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Success, btnEditarContrato);
             SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Danger, btnEliminarContrato);
+            BootstrapStyler.ApplyBootstrapStyle(txtFiltrar);
 
+            PlaceholderController.SetPlaceholder(txtFiltrar, "Filtrar");
+            TextBoxIndent.AplicarIndentacionVisual(txtFiltrar, 35);
+            this.Resize += (s, e) =>
+            {
+
+                int x = txtFiltrar.Left;
+                iconPictureBox2.Location = new Point((x + 2), iconPictureBox2.Location.Y);
+
+            };
         }
         public string total()
         {
@@ -88,33 +97,6 @@ namespace SistemaInmobiliaria.Views
             frmContrato frm = new frmContrato(this);
             frm.ShowDialog();
         }
-
-        private void txtFiltrar_TextChanged(object sender, EventArgs e)
-        {
-            string filtro = txtFiltrar.Text.Trim().ToLower();
-
-            if (string.IsNullOrEmpty(filtro))
-            {
-                dgvDatos.DataSource = originalDataTable;
-                return;
-            }
-
-            // Creamos una copia filtrada
-            DataTable filtrada = originalDataTable.Clone();
-
-            foreach (DataRow fila in originalDataTable.Rows)
-            {
-                if (fila.ItemArray.Any(valor =>
-                    valor != null && valor.ToString().ToLower().Contains(filtro)))
-                {
-                    filtrada.ImportRow(fila);
-                }
-            }
-            lblTotalRegistros.Text = filtrada.Rows.Count.ToString();
-            dgvDatos.DataSource = filtrada;
-        }
-
-
 
 
 
@@ -289,6 +271,30 @@ namespace SistemaInmobiliaria.Views
 
         }
 
+        private void txtFiltrar_TextChanged_1(object sender, EventArgs e)
+        {
+            string filtro = txtFiltrar.Text.Trim().ToLower();
+
+            if (string.IsNullOrEmpty(filtro))
+            {
+                dgvDatos.DataSource = originalDataTable;
+                return;
+            }
+
+            // Creamos una copia filtrada
+            DataTable filtrada = originalDataTable.Clone();
+
+            foreach (DataRow fila in originalDataTable.Rows)
+            {
+                if (fila.ItemArray.Any(valor =>
+                    valor != null && valor.ToString().ToLower().Contains(filtro)))
+                {
+                    filtrada.ImportRow(fila);
+                }
+            }
+            lblTotalRegistros.Text = filtrada.Rows.Count.ToString();
+            dgvDatos.DataSource = filtrada;
+        }
     }
 }
 

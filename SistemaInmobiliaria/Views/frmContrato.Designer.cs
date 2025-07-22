@@ -68,6 +68,7 @@
             this.dtpInicio = new System.Windows.Forms.DateTimePicker();
             this.btnGuardar = new FontAwesome.Sharp.IconButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
             this.ckPrima = new System.Windows.Forms.CheckBox();
             this.txtEstado = new System.Windows.Forms.TextBox();
             this.ckActivo = new System.Windows.Forms.CheckBox();
@@ -367,6 +368,7 @@
             this.txtInteresAtraso.Name = "txtInteresAtraso";
             this.txtInteresAtraso.Size = new System.Drawing.Size(95, 35);
             this.txtInteresAtraso.TabIndex = 46;
+            this.txtInteresAtraso.TextChanged += new System.EventHandler(this.txtInteresAtraso_TextChanged);
             // 
             // txtInteres
             // 
@@ -375,6 +377,7 @@
             this.txtInteres.Name = "txtInteres";
             this.txtInteres.Size = new System.Drawing.Size(93, 35);
             this.txtInteres.TabIndex = 45;
+            this.txtInteres.TextChanged += new System.EventHandler(this.txtInteres_TextChanged);
             // 
             // txtCuota
             // 
@@ -530,6 +533,7 @@
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.ckPrima);
             this.panel1.Controls.Add(this.txtEstado);
             this.panel1.Controls.Add(this.ckActivo);
@@ -559,6 +563,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(759, 387);
             this.panel1.TabIndex = 56;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.label3.Location = new System.Drawing.Point(265, 85);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(188, 16);
+            this.label3.TabIndex = 61;
+            this.label3.Text = "*Solo asigne el (dia asignado)";
             // 
             // ckPrima
             // 
@@ -608,7 +622,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(49, 20);
+            this.label17.Location = new System.Drawing.Point(49, 16);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(50, 16);
             this.label17.TabIndex = 16;
@@ -621,7 +635,7 @@
             this.iconPictureBox2.IconChar = FontAwesome.Sharp.IconChar.FileText;
             this.iconPictureBox2.IconColor = System.Drawing.SystemColors.ControlText;
             this.iconPictureBox2.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconPictureBox2.Location = new System.Drawing.Point(16, 10);
+            this.iconPictureBox2.Location = new System.Drawing.Point(11, 6);
             this.iconPictureBox2.Name = "iconPictureBox2";
             this.iconPictureBox2.Size = new System.Drawing.Size(32, 32);
             this.iconPictureBox2.TabIndex = 15;
@@ -820,5 +834,6 @@
         private System.Windows.Forms.CheckBox ckPrima;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cmbEstadoL;
+        private System.Windows.Forms.Label label3;
     }
 }

@@ -15,7 +15,6 @@ namespace SistemaInmobiliaria.Views
     {
         ContratoController contratoC = new ContratoController();
         SettingController settingC = new SettingController();
-        FloatingController floatingC = new FloatingController();
         frmInicio _frmInicio;
         public frmVerListaContrato()
         {
@@ -28,6 +27,36 @@ namespace SistemaInmobiliaria.Views
 
             PlaceholderController.SetPlaceholder(txtFiltrar, "Buscar dato");
             TextBoxIndent.AplicarIndentacionVisual(txtFiltrar, 30);
+            lsvDatos.KeyDown += (s, e) =>
+            {
+                if (e.KeyCode == Keys.Enter && lsvDatos.SelectedItems.Count > 0)
+                {
+                    string idLote = lsvDatos.SelectedItems[0].SubItems[0].Text;
+                    if (_frmInicio != null)
+                    {
+                        _frmInicio.cobrar(lsvDatos.SelectedItems[0].SubItems[0].Text);
+                        this.Close();
+                    }
+
+                    // Prevenir que suene el "ding"
+                    e.Handled = true;
+                    e.SuppressKeyPress = true;
+                }
+            };
+            txtFiltrar.KeyDown += (s, e) =>
+            {
+                if (e.KeyCode == Keys.Down)
+                {
+                    if (lsvDatos.Items.Count > 0)
+                    {
+                        lsvDatos.Focus();
+                        lsvDatos.Items[0].Selected = true;
+                    }
+
+                    e.Handled = true;
+                    e.SuppressKeyPress = true;
+                }
+            };
         }
         public frmVerListaContrato(frmInicio frmInicio)
         {
@@ -39,6 +68,37 @@ namespace SistemaInmobiliaria.Views
             this.Resize += (s, e) => settingC.AjustarColumnas(lsvDatos);
             lsvDatos.Resize += (s, e) => settingC.AjustarColumnas(lsvDatos);
             CrearMenuContextual(lsvDatos);
+            lsvDatos.KeyDown += (s, e) =>
+            {
+                if (e.KeyCode == Keys.Enter && lsvDatos.SelectedItems.Count > 0)
+                {
+                    string idLote = lsvDatos.SelectedItems[0].SubItems[0].Text;
+                    if (_frmInicio != null)
+                    {
+                        _frmInicio.cobrar(lsvDatos.SelectedItems[0].SubItems[0].Text);
+                        this.Close();
+                    }
+
+                    // Prevenir que suene el "ding"
+                    e.Handled = true;
+                    e.SuppressKeyPress = true;
+                }
+
+            };
+            txtFiltrar.KeyDown += (s, e) =>
+            {
+                if (e.KeyCode == Keys.Down)
+                {
+                    if (lsvDatos.Items.Count > 0)
+                    {
+                        lsvDatos.Focus();
+                        lsvDatos.Items[0].Selected = true;
+                    }
+
+                    e.Handled = true;
+                    e.SuppressKeyPress = true;
+                }
+            };
         }
 
         public void ListarContatos(ListView listView1)
@@ -74,8 +134,44 @@ namespace SistemaInmobiliaria.Views
 
         private void txtFiltrar_TextChanged(object sender, EventArgs e)
         {
-            contratoC.LiveSearch(lsvDatos, txtFiltrar);
+            FiltrarListView(lsvDatos, txtFiltrar);
         }
+        private void FiltrarListView(ListView listView, TextBox searchBox)
+        {
+            string filtro = searchBox.Text.ToLower().Trim();
+
+            // Guardar datos originales en Tag solo si no existe
+            if (listView.Tag == null)
+            {
+                var listaOriginal = new List<ListViewItem>();
+                foreach (ListViewItem item in listView.Items)
+                    listaOriginal.Add((ListViewItem)item.Clone());
+                listView.Tag = listaOriginal;
+            }
+
+            listView.BeginUpdate();
+            listView.Items.Clear();
+
+            if (string.IsNullOrEmpty(filtro))
+            {
+                foreach (ListViewItem item in (List<ListViewItem>)listView.Tag)
+                    listView.Items.Add((ListViewItem)item.Clone());
+            }
+            else
+            {
+                foreach (ListViewItem item in (List<ListViewItem>)listView.Tag)
+                {
+                    bool coincide = item.SubItems.Cast<ListViewItem.ListViewSubItem>()
+                        .Any(sub => sub.Text.ToLower().Contains(filtro));
+
+                    if (coincide)
+                        listView.Items.Add((ListViewItem)item.Clone());
+                }
+            }
+
+            listView.EndUpdate();
+        }
+
         void CrearMenuContextual(ListView listView)
         {
             // Crear el menú contextual

@@ -32,8 +32,8 @@ namespace SistemaInmobiliaria.Controllers
         public static void AplicarEstiloBootstrap(ButtonType type, Button boton)
         {
             int radio = 0; // Aumentamos el radio para bordes más suaves (Bootstrap usa ~6px)
-            if (boton.Width <= 40) radio = 4;
-            if (boton.Width > 40 && boton.Width <= 80) radio = 6;
+            if (boton.Width <= 46) radio = 2;
+            if (boton.Width > 46 && boton.Width <= 80) radio = 6;
             if (boton.Width > 80) radio = 3;
             // Configuración de estilo base
             boton.FlatStyle = FlatStyle.Flat;

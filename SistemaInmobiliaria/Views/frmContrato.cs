@@ -34,7 +34,6 @@ namespace SistemaInmobiliaria.Views
         public int IdCliente;
         public int IdLoteG;
 
-
         public frmContrato(frmListaContrato frmListaContrato)
         {
             InitializeComponent();
@@ -47,6 +46,7 @@ namespace SistemaInmobiliaria.Views
             toolTip.SetToolTip(btnCargar, "Cargar Lote");
             floatingC.FloatingLabelInput(txtAnios, "Años");
             floatingC.FloatingLabelInput(txtInteres, "Interes");
+
             floatingC.FloatingLabelInput(txtPrima, "Prima");
             floatingC.FloatingLabelInput(txtInteresAtraso, "Int Atraso");
             floatingC.FloatingLabelInput(txtIdentidad, "Identidad");
@@ -62,9 +62,9 @@ namespace SistemaInmobiliaria.Views
             SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Secondary, btnCancelar);
             SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Info, btnCargar);
             SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Info, btnCargarC);
-
             ApplyBootstrapToAllTextBoxes(this);
-            txtDia.Font = new Font("Segoe UI", 10.75F, FontStyle.Regular, GraphicsUnit.Point);
+            txtDia.Font = new Font("Segoe UI", 11.75F, FontStyle.Regular, GraphicsUnit.Point);
+
         }
 
         private void ApplyBootstrapToAllTextBoxes(Control container)
@@ -105,29 +105,36 @@ namespace SistemaInmobiliaria.Views
             }
 
         }
-        private void CalcularFechas(DateTime fechaInicio, int diaAsignado)
+        private void CalcularFechas(DateTime fechaInicio, int diaAsignado, int meses)
         {
             try
             {
-                // Validar campos
+                // Validar años
                 if (!int.TryParse(txtAnios.Text, out int años) || años <= 0)
                 {
                     MessageBox.Show("Ingrese un número de años válido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
+                // Calcular la nueva fecha inicial sumando los meses
+                DateTime fechaTemporal = fechaInicio.AddMonths(meses);
+                int ultimoDiaMesInicial = DateTime.DaysInMonth(fechaTemporal.Year, fechaTemporal.Month);
+                DateTime fechaInicial = new DateTime(
+                    fechaTemporal.Year,
+                    fechaTemporal.Month,
+                    Math.Min(diaAsignado, ultimoDiaMesInicial)
+                );
 
-                // Calcular FECHA INICIAL (primer día del mes siguiente al inicio)
-                DateTime fechaInicial = new DateTime(fechaInicio.Year, fechaInicio.Month, 1).AddMonths(1);
-                int ultimoDiaMesInicio = DateTime.DaysInMonth(fechaInicial.Year, fechaInicial.Month);
-                fechaInicial = fechaInicial.AddDays(Math.Min(diaAsignado, ultimoDiaMesInicio) - 1);
+                // Calcular la fecha final sumando los años a la fecha inicial
+                DateTime fechaFinalTemporal = fechaInicial.AddYears(años);
+                int ultimoDiaMesFinal = DateTime.DaysInMonth(fechaFinalTemporal.Year, fechaFinalTemporal.Month);
+                DateTime fechaFinal = new DateTime(
+                    fechaFinalTemporal.Year,
+                    fechaFinalTemporal.Month,
+                    Math.Min(diaAsignado, ultimoDiaMesFinal)
+                );
 
-                // Calcular FECHA FINAL (fechaInicial + años)
-                DateTime fechaFinal = fechaInicio.AddYears(años);
-                int ultimoDiaMesFinal = DateTime.DaysInMonth(fechaFinal.Year, fechaFinal.Month);
-                fechaFinal = new DateTime(fechaFinal.Year, fechaFinal.Month, Math.Min(diaAsignado, ultimoDiaMesFinal));
-
-                // Mostrar resultados
+                // Asignar los valores calculados
                 dtpInicio.Value = fechaInicial;
                 dtpFinal.Value = fechaFinal;
             }
@@ -136,6 +143,7 @@ namespace SistemaInmobiliaria.Views
                 MessageBox.Show($"Error al calcular fechas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
 
         private void CalcularAmortizacion(double principal)
@@ -163,7 +171,16 @@ namespace SistemaInmobiliaria.Views
             double prima = string.IsNullOrEmpty(txtPrima.Text) ? 0 : double.Parse(txtPrima.Text);
 
             // Calcular
-            CalcularFechas(dtpInicio.Value, int.Parse(txtDia.Text));
+            if (string.IsNullOrEmpty(txtPrima.Text) || txtPrima.Text == "0")
+            {
+                CalcularFechas(dtpInicio.Value, int.Parse(txtDia.Text), 0);
+
+            }
+            else
+            {
+                CalcularFechas(dtpInicio.Value, int.Parse(txtDia.Text), 1);
+
+            }
             CalcularAmortizacion(montoOriginal - prima);
 
 
@@ -443,11 +460,13 @@ namespace SistemaInmobiliaria.Views
             if (MessageBox.Show("¿Desea cancelar la operación?", "Cancelar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 //limpiar cajas de texto
-                foreach (Control control in this.Controls)
+                foreach (Control control in this.panel1.Controls)
                 {
                     if (control is TextBox)
                     {
                         control.Text = string.Empty;
+                        dtpInicio.Value = DateTime.Now;
+
                     }
                 }
 
@@ -576,20 +595,31 @@ namespace SistemaInmobiliaria.Views
                 toast.Show(Toast.ToastType.Warning, "Seleccione un lote");
                 return;
             }
+            else if (dtpInicio.Value == dtpFinal.Value)
+            {
+                toast.Show(Toast.ToastType.Warning, "Calcule la cuota");
+                return;
+            }
             if (ValidarCampos((txtMonto, "No hay monto"), (txtMeses, "No hay cuotas"), (txtInteresAtraso, "Agregue un interes de retraso"), (txtCuota, "Agregue una cuota")))
             {
                 if (IdContratoG == 0)
                 {
                     GuardarContrato();
 
-                    if (!string.IsNullOrEmpty(txtPrima.Text))
+
+                    if (string.IsNullOrEmpty(txtPrima.Text))
+                    {
+
+                        CustomAlert.ShowAlert(AlertType.Success, "Mensaje", "Se registrará el primer pago obligatorio");
+                        GuardarPrimerPago();
+                    }
+                    else
                     {
                         DialogResult res = CustomAlert.ShowConfirm(AlertType.Info, "¿Mensaje", "Desea imprimir la factura?");
                         if (res == DialogResult.OK)
                         {
                             mostrarinform();
                         }
-
                     }
                 }
                 else
@@ -667,11 +697,73 @@ namespace SistemaInmobiliaria.Views
             IdContratoG = 0;
         }
 
-        private void btnCargarV_Click_1(object sender, EventArgs e)
+        public void GuardarPrimerPago()
         {
+            PagoController pagoC = new PagoController();
+            var datos = new PagoModel();
+            datos.IdContrato = int.Parse(new ContratoController().UltimoContrato());
+            datos.NoCuota = 1;
+            datos.MontoPagado = double.Parse(txtCuota.Text);
+            datos.FechaCuota = dtpInicio.Value.ToString("yyyy-MM-dd");
+            datos.Estado = "Pagada";
+            datos.FechaPago = DateTime.Now.ToString("yyyy-MM-dd");
+            datos.UsuarioCreo = UsuarioModel.Usuario;
 
+            if (pagoC.GuardarPago(datos))
+            {
+                CustomAlert.ShowAlert(AlertType.Success, "Mensaje", "Primer pago registrado con éxito");
+
+            }
+            else
+            {
+                CustomAlert.ShowAlert(AlertType.Error, "Error", "Error al registrar el pago");
+            }
         }
 
+        private void txtInteresAtraso_TextChanged(object sender, EventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            string input = txt.Text;
+            int sel = txt.SelectionStart;
 
+            int comaCount = 0, puntoCount = 0;
+
+            string filtrado = new string(input.Where(c =>
+            {
+                if (char.IsDigit(c)) return true;
+                if (c == ',' && comaCount++ == 0) return true;
+                if (c == '.' && puntoCount++ == 0) return true;
+                return false;
+            }).ToArray());
+
+            if (input != filtrado)
+            {
+                txt.Text = filtrado;
+                txt.SelectionStart = Math.Max(0, sel - 1);
+            }
+        }
+
+        private void txtInteres_TextChanged(object sender, EventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            string input = txt.Text;
+            int sel = txt.SelectionStart;
+
+            int comaCount = 0, puntoCount = 0;
+
+            string filtrado = new string(input.Where(c =>
+            {
+                if (char.IsDigit(c)) return true;
+                if (c == ',' && comaCount++ == 0) return true;
+                if (c == '.' && puntoCount++ == 0) return true;
+                return false;
+            }).ToArray());
+
+            if (input != filtrado)
+            {
+                txt.Text = filtrado;
+                txt.SelectionStart = Math.Max(0, sel - 1);
+            }
+        }
     }
 }

@@ -50,6 +50,7 @@ CuotasAtrasadas AS (
     SELECT 
         c.Identificacion AS Identidad,
         c.Nombre + ' ' + c.Apellido AS Cliente,
+        c.Telefono AS Telefono,
         cp.IdContrato,
         cp.NoCuota AS NumeroCuota,
         cp.FechaCuota,
@@ -70,6 +71,7 @@ CuotasAtrasadas AS (
 SELECT 
     IdContrato,
     Identidad,
+    Telefono,
     Cliente,
     NumeroCuota as NoCuota,
     FechaCuota,
@@ -79,7 +81,7 @@ SELECT
     Estado
 FROM CuotasAtrasadas
 WHERE DiasAtraso > 0
-ORDER BY IdContrato, NumeroCuota;";
+ORDER BY FechaCuota;";
                 SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(query, sqlConnection);
                 sqlDataAdapter.SelectCommand.CommandType = CommandType.Text;
                 sqlDataAdapter.Fill(data);
@@ -123,13 +125,13 @@ CuotasDelMes AS (
     SELECT 
         c.Identificacion AS Identidad,
         c.Nombre + ' ' + c.Apellido AS Cliente,
+        c.Telefono as Telefono,
         cp.IdContrato,
         cp.FechaInicio,
         cp.NoCuota as NumeroCuota,
         cp.FechaCuota,
         cp.MontoCuota AS Cuota,
         cp.MontoPagado,
-        CAST(cp.MontoCuota - cp.MontoPagado AS DECIMAL(18,2)) AS Saldo,
         cp.DiasAtraso,
         FORMAT(cp.FechaCuota, 'MMMM', 'es-ES') AS Mes,
         CASE 
@@ -147,17 +149,17 @@ CuotasDelMes AS (
 SELECT 
     IdContrato,
     Identidad,
+    Telefono,
     Cliente,
     FechaInicio,
     NumeroCuota as NoCuota,
     FechaCuota,
     Cuota,
     MontoPagado,
-    Saldo,
     Mes,
     Estado
 FROM CuotasDelMes
-ORDER BY IdContrato, NoCuota;";
+ORDER BY fechaCuota;";
                 SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(query, sqlConnection);
                 sqlDataAdapter.SelectCommand.CommandType = CommandType.Text;
                 sqlDataAdapter.Fill(data);
@@ -238,11 +240,13 @@ Amortizacion AS (
             WHEN n.Numero = b.CantidadCuota THEN b.FechaFin
             ELSE DATEADD(MONTH, n.Numero - 1, b.FechaInicio)
         END AS FechaPagoProgramada,
-        FORMAT(
-            CASE 
-                WHEN n.Numero = b.CantidadCuota THEN b.FechaFin
-                ELSE DATEADD(MONTH, n.Numero - 1, b.FechaInicio)
-            END, 'MMMM yyyy') AS NombreMes,
+    FORMAT(
+    CASE 
+        WHEN n.Numero = b.CantidadCuota THEN b.FechaFin
+        ELSE DATEADD(MONTH, n.Numero - 1, b.FechaInicio)
+    END, 
+'MMMM yyyy', 'es-ES') AS NombreMes,
+
         b.CantidadCuota,
         CASE 
             WHEN n.Numero = b.CantidadCuota THEN b.CuotaFinal
@@ -275,12 +279,12 @@ SELECT
 	Telefono,
     NumeroCuota,
     FechaPagoProgramada,
-    SaldoInicial, 
+    SaldoInicial,   
     NombreMes,
     CantidadCuota, 
     CuotaFinal,
     InteresRetraso,
-    SaldoRestante 
+    SaldoRestante
 FROM Amortizacion
 WHERE IdContrato = @IdContrato
 ORDER BY IdContrato, NumeroCuota
