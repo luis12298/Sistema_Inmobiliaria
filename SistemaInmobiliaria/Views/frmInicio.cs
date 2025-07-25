@@ -45,6 +45,7 @@ namespace SistemaInmobiliaria.Views
             SetLeftAlignedIcon(btnDropUsuario, IconChar.UserAlt, 35, Color.Black);
             SetLeftAlignedIcon(btnDropOtros, IconChar.Cogs, 35, Color.Black);
             BootstrapStyler.ApplyBootstrapStyle(txtFiltrar);
+            BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Warning, btnCerrar);
             PlaceholderController.SetPlaceholder(txtFiltrar, "Ingresa una opcion para filtrar");
             SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Light, iconButton1);
             this.Resize += (s, e) =>
@@ -643,6 +644,14 @@ namespace SistemaInmobiliaria.Views
         private void btnReporteFecha_Click(object sender, EventArgs e)
         {
             loadform(new frmReporteFecha());
+        }
+
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            frmLogin frmLogin = new frmLogin();
+            frmLogin.ShowDialog();
+            this.Close();
         }
     }
 }

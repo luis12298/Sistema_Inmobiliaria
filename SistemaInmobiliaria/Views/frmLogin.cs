@@ -46,6 +46,7 @@ namespace SistemaInmobiliaria.Views
             //floatingC.FloatingLabelInput(txtContrasena, "Contraseña");
 
             SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Primary, btnIniciar);
+            SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Secondary, btnPin);
             SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Light, btnGoogle);
             SettingController settingController = new SettingController();
             BootstrapStyler.ApplyBootstrapStyle(txtUsuario);
@@ -54,6 +55,7 @@ namespace SistemaInmobiliaria.Views
             TextBoxIndent.AplicarIndentacionVisual(txtContrasena, 35);
             PlaceholderController.SetPlaceholder(txtUsuario, "Usuario");
             PlaceholderController.SetPlaceholder(txtContrasena, "Contraseña");
+
             txtContrasena.PasswordChar = '\u25CF';
             //evitar saltos de lineas en los textbox
             txtUsuario.KeyPress += (sender, e) =>
@@ -64,12 +66,23 @@ namespace SistemaInmobiliaria.Views
                     txtContrasena.Focus();
                 }
             };
+
             txtContrasena.KeyPress += (sender, e) =>
             {
                 if (e.KeyChar == (char)Keys.Enter)
                 {
                     e.Handled = true;
-                    btnIniciar.PerformClick();
+
+                    string texto = txtContrasena.Text.Trim();
+
+                    if (int.TryParse(texto, out _))
+                    {
+                        btnPin.PerformClick(); // Si es número
+                    }
+                    else
+                    {
+                        btnIniciar.PerformClick(); // Si no es número
+                    }
                 }
             };
             this.Shown += (s, e) =>
@@ -111,7 +124,31 @@ namespace SistemaInmobiliaria.Views
             {
                 //MessageBox.Show("Prosiga");
             }
+            iconPictureBox2.ForeColor = ColorTranslator.FromHtml("#748B9C");
+            btnMostrar.IconColor = ColorTranslator.FromHtml("#748B9C");
 
+            txtUsuario.GotFocus += (s, e) =>
+            {
+                iconPictureBox1.ForeColor = Color.Black;
+
+            };
+            txtUsuario.LostFocus += (s, e) =>
+            {
+                iconPictureBox1.ForeColor = ColorTranslator.FromHtml("#748B9C");
+
+            };
+
+            txtContrasena.GotFocus += (s, e) =>
+            {
+                iconPictureBox2.ForeColor = Color.Black;
+                btnMostrar.IconColor = Color.Black;
+            };
+            txtContrasena.LostFocus += (s, e) =>
+            {
+                iconPictureBox2.ForeColor = ColorTranslator.FromHtml("#748B9C");
+                btnMostrar.IconColor = ColorTranslator.FromHtml("#748B9C");
+
+            };
         }
         //private void InicializarArchivoLicencia()
         //{
@@ -352,7 +389,11 @@ namespace SistemaInmobiliaria.Views
                 if (datos != null)
                 {
                     UsuarioModel.Usuario = datos;
-
+                    if (datos.Contains("@"))
+                    {
+                        string usuario = datos.Substring(0, datos.IndexOf('@'));
+                        UsuarioModel.Usuario = usuario;
+                    }
                     this.Hide();
                     frmInicio frm = new frmInicio();
                     frm.ShowDialog();
@@ -445,12 +486,30 @@ namespace SistemaInmobiliaria.Views
             CerrarSesion();
         }
 
-        private static readonly string rutaArchivo = "licencia.json";
-        private static readonly string firebaseUrl = "https://tu-proyecto.firebaseio.com/";
-        private static readonly string clienteId = "cliente123"; // puede venir de config
 
 
+        private void btnPin_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtContrasena.Text))
+            {
+                new Toast().Show(Toast.ToastType.Warning, "Ingrese un PIN");
+                txtContrasena.Focus();
+                return;
+            }
+            string pin = txtContrasena.Text.Trim();
+            if (new LoginPinController().VerificarPIN(pin))
+            {
+                UsuarioModel.Usuario = "Admin";
+                this.Hide();
+                frmInicio frm = new frmInicio();
+                frm.ShowDialog();
+                this.Close();
 
-
+            }
+            else
+            {
+                new Toast().Show(Toast.ToastType.Warning, "El PIN es incorrecto");
+            }
+        }
     }
 }

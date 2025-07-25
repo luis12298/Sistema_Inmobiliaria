@@ -7,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static SistemaInmobiliaria.Controllers.Alert.SweetAlert;
@@ -178,6 +179,17 @@ namespace SistemaInmobiliaria.Views
                 new Toast().Show(Toast.ToastType.Warning, "Contraseñas no coinciden");
                 return;
             }
+
+            string input = txtContrasena.Text;
+
+            bool esValido = Regex.IsMatch(input, @"^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$");
+
+            if (!esValido)
+            {
+                new Toast().Show(Toast.ToastType.Warning, "La contraseñas debe tener al menos 8 caracteres, una letra mayúscula, un número y un carácter especial.");
+                return;
+            }
+
             GuardarUsuario();
         }
 
@@ -234,6 +246,15 @@ namespace SistemaInmobiliaria.Views
                 else if (txtContrasena.Text != txtContrasenaC.Text)
                 {
                     new Toast().Show(Toast.ToastType.Warning, "Contraseñas no coinciden");
+                    return;
+                }
+
+                string input = txtContrasena.Text;
+
+                bool esValido = Regex.IsMatch(input, @"^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$");
+                if (!esValido)
+                {
+                    new Toast().Show(Toast.ToastType.Warning, "La contraseñas debe tener al menos 8 caracteres, una letra mayúscula, un número y un carácter especial.");
                     return;
                 }
                 ActualizarUsuario();
