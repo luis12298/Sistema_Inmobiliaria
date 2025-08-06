@@ -46,6 +46,7 @@ namespace SistemaInmobiliaria.Views
             SetLeftAlignedIcon(btnDropOtros, IconChar.Cogs, 35, Color.Black);
             BootstrapStyler.ApplyBootstrapStyle(txtFiltrar);
             BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Warning, btnCerrar);
+
             PlaceholderController.SetPlaceholder(txtFiltrar, "Ingresa una opcion para filtrar");
             SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Light, iconButton1);
             this.Resize += (s, e) =>
@@ -62,7 +63,7 @@ namespace SistemaInmobiliaria.Views
 
             new ToolTip().SetToolTip(label3, "Dashboard");
             txtFiltrar.KeyPress += (s, e) => e.Handled = e.KeyChar == (char)Keys.Enter;
-
+            
         }
 
 
@@ -639,6 +640,7 @@ namespace SistemaInmobiliaria.Views
         private void label3_Click(object sender, EventArgs e)
         {
             loadform(new frmDashboard());
+            lblRuta.Text = "Inicio";
         }
 
         private void btnReporteFecha_Click(object sender, EventArgs e)

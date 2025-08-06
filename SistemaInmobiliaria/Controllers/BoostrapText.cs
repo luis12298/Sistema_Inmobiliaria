@@ -88,7 +88,7 @@ namespace SistemaInmobiliaria.Controllers
                     borderRect.Height + 6
                 );
 
-                using (SolidBrush shadowBrush = new SolidBrush(Color.FromArgb(64, 0, 123, 255)))
+                using (SolidBrush shadowBrush = new SolidBrush(Color.FromArgb(194, 219, 253)))
                     g.FillRectangle(shadowBrush, shadowRect);
             }
 

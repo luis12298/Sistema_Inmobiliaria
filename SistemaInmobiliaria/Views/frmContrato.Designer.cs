@@ -733,9 +733,9 @@
             this.btnCancelarTodo.IconColor = System.Drawing.Color.Black;
             this.btnCancelarTodo.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnCancelarTodo.IconSize = 40;
-            this.btnCancelarTodo.Location = new System.Drawing.Point(802, 7);
+            this.btnCancelarTodo.Location = new System.Drawing.Point(849, 7);
             this.btnCancelarTodo.Name = "btnCancelarTodo";
-            this.btnCancelarTodo.Size = new System.Drawing.Size(210, 50);
+            this.btnCancelarTodo.Size = new System.Drawing.Size(163, 50);
             this.btnCancelarTodo.TabIndex = 3;
             this.btnCancelarTodo.Text = "Cancelar";
             this.btnCancelarTodo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

@@ -60,13 +60,13 @@
             this.btnCalculadora = new FontAwesome.Sharp.IconButton();
             this.btnDropOtros = new FontAwesome.Sharp.IconButton();
             this.pnlSidebar = new System.Windows.Forms.Panel();
+            this.btnCerrar = new FontAwesome.Sharp.IconButton();
             this.lblRuta = new System.Windows.Forms.Label();
             this.txtFiltrar = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.iconPictureBox2 = new FontAwesome.Sharp.IconPictureBox();
             this.iconButton1 = new FontAwesome.Sharp.IconButton();
             this.btnToggle = new System.Windows.Forms.Button();
-            this.btnCerrar = new FontAwesome.Sharp.IconButton();
             this.panel1.SuspendLayout();
             this.pnlDrop1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconPictureBox1)).BeginInit();
@@ -619,6 +619,22 @@
             this.pnlSidebar.Size = new System.Drawing.Size(250, 565);
             this.pnlSidebar.TabIndex = 5;
             // 
+            // btnCerrar
+            // 
+            this.btnCerrar.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnCerrar.IconChar = FontAwesome.Sharp.IconChar.SignOut;
+            this.btnCerrar.IconColor = System.Drawing.Color.Black;
+            this.btnCerrar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnCerrar.IconSize = 42;
+            this.btnCerrar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCerrar.Location = new System.Drawing.Point(9, 514);
+            this.btnCerrar.Name = "btnCerrar";
+            this.btnCerrar.Size = new System.Drawing.Size(232, 45);
+            this.btnCerrar.TabIndex = 6;
+            this.btnCerrar.Text = "Cerrar sesión";
+            this.btnCerrar.UseVisualStyleBackColor = true;
+            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
+            // 
             // lblRuta
             // 
             this.lblRuta.AutoSize = true;
@@ -701,22 +717,6 @@
             this.btnToggle.TabIndex = 6;
             this.btnToggle.UseVisualStyleBackColor = true;
             this.btnToggle.Click += new System.EventHandler(this.btnToggle_Click);
-            // 
-            // btnCerrar
-            // 
-            this.btnCerrar.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnCerrar.IconChar = FontAwesome.Sharp.IconChar.SignOut;
-            this.btnCerrar.IconColor = System.Drawing.Color.Black;
-            this.btnCerrar.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnCerrar.IconSize = 42;
-            this.btnCerrar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCerrar.Location = new System.Drawing.Point(9, 514);
-            this.btnCerrar.Name = "btnCerrar";
-            this.btnCerrar.Size = new System.Drawing.Size(232, 45);
-            this.btnCerrar.TabIndex = 6;
-            this.btnCerrar.Text = "Cerrar sesión";
-            this.btnCerrar.UseVisualStyleBackColor = true;
-            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
             // 
             // frmInicio
             // 

@@ -17,6 +17,11 @@ using MessageBox = System.Windows.Forms.MessageBox;
 using OtpNet;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
+using System.Threading;
+using Newtonsoft.Json;
+using SistemaInmobiliaria.Controllers;
+using System.Reflection;
 
 namespace SistemaInmobiliaria
 {
@@ -25,8 +30,70 @@ namespace SistemaInmobiliaria
         public Form1()
         {
             InitializeComponent();
-            GenerarClaveSecreta();
+
+
+            CargarPagos(dataGridView1, "2025-06-01", "2025-06-30");
+            Thread listenerThread = new Thread(IniciarServidorHttp);
+            listenerThread.IsBackground = true;
+            listenerThread.Start();
+            //GenerarClaveSecreta();
         }
+        private void IniciarServidorHttp()
+        {
+            HttpListener listener = new HttpListener();
+            listener.Prefixes.Add("http://localhost:5000/reporte/");
+            listener.Start();
+            MessageBox.Show("Servidor HTTP iniciado en http://localhost:5000/reporte/");
+
+            while (true)
+            {
+                try
+                {
+                    HttpListenerContext context = listener.GetContext();
+                    HttpListenerRequest request = context.Request;
+                    HttpListenerResponse response = context.Response;
+
+                    // Añadir encabezado CORS
+                    response.AddHeader("Access-Control-Allow-Origin", "*");
+
+                    // Leer parámetros de query string
+                    var query = request.Url.Query; // "?fecha1=2025-06-01&fecha2=2025-06-30"
+                    var queryParams = System.Web.HttpUtility.ParseQueryString(query);
+
+                    string fecha1 = queryParams["fecha1"];
+                    string fecha2 = queryParams["fecha2"];
+
+                    // Validar que los parámetros existan
+                    if (string.IsNullOrEmpty(fecha1) || string.IsNullOrEmpty(fecha2))
+                    {
+                        response.StatusCode = 400; // Bad Request
+                        byte[] errorBuffer = Encoding.UTF8.GetBytes("{\"error\":\"Faltan parámetros fecha1 o fecha2\"}");
+                        response.ContentType = "application/json";
+                        response.ContentLength64 = errorBuffer.Length;
+                        response.OutputStream.Write(errorBuffer, 0, errorBuffer.Length);
+                        response.OutputStream.Close();
+                        continue;
+                    }
+
+                    // Obtener datos con las fechas recibidas
+                    DataTable datos = new ReporteGeneralController().FechasPagadas(fecha1, fecha2);
+
+                    // Serializar a JSON
+                    string json = JsonConvert.SerializeObject(datos, Formatting.Indented);
+
+                    byte[] buffer = Encoding.UTF8.GetBytes(json);
+                    response.ContentType = "application/json";
+                    response.ContentLength64 = buffer.Length;
+                    response.OutputStream.Write(buffer, 0, buffer.Length);
+                    response.OutputStream.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error en servidor HTTP: " + ex.Message);
+                }
+            }
+        }
+
         private string claveSecreta;
 
         private void iconButton1_Click(object sender, EventArgs e)
@@ -75,6 +142,42 @@ namespace SistemaInmobiliaria
             else
             {
                 MessageBox.Show("❌ PIN incorrecto. Intenta de nuevo.");
+            }
+        }
+
+        async public void CargarPagos(DataGridView dgvDatos, string fecha1, string fecha2)
+        {
+            try
+            {
+
+
+                //// 2. Habilitar DoubleBuffered mediante reflexión para evitar parpadeos
+                //typeof(DataGridView).InvokeMember("DoubleBuffered",
+                //    BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,
+                //    null, this.dgvDatos, new object[] { true });
+
+                dgvDatos.SuspendLayout();
+                dgvDatos.DataSource = null; // Limpiar datos anteriores
+
+                // Cargar datos asíncronamente
+                DataTable datos = await Task.Run(() => new ReporteGeneralController().FechasPagadas(fecha1, fecha2));
+                // Asignar DataSource (el DataGridView manejará los datos automáticamente)
+                dgvDatos.DataSource = datos;
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar los datos: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                // 10. Reanudar el layout una vez terminada la carga
+
+                dgvDatos.ResumeLayout();
+                new SettingController().AjustarColumnas(dgvDatos);
+
             }
         }
     }
