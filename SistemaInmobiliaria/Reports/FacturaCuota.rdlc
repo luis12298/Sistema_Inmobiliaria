@@ -11,7 +11,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>INVERSIONES MULTIPLES VICTORY</Value>
+                    <Value>RESIDENCIAL GUANACASTES</Value>
                     <Style>
                       <FontSize>16pt</FontSize>
                       <FontWeight>Bold</FontWeight>
@@ -80,7 +80,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Entrada a comontan, salida a masaguara Jesús de Otoro, Intibucá</Value>
+                    <Value>Salida a Maye, Jesus de Otoro, Intibucá</Value>
                     <Style>
                       <FontSize>12pt</FontSize>
                       <FontWeight>Bold</FontWeight>
@@ -92,7 +92,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Tel: 9369-9763</Value>
+                    <Value>Tel: 9991-8795</Value>
                     <Style>
                       <FontSize>12pt</FontSize>
                       <FontWeight>Bold</FontWeight>
@@ -104,7 +104,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>inmobiliariavictory24@gmail.com</Value>
+                    <Value>resiguanacastes@gmail.com</Value>
                     <Style>
                       <FontSize>12pt</FontSize>
                       <FontWeight>Bold</FontWeight>
@@ -204,7 +204,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Proyecto: Residencial El Ciprés</Value>
+                    <Value>Proyecto: Residencial Los Guanacastes</Value>
                     <Style>
                       <FontWeight>Bold</FontWeight>
                     </Style>
@@ -799,36 +799,6 @@
           </Border>
         </Style>
       </Line>
-      <Image Name="Image1">
-        <Source>Embedded</Source>
-        <Value>firma</Value>
-        <Sizing>Fit</Sizing>
-        <Top>9.60403cm</Top>
-        <Left>5.16516cm</Left>
-        <Height>3.34883cm</Height>
-        <Width>8.91963cm</Width>
-        <ZIndex>16</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-        </Style>
-      </Image>
-      <Image Name="Image2">
-        <Source>Embedded</Source>
-        <Value>sello</Value>
-        <Sizing>Fit</Sizing>
-        <Top>9.60403cm</Top>
-        <Left>11.72683cm</Left>
-        <Height>3.25683cm</Height>
-        <Width>3.532cm</Width>
-        <ZIndex>17</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-        </Style>
-      </Image>
     </ReportItems>
     <Height>7.175in</Height>
     <Style />

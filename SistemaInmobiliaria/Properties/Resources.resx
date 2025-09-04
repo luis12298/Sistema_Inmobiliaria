@@ -121,4 +121,7 @@
   <data name="Logo negro PNG " type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Logo negro PNG .PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Imagen_de_WhatsApp_2025-08-05_a_las_12.57.23_c60fd317-removebg-preview" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Imagen_de_WhatsApp_2025-08-05_a_las_12.57.23_c60fd317-removebg-preview.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

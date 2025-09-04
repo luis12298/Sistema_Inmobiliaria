@@ -63,6 +63,16 @@ namespace SistemaInmobiliaria.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Imagen_de_WhatsApp_2025_08_05_a_las_12_57_23_c60fd317_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("Imagen_de_WhatsApp_2025-08-05_a_las_12.57.23_c60fd317-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Logo_negro_PNG_ {
             get {
                 object obj = ResourceManager.GetObject("Logo negro PNG ", resourceCulture);

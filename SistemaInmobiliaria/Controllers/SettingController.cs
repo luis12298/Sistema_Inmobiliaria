@@ -25,34 +25,97 @@ namespace SistemaInmobiliaria.Controllers
             Light,
             Dark
         }
-        public void AjustarColumnas(DataGridView dgvDatos)
+        public void AjustarColumnas(DataGridView dgvDatos, params DataGridViewColumn[] columnasEditables)
         {
             dgvDatos.SuspendLayout();
 
-            // Configuración general
-            dgvDatos.ReadOnly = true; // Hace todas las celdas de solo lectura de una vez
-            dgvDatos.ColumnHeadersDefaultCellStyle.Font = new Font(dgvDatos.Font.FontFamily, 10.5f, FontStyle.Bold);
-            dgvDatos.EnableHeadersVisualStyles = false;
-            dgvDatos.ColumnHeadersDefaultCellStyle.BackColor = Color.LightSkyBlue;
-            dgvDatos.AllowUserToAddRows = false;
-            dgvDatos.AllowUserToOrderColumns = false;
-            dgvDatos.AllowUserToResizeRows = false;
-            dgvDatos.ColumnHeadersHeight = 45;
-            dgvDatos.ScrollBars = ScrollBars.Both;
-
-            // Ajuste de columnas (optimizado)
-            foreach (DataGridViewColumn column in dgvDatos.Columns)
+            try
             {
-                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                // ========================
+                //  ESTILO BOOTSTRAP BÁSICO
+                // ========================
+                dgvDatos.BackgroundColor = Color.White;
+                dgvDatos.BorderStyle = BorderStyle.None;
+                dgvDatos.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                dgvDatos.GridColor = Color.LightGray;
+
+                // Estilo headers (thead)
+                dgvDatos.EnableHeadersVisualStyles = false;
+                dgvDatos.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#212529");
+                dgvDatos.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                dgvDatos.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10.5f, FontStyle.Bold);
+                dgvDatos.ColumnHeadersHeight = 45;
+
+                // Estilo filas (tbody)
+                dgvDatos.DefaultCellStyle.Font = new Font("Segoe UI", 10f, FontStyle.Regular);
+                dgvDatos.DefaultCellStyle.BackColor = Color.White;
+                dgvDatos.DefaultCellStyle.ForeColor = Color.Black;
+                dgvDatos.DefaultCellStyle.SelectionBackColor = Color.LightBlue;
+                dgvDatos.DefaultCellStyle.SelectionForeColor = Color.Black;
+                dgvDatos.RowTemplate.Height = 38; // altura tipo Bootstrap
+
+                // Alternar colores (table-striped)
+                dgvDatos.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(245, 245, 245);
+
+                // ================================
+                //  AJUSTE DE COLUMNAS Y FUNCIONAL
+                // ================================
+                foreach (DataGridViewColumn column in dgvDatos.Columns)
+                {
+                    column.ReadOnly = !columnasEditables.Contains(column);
+                    column.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                    column.MinimumWidth = Math.Max(50, column.Width / 2);
+                }
+
+                // Última columna siempre rellena
+                if (dgvDatos.Columns.Count > 0)
+                {
+                    dgvDatos.Columns[dgvDatos.Columns.Count - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                }
+
+                // Configuración general
+                dgvDatos.AllowUserToAddRows = false;
+                dgvDatos.AllowUserToOrderColumns = false;
+                dgvDatos.AllowUserToResizeRows = false;
+                dgvDatos.ScrollBars = ScrollBars.Both;
+                dgvDatos.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+
+                // Redibujar
+                dgvDatos.Invalidate();
+                dgvDatos.Update();
             }
-
-            // Ajustar la última columna para que ocupe el espacio restante
-            if (dgvDatos.Columns.Count > 0)
+            finally
             {
+                dgvDatos.ResumeLayout(true);
+            }
+        }
+
+        // Reajustar al cambiar tamaño
+        public void RefrescarAjusteColumnas(DataGridView dgvDatos)
+        {
+            if (dgvDatos.Columns.Count == 0) return;
+
+            dgvDatos.SuspendLayout();
+
+            try
+            {
+                for (int i = 0; i < dgvDatos.Columns.Count - 1; i++)
+                {
+                    dgvDatos.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                }
+
                 dgvDatos.Columns[dgvDatos.Columns.Count - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
+            finally
+            {
+                dgvDatos.ResumeLayout(true);
+            }
+        }
 
-            dgvDatos.ResumeLayout();
+        // Evento recomendado
+        public void AsociarEventoResize(DataGridView dgvDatos)
+        {
+            dgvDatos.SizeChanged += (s, e) => RefrescarAjusteColumnas(dgvDatos);
         }
 
         public void AjustarColumnas(ListView listView)

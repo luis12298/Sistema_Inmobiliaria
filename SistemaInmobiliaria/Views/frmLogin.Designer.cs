@@ -142,7 +142,7 @@
             // iconPictureBox3
             // 
             this.iconPictureBox3.BackColor = System.Drawing.Color.Transparent;
-            this.iconPictureBox3.BackgroundImage = global::SistemaInmobiliaria.Properties.Resources.Logo_negro_PNG_;
+            this.iconPictureBox3.BackgroundImage = global::SistemaInmobiliaria.Properties.Resources.Imagen_de_WhatsApp_2025_08_05_a_las_12_57_23_c60fd317_removebg_preview;
             this.iconPictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.iconPictureBox3.ForeColor = System.Drawing.SystemColors.ControlText;
             this.iconPictureBox3.IconChar = FontAwesome.Sharp.IconChar.None;

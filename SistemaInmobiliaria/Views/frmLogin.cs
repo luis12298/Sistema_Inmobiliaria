@@ -110,7 +110,7 @@ namespace SistemaInmobiliaria.Views
             DateTime fechaActual = DateTime.Now;
             if (fechaActual.Day >= 28 && fechaActual.Day <= 30)
             {
-                if (new LicenciaInfo().VerificarLicencia("cipres"))
+                if (new LicenciaInfo().VerificarLicencia("guanacastes"))
                 {
                     //MessageBox.Show("Nice");
                 }

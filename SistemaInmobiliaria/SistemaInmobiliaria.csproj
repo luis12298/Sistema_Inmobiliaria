@@ -623,6 +623,7 @@
     <Content Include="icono-vectorial-marketing-casa-p %282%29.ico" />
     <Content Include="icono-vectorial-marketing-casa-p.ico" />
     <Content Include="Notes\Notas.txt" />
+    <None Include="Resources\Imagen_de_WhatsApp_2025-08-05_a_las_12.57.23_c60fd317-removebg-preview.png" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
