@@ -51,10 +51,10 @@ namespace SistemaInmobiliaria.Views
             SettingController settingController = new SettingController();
             BootstrapStyler.ApplyBootstrapStyle(txtUsuario);
             BootstrapStyler.ApplyBootstrapStyle(txtContrasena);
-            TextBoxIndent.AplicarIndentacionVisual(txtUsuario, 35);
-            TextBoxIndent.AplicarIndentacionVisual(txtContrasena, 35);
-            PlaceholderController.SetPlaceholder(txtUsuario, "Usuario");
-            PlaceholderController.SetPlaceholder(txtContrasena, "Contraseña");
+            //TextBoxIndent.AplicarIndentacionVisual(txtUsuario, 35);
+            //TextBoxIndent.AplicarIndentacionVisual(txtContrasena, 35);
+            PlaceholderController.SetPlaceholder(txtUsuario, "Usuario", 25, 0);
+            PlaceholderController.SetPlaceholder(txtContrasena, "Contraseña", 25, 0);
 
             txtContrasena.PasswordChar = '\u25CF';
             //evitar saltos de lineas en los textbox

@@ -39,8 +39,8 @@ namespace SistemaInmobiliaria.Views
             SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Danger, btnEliminarContrato);
             BootstrapStyler.ApplyBootstrapStyle(txtFiltrar);
 
-            PlaceholderController.SetPlaceholder(txtFiltrar, "Filtrar");
-            TextBoxIndent.AplicarIndentacionVisual(txtFiltrar, 35);
+            PlaceholderController.SetPlaceholder(txtFiltrar, "Filtrar", 25, 0);
+            //TextBoxIndent.AplicarIndentacionVisual(txtFiltrar, 35);
             this.Resize += (s, e) =>
             {
 

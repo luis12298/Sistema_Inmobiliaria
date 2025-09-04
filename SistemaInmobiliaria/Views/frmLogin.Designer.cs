@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLogin));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.btnPin = new FontAwesome.Sharp.IconButton();
             this.iconPictureBox1 = new FontAwesome.Sharp.IconPictureBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -41,8 +43,6 @@
             this.btnRecuperar = new System.Windows.Forms.LinkLabel();
             this.btnGoogle = new FontAwesome.Sharp.IconButton();
             this.btnIniciar = new FontAwesome.Sharp.IconButton();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconPictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconPictureBox3)).BeginInit();
@@ -65,10 +65,33 @@
             this.panel1.Controls.Add(this.btnRecuperar);
             this.panel1.Controls.Add(this.btnGoogle);
             this.panel1.Controls.Add(this.btnIniciar);
-            this.panel1.Location = new System.Drawing.Point(381, 11);
+            this.panel1.Location = new System.Drawing.Point(286, 9);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(500, 719);
+            this.panel1.Size = new System.Drawing.Size(375, 584);
             this.panel1.TabIndex = 1;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(29, 281);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(85, 18);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "Contraseña";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(29, 203);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(60, 18);
+            this.label2.TabIndex = 11;
+            this.label2.Text = "Usuario";
             // 
             // btnPin
             // 
@@ -79,9 +102,10 @@
             this.btnPin.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnPin.IconSize = 40;
             this.btnPin.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPin.Location = new System.Drawing.Point(92, 524);
+            this.btnPin.Location = new System.Drawing.Point(69, 426);
+            this.btnPin.Margin = new System.Windows.Forms.Padding(2);
             this.btnPin.Name = "btnPin";
-            this.btnPin.Size = new System.Drawing.Size(316, 50);
+            this.btnPin.Size = new System.Drawing.Size(237, 41);
             this.btnPin.TabIndex = 10;
             this.btnPin.Text = "Iniciar con token";
             this.btnPin.UseVisualStyleBackColor = false;
@@ -95,9 +119,11 @@
             this.iconPictureBox1.IconChar = FontAwesome.Sharp.IconChar.UserAlt;
             this.iconPictureBox1.IconColor = System.Drawing.SystemColors.ControlText;
             this.iconPictureBox1.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconPictureBox1.Location = new System.Drawing.Point(43, 282);
+            this.iconPictureBox1.IconSize = 24;
+            this.iconPictureBox1.Location = new System.Drawing.Point(32, 234);
+            this.iconPictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.iconPictureBox1.Name = "iconPictureBox1";
-            this.iconPictureBox1.Size = new System.Drawing.Size(32, 33);
+            this.iconPictureBox1.Size = new System.Drawing.Size(24, 27);
             this.iconPictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.iconPictureBox1.TabIndex = 7;
             this.iconPictureBox1.TabStop = false;
@@ -106,9 +132,10 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(183, 160);
+            this.label1.Location = new System.Drawing.Point(137, 130);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(129, 39);
+            this.label1.Size = new System.Drawing.Size(104, 31);
             this.label1.TabIndex = 5;
             this.label1.Text = "Acceso";
             // 
@@ -121,10 +148,11 @@
             this.iconPictureBox3.IconChar = FontAwesome.Sharp.IconChar.None;
             this.iconPictureBox3.IconColor = System.Drawing.SystemColors.ControlText;
             this.iconPictureBox3.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconPictureBox3.IconSize = 132;
-            this.iconPictureBox3.Location = new System.Drawing.Point(129, 42);
+            this.iconPictureBox3.IconSize = 107;
+            this.iconPictureBox3.Location = new System.Drawing.Point(97, 34);
+            this.iconPictureBox3.Margin = new System.Windows.Forms.Padding(2);
             this.iconPictureBox3.Name = "iconPictureBox3";
-            this.iconPictureBox3.Size = new System.Drawing.Size(230, 132);
+            this.iconPictureBox3.Size = new System.Drawing.Size(172, 107);
             this.iconPictureBox3.TabIndex = 9;
             this.iconPictureBox3.TabStop = false;
             // 
@@ -135,9 +163,11 @@
             this.iconPictureBox2.IconChar = FontAwesome.Sharp.IconChar.Lock;
             this.iconPictureBox2.IconColor = System.Drawing.SystemColors.ControlText;
             this.iconPictureBox2.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconPictureBox2.Location = new System.Drawing.Point(43, 377);
+            this.iconPictureBox2.IconSize = 24;
+            this.iconPictureBox2.Location = new System.Drawing.Point(32, 311);
+            this.iconPictureBox2.Margin = new System.Windows.Forms.Padding(2);
             this.iconPictureBox2.Name = "iconPictureBox2";
-            this.iconPictureBox2.Size = new System.Drawing.Size(32, 33);
+            this.iconPictureBox2.Size = new System.Drawing.Size(24, 27);
             this.iconPictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.iconPictureBox2.TabIndex = 8;
             this.iconPictureBox2.TabStop = false;
@@ -153,36 +183,40 @@
             this.btnMostrar.IconColor = System.Drawing.Color.Black;
             this.btnMostrar.IconFont = FontAwesome.Sharp.IconFont.Solid;
             this.btnMostrar.IconSize = 30;
-            this.btnMostrar.Location = new System.Drawing.Point(430, 379);
+            this.btnMostrar.Location = new System.Drawing.Point(314, 308);
+            this.btnMostrar.Margin = new System.Windows.Forms.Padding(2);
             this.btnMostrar.Name = "btnMostrar";
-            this.btnMostrar.Size = new System.Drawing.Size(24, 30);
+            this.btnMostrar.Size = new System.Drawing.Size(26, 24);
             this.btnMostrar.TabIndex = 6;
             this.btnMostrar.UseVisualStyleBackColor = true;
             this.btnMostrar.Click += new System.EventHandler(this.btnMostrar_Click);
             // 
             // txtUsuario
             // 
-            this.txtUsuario.Location = new System.Drawing.Point(42, 280);
+            this.txtUsuario.Location = new System.Drawing.Point(32, 228);
+            this.txtUsuario.Margin = new System.Windows.Forms.Padding(2);
             this.txtUsuario.Multiline = true;
             this.txtUsuario.Name = "txtUsuario";
-            this.txtUsuario.Size = new System.Drawing.Size(420, 40);
+            this.txtUsuario.Size = new System.Drawing.Size(316, 33);
             this.txtUsuario.TabIndex = 4;
             // 
             // txtContrasena
             // 
-            this.txtContrasena.Location = new System.Drawing.Point(42, 376);
+            this.txtContrasena.Location = new System.Drawing.Point(32, 306);
+            this.txtContrasena.Margin = new System.Windows.Forms.Padding(2);
             this.txtContrasena.Multiline = true;
             this.txtContrasena.Name = "txtContrasena";
-            this.txtContrasena.Size = new System.Drawing.Size(420, 40);
+            this.txtContrasena.Size = new System.Drawing.Size(316, 33);
             this.txtContrasena.TabIndex = 3;
             // 
             // btnRecuperar
             // 
             this.btnRecuperar.AutoSize = true;
             this.btnRecuperar.Enabled = false;
-            this.btnRecuperar.Location = new System.Drawing.Point(187, 687);
+            this.btnRecuperar.Location = new System.Drawing.Point(140, 558);
+            this.btnRecuperar.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.btnRecuperar.Name = "btnRecuperar";
-            this.btnRecuperar.Size = new System.Drawing.Size(147, 16);
+            this.btnRecuperar.Size = new System.Drawing.Size(119, 13);
             this.btnRecuperar.TabIndex = 2;
             this.btnRecuperar.TabStop = true;
             this.btnRecuperar.Text = "¿Olvidó su contraseña?";
@@ -197,9 +231,10 @@
             this.btnGoogle.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnGoogle.IconSize = 40;
             this.btnGoogle.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGoogle.Location = new System.Drawing.Point(92, 595);
+            this.btnGoogle.Location = new System.Drawing.Point(69, 483);
+            this.btnGoogle.Margin = new System.Windows.Forms.Padding(2);
             this.btnGoogle.Name = "btnGoogle";
-            this.btnGoogle.Size = new System.Drawing.Size(316, 50);
+            this.btnGoogle.Size = new System.Drawing.Size(237, 41);
             this.btnGoogle.TabIndex = 1;
             this.btnGoogle.Text = "Iniciar Google";
             this.btnGoogle.UseVisualStyleBackColor = false;
@@ -217,42 +252,24 @@
             this.btnIniciar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnIniciar.IconSize = 40;
             this.btnIniciar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnIniciar.Location = new System.Drawing.Point(92, 450);
+            this.btnIniciar.Location = new System.Drawing.Point(69, 366);
+            this.btnIniciar.Margin = new System.Windows.Forms.Padding(2);
             this.btnIniciar.Name = "btnIniciar";
-            this.btnIniciar.Size = new System.Drawing.Size(316, 50);
+            this.btnIniciar.Size = new System.Drawing.Size(237, 41);
             this.btnIniciar.TabIndex = 0;
             this.btnIniciar.Text = "Iniciar";
             this.btnIniciar.UseVisualStyleBackColor = false;
             this.btnIniciar.Click += new System.EventHandler(this.btnIniciar_Click);
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(39, 250);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(74, 24);
-            this.label2.TabIndex = 11;
-            this.label2.Text = "Usuario";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(39, 346);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(106, 24);
-            this.label3.TabIndex = 12;
-            this.label3.Text = "Contraseña";
-            // 
             // frmLogin
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1262, 742);
+            this.ClientSize = new System.Drawing.Size(946, 603);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "frmLogin";
             this.Text = "Login ";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmLogin_FormClosing);

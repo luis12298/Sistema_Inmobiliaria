@@ -57,9 +57,11 @@
             this.groupBox1.Controls.Add(this.txtContrasenaC);
             this.groupBox1.Controls.Add(this.txtContrasena);
             this.groupBox1.Controls.Add(this.txtUsuario);
-            this.groupBox1.Location = new System.Drawing.Point(13, 70);
+            this.groupBox1.Location = new System.Drawing.Point(10, 57);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(836, 214);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Size = new System.Drawing.Size(627, 174);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos usuarios";
@@ -71,9 +73,10 @@
             this.btnCancelar.IconColor = System.Drawing.Color.Black;
             this.btnCancelar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnCancelar.IconSize = 30;
-            this.btnCancelar.Location = new System.Drawing.Point(701, 11);
+            this.btnCancelar.Location = new System.Drawing.Point(526, 9);
+            this.btnCancelar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(129, 35);
+            this.btnCancelar.Size = new System.Drawing.Size(97, 40);
             this.btnCancelar.TabIndex = 7;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -87,9 +90,10 @@
             this.btnEliminar.IconColor = System.Drawing.Color.White;
             this.btnEliminar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnEliminar.IconSize = 30;
-            this.btnEliminar.Location = new System.Drawing.Point(667, 176);
+            this.btnEliminar.Location = new System.Drawing.Point(501, 134);
+            this.btnEliminar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(163, 35);
+            this.btnEliminar.Size = new System.Drawing.Size(122, 40);
             this.btnEliminar.TabIndex = 6;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -103,9 +107,10 @@
             this.btnActualizar.IconColor = System.Drawing.Color.White;
             this.btnActualizar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnActualizar.IconSize = 30;
-            this.btnActualizar.Location = new System.Drawing.Point(501, 176);
+            this.btnActualizar.Location = new System.Drawing.Point(377, 134);
+            this.btnActualizar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnActualizar.Name = "btnActualizar";
-            this.btnActualizar.Size = new System.Drawing.Size(163, 35);
+            this.btnActualizar.Size = new System.Drawing.Size(122, 40);
             this.btnActualizar.TabIndex = 5;
             this.btnActualizar.Text = "Actualizar";
             this.btnActualizar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -119,9 +124,10 @@
             this.btnGuardar.IconColor = System.Drawing.Color.White;
             this.btnGuardar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnGuardar.IconSize = 30;
-            this.btnGuardar.Location = new System.Drawing.Point(332, 176);
+            this.btnGuardar.Location = new System.Drawing.Point(250, 134);
+            this.btnGuardar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(163, 35);
+            this.btnGuardar.Size = new System.Drawing.Size(122, 40);
             this.btnGuardar.TabIndex = 4;
             this.btnGuardar.Text = "Guardar nuevo";
             this.btnGuardar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -131,30 +137,34 @@
             // dtpFecha
             // 
             this.dtpFecha.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFecha.Location = new System.Drawing.Point(19, 183);
+            this.dtpFecha.Location = new System.Drawing.Point(14, 149);
+            this.dtpFecha.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dtpFecha.Name = "dtpFecha";
-            this.dtpFecha.Size = new System.Drawing.Size(200, 22);
+            this.dtpFecha.Size = new System.Drawing.Size(151, 20);
             this.dtpFecha.TabIndex = 3;
             // 
             // txtContrasenaC
             // 
-            this.txtContrasenaC.Location = new System.Drawing.Point(252, 121);
+            this.txtContrasenaC.Location = new System.Drawing.Point(200, 98);
+            this.txtContrasenaC.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtContrasenaC.Name = "txtContrasenaC";
-            this.txtContrasenaC.Size = new System.Drawing.Size(227, 22);
+            this.txtContrasenaC.Size = new System.Drawing.Size(171, 20);
             this.txtContrasenaC.TabIndex = 2;
             // 
             // txtContrasena
             // 
-            this.txtContrasena.Location = new System.Drawing.Point(19, 121);
+            this.txtContrasena.Location = new System.Drawing.Point(14, 98);
+            this.txtContrasena.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtContrasena.Name = "txtContrasena";
-            this.txtContrasena.Size = new System.Drawing.Size(227, 22);
+            this.txtContrasena.Size = new System.Drawing.Size(171, 20);
             this.txtContrasena.TabIndex = 1;
             // 
             // txtUsuario
             // 
-            this.txtUsuario.Location = new System.Drawing.Point(19, 49);
+            this.txtUsuario.Location = new System.Drawing.Point(14, 40);
+            this.txtUsuario.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtUsuario.Name = "txtUsuario";
-            this.txtUsuario.Size = new System.Drawing.Size(227, 22);
+            this.txtUsuario.Size = new System.Drawing.Size(171, 20);
             this.txtUsuario.TabIndex = 0;
             // 
             // panel1
@@ -164,9 +174,10 @@
             this.panel1.BackColor = System.Drawing.SystemColors.ControlLight;
             this.panel1.Controls.Add(this.btnCerrar);
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Location = new System.Drawing.Point(13, 12);
+            this.panel1.Location = new System.Drawing.Point(10, 10);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(836, 40);
+            this.panel1.Size = new System.Drawing.Size(627, 32);
             this.panel1.TabIndex = 8;
             // 
             // btnCerrar
@@ -181,9 +192,10 @@
             this.btnCerrar.IconColor = System.Drawing.Color.Black;
             this.btnCerrar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnCerrar.IconSize = 44;
-            this.btnCerrar.Location = new System.Drawing.Point(788, -3);
+            this.btnCerrar.Location = new System.Drawing.Point(591, -2);
+            this.btnCerrar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnCerrar.Name = "btnCerrar";
-            this.btnCerrar.Size = new System.Drawing.Size(48, 48);
+            this.btnCerrar.Size = new System.Drawing.Size(36, 39);
             this.btnCerrar.TabIndex = 19;
             this.btnCerrar.UseVisualStyleBackColor = false;
             this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
@@ -191,9 +203,10 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 13);
+            this.label2.Location = new System.Drawing.Point(12, 11);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(131, 16);
+            this.label2.Size = new System.Drawing.Size(103, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "Listados de usuarios";
             // 
@@ -203,21 +216,23 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(13, 290);
+            this.listView1.Location = new System.Drawing.Point(10, 236);
+            this.listView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(836, 222);
+            this.listView1.Size = new System.Drawing.Size(628, 181);
             this.listView1.TabIndex = 9;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
             // 
             // frmUsuario
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(861, 524);
+            this.ClientSize = new System.Drawing.Size(646, 426);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox1);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "frmUsuario";
             this.Text = "Usuarios";
             this.groupBox1.ResumeLayout(false);

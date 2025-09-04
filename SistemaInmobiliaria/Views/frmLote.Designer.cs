@@ -67,9 +67,11 @@
             this.groupBox1.Controls.Add(this.txtVaras);
             this.groupBox1.Controls.Add(this.txtMetros);
             this.groupBox1.Controls.Add(this.txtNo);
-            this.groupBox1.Location = new System.Drawing.Point(12, 52);
+            this.groupBox1.Location = new System.Drawing.Point(9, 42);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(840, 274);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox1.Size = new System.Drawing.Size(630, 264);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Nuevo lote";
@@ -83,9 +85,10 @@
             this.btnCancelar.IconColor = System.Drawing.Color.White;
             this.btnCancelar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnCancelar.IconSize = 30;
-            this.btnCancelar.Location = new System.Drawing.Point(420, 233);
+            this.btnCancelar.Location = new System.Drawing.Point(292, 213);
+            this.btnCancelar.Margin = new System.Windows.Forms.Padding(2);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(134, 35);
+            this.btnCancelar.Size = new System.Drawing.Size(109, 40);
             this.btnCancelar.TabIndex = 12;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -95,9 +98,10 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(376, 109);
+            this.label2.Location = new System.Drawing.Point(287, 106);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(50, 16);
+            this.label2.Size = new System.Drawing.Size(40, 13);
             this.label2.TabIndex = 11;
             this.label2.Text = "Estado";
             // 
@@ -105,9 +109,10 @@
             // 
             this.cmbEstado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbEstado.FormattingEnabled = true;
-            this.cmbEstado.Location = new System.Drawing.Point(379, 128);
+            this.cmbEstado.Location = new System.Drawing.Point(289, 121);
+            this.cmbEstado.Margin = new System.Windows.Forms.Padding(2);
             this.cmbEstado.Name = "cmbEstado";
-            this.cmbEstado.Size = new System.Drawing.Size(154, 24);
+            this.cmbEstado.Size = new System.Drawing.Size(265, 21);
             this.cmbEstado.TabIndex = 10;
             // 
             // btnMostrar
@@ -117,9 +122,10 @@
             this.btnMostrar.IconColor = System.Drawing.Color.Black;
             this.btnMostrar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnMostrar.IconSize = 30;
-            this.btnMostrar.Location = new System.Drawing.Point(180, 233);
+            this.btnMostrar.Location = new System.Drawing.Point(146, 213);
+            this.btnMostrar.Margin = new System.Windows.Forms.Padding(2);
             this.btnMostrar.Name = "btnMostrar";
-            this.btnMostrar.Size = new System.Drawing.Size(167, 35);
+            this.btnMostrar.Size = new System.Drawing.Size(142, 40);
             this.btnMostrar.TabIndex = 9;
             this.btnMostrar.Text = "Mostrar listado";
             this.btnMostrar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -135,9 +141,10 @@
             this.btnEliminar.IconColor = System.Drawing.Color.White;
             this.btnEliminar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnEliminar.IconSize = 30;
-            this.btnEliminar.Location = new System.Drawing.Point(700, 233);
+            this.btnEliminar.Location = new System.Drawing.Point(524, 213);
+            this.btnEliminar.Margin = new System.Windows.Forms.Padding(2);
             this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(134, 35);
+            this.btnEliminar.Size = new System.Drawing.Size(100, 40);
             this.btnEliminar.TabIndex = 8;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -153,9 +160,10 @@
             this.btnActualizar.IconColor = System.Drawing.Color.White;
             this.btnActualizar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnActualizar.IconSize = 30;
-            this.btnActualizar.Location = new System.Drawing.Point(560, 233);
+            this.btnActualizar.Location = new System.Drawing.Point(405, 213);
+            this.btnActualizar.Margin = new System.Windows.Forms.Padding(2);
             this.btnActualizar.Name = "btnActualizar";
-            this.btnActualizar.Size = new System.Drawing.Size(134, 35);
+            this.btnActualizar.Size = new System.Drawing.Size(114, 40);
             this.btnActualizar.TabIndex = 7;
             this.btnActualizar.Text = "Actualizar";
             this.btnActualizar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -170,9 +178,10 @@
             this.btnNuevo.IconColor = System.Drawing.Color.White;
             this.btnNuevo.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnNuevo.IconSize = 30;
-            this.btnNuevo.Location = new System.Drawing.Point(20, 233);
+            this.btnNuevo.Location = new System.Drawing.Point(14, 213);
+            this.btnNuevo.Margin = new System.Windows.Forms.Padding(2);
             this.btnNuevo.Name = "btnNuevo";
-            this.btnNuevo.Size = new System.Drawing.Size(154, 35);
+            this.btnNuevo.Size = new System.Drawing.Size(128, 40);
             this.btnNuevo.TabIndex = 6;
             this.btnNuevo.Text = "Nuevo Lote";
             this.btnNuevo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -181,40 +190,50 @@
             // 
             // txtDescripcion
             // 
-            this.txtDescripcion.Location = new System.Drawing.Point(20, 182);
+            this.txtDescripcion.Location = new System.Drawing.Point(15, 168);
+            this.txtDescripcion.Margin = new System.Windows.Forms.Padding(2);
+            this.txtDescripcion.Multiline = true;
             this.txtDescripcion.Name = "txtDescripcion";
-            this.txtDescripcion.Size = new System.Drawing.Size(513, 22);
+            this.txtDescripcion.Size = new System.Drawing.Size(386, 35);
             this.txtDescripcion.TabIndex = 5;
             // 
             // txtPrecio
             // 
-            this.txtPrecio.Location = new System.Drawing.Point(20, 119);
+            this.txtPrecio.Location = new System.Drawing.Point(14, 107);
+            this.txtPrecio.Margin = new System.Windows.Forms.Padding(2);
+            this.txtPrecio.Multiline = true;
             this.txtPrecio.Name = "txtPrecio";
-            this.txtPrecio.Size = new System.Drawing.Size(352, 22);
+            this.txtPrecio.Size = new System.Drawing.Size(256, 35);
             this.txtPrecio.TabIndex = 3;
             // 
             // txtVaras
             // 
-            this.txtVaras.Location = new System.Drawing.Point(366, 51);
+            this.txtVaras.Location = new System.Drawing.Point(428, 41);
+            this.txtVaras.Margin = new System.Windows.Forms.Padding(2);
+            this.txtVaras.Multiline = true;
             this.txtVaras.Name = "txtVaras";
             this.txtVaras.ReadOnly = true;
-            this.txtVaras.Size = new System.Drawing.Size(167, 22);
+            this.txtVaras.Size = new System.Drawing.Size(126, 35);
             this.txtVaras.TabIndex = 2;
             // 
             // txtMetros
             // 
-            this.txtMetros.Location = new System.Drawing.Point(193, 51);
+            this.txtMetros.Location = new System.Drawing.Point(289, 41);
+            this.txtMetros.Margin = new System.Windows.Forms.Padding(2);
+            this.txtMetros.Multiline = true;
             this.txtMetros.Name = "txtMetros";
-            this.txtMetros.Size = new System.Drawing.Size(167, 22);
+            this.txtMetros.Size = new System.Drawing.Size(126, 35);
             this.txtMetros.TabIndex = 1;
             this.txtMetros.TextChanged += new System.EventHandler(this.txtMetros_TextChanged);
             this.txtMetros.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMetros_KeyPress);
             // 
             // txtNo
             // 
-            this.txtNo.Location = new System.Drawing.Point(20, 51);
+            this.txtNo.Location = new System.Drawing.Point(15, 41);
+            this.txtNo.Margin = new System.Windows.Forms.Padding(2);
+            this.txtNo.Multiline = true;
             this.txtNo.Name = "txtNo";
-            this.txtNo.Size = new System.Drawing.Size(167, 22);
+            this.txtNo.Size = new System.Drawing.Size(256, 35);
             this.txtNo.TabIndex = 0;
             this.txtNo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNo_KeyPress);
             // 
@@ -226,9 +245,10 @@
             this.lsvDatos.FullRowSelect = true;
             this.lsvDatos.GridLines = true;
             this.lsvDatos.HideSelection = false;
-            this.lsvDatos.Location = new System.Drawing.Point(12, 343);
+            this.lsvDatos.Location = new System.Drawing.Point(9, 310);
+            this.lsvDatos.Margin = new System.Windows.Forms.Padding(2);
             this.lsvDatos.Name = "lsvDatos";
-            this.lsvDatos.Size = new System.Drawing.Size(840, 337);
+            this.lsvDatos.Size = new System.Drawing.Size(631, 244);
             this.lsvDatos.TabIndex = 1;
             this.lsvDatos.UseCompatibleStateImageBehavior = false;
             this.lsvDatos.View = System.Windows.Forms.View.Details;
@@ -238,9 +258,10 @@
             // 
             this.lblTotalRegistros.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTotalRegistros.AutoSize = true;
-            this.lblTotalRegistros.Location = new System.Drawing.Point(780, 707);
+            this.lblTotalRegistros.Location = new System.Drawing.Point(585, 574);
+            this.lblTotalRegistros.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblTotalRegistros.Name = "lblTotalRegistros";
-            this.lblTotalRegistros.Size = new System.Drawing.Size(68, 16);
+            this.lblTotalRegistros.Size = new System.Drawing.Size(54, 13);
             this.lblTotalRegistros.TabIndex = 6;
             this.lblTotalRegistros.Text = "Registros:";
             // 
@@ -248,9 +269,10 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(679, 707);
+            this.label1.Location = new System.Drawing.Point(509, 574);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(68, 16);
+            this.label1.Size = new System.Drawing.Size(54, 13);
             this.label1.TabIndex = 5;
             this.label1.Text = "Registros:";
             // 
@@ -266,9 +288,10 @@
             this.btnCerrar.IconColor = System.Drawing.Color.Black;
             this.btnCerrar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnCerrar.IconSize = 44;
-            this.btnCerrar.Location = new System.Drawing.Point(804, 12);
+            this.btnCerrar.Location = new System.Drawing.Point(603, 10);
+            this.btnCerrar.Margin = new System.Windows.Forms.Padding(2);
             this.btnCerrar.Name = "btnCerrar";
-            this.btnCerrar.Size = new System.Drawing.Size(48, 48);
+            this.btnCerrar.Size = new System.Drawing.Size(36, 39);
             this.btnCerrar.TabIndex = 18;
             this.btnCerrar.UseVisualStyleBackColor = false;
             this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
@@ -277,9 +300,11 @@
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Location = new System.Drawing.Point(12, 686);
+            this.groupBox2.Location = new System.Drawing.Point(9, 557);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(661, 48);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox2.Size = new System.Drawing.Size(496, 39);
             this.groupBox2.TabIndex = 19;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Reporte";
@@ -287,23 +312,25 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 21);
+            this.label3.Location = new System.Drawing.Point(4, 17);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(44, 16);
+            this.label3.Size = new System.Drawing.Size(35, 13);
             this.label3.TabIndex = 0;
             this.label3.Text = "label3";
             // 
             // frmLote
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(858, 744);
+            this.ClientSize = new System.Drawing.Size(644, 604);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnCerrar);
             this.Controls.Add(this.lblTotalRegistros);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lsvDatos);
             this.Controls.Add(this.groupBox1);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "frmLote";
             this.Text = "Lotes";
             this.groupBox1.ResumeLayout(false);

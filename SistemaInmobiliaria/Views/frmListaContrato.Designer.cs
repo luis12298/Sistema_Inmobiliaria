@@ -55,9 +55,10 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1089, 652);
+            this.label1.Location = new System.Drawing.Point(817, 530);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(68, 16);
+            this.label1.Size = new System.Drawing.Size(54, 13);
             this.label1.TabIndex = 3;
             this.label1.Text = "Registros:";
             // 
@@ -65,9 +66,10 @@
             // 
             this.lblTotalRegistros.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTotalRegistros.AutoSize = true;
-            this.lblTotalRegistros.Location = new System.Drawing.Point(1190, 652);
+            this.lblTotalRegistros.Location = new System.Drawing.Point(892, 530);
+            this.lblTotalRegistros.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblTotalRegistros.Name = "lblTotalRegistros";
-            this.lblTotalRegistros.Size = new System.Drawing.Size(68, 16);
+            this.lblTotalRegistros.Size = new System.Drawing.Size(54, 13);
             this.lblTotalRegistros.TabIndex = 4;
             this.lblTotalRegistros.Text = "Registros:";
             // 
@@ -79,9 +81,10 @@
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.btnEditarContrato);
             this.panel2.Controls.Add(this.btnEliminarContrato);
-            this.panel2.Location = new System.Drawing.Point(12, 132);
+            this.panel2.Location = new System.Drawing.Point(11, 138);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1260, 41);
+            this.panel2.Size = new System.Drawing.Size(946, 40);
             this.panel2.TabIndex = 5;
             // 
             // btnEditarContrato
@@ -93,9 +96,10 @@
             this.btnEditarContrato.IconColor = System.Drawing.Color.White;
             this.btnEditarContrato.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnEditarContrato.IconSize = 30;
-            this.btnEditarContrato.Location = new System.Drawing.Point(1048, 2);
+            this.btnEditarContrato.Location = new System.Drawing.Point(727, -1);
+            this.btnEditarContrato.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnEditarContrato.Name = "btnEditarContrato";
-            this.btnEditarContrato.Size = new System.Drawing.Size(92, 35);
+            this.btnEditarContrato.Size = new System.Drawing.Size(112, 40);
             this.btnEditarContrato.TabIndex = 3;
             this.btnEditarContrato.Text = "Editar";
             this.btnEditarContrato.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -111,9 +115,10 @@
             this.btnEliminarContrato.IconColor = System.Drawing.Color.White;
             this.btnEliminarContrato.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnEliminarContrato.IconSize = 30;
-            this.btnEliminarContrato.Location = new System.Drawing.Point(1146, 2);
+            this.btnEliminarContrato.Location = new System.Drawing.Point(843, -1);
+            this.btnEliminarContrato.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnEliminarContrato.Name = "btnEliminarContrato";
-            this.btnEliminarContrato.Size = new System.Drawing.Size(109, 35);
+            this.btnEliminarContrato.Size = new System.Drawing.Size(99, 40);
             this.btnEliminarContrato.TabIndex = 4;
             this.btnEliminarContrato.Text = "Eliminar";
             this.btnEliminarContrato.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -131,9 +136,10 @@
             this.btnNuevoContrato.IconColor = System.Drawing.Color.White;
             this.btnNuevoContrato.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnNuevoContrato.IconSize = 30;
-            this.btnNuevoContrato.Location = new System.Drawing.Point(1061, 1);
+            this.btnNuevoContrato.Location = new System.Drawing.Point(796, 1);
+            this.btnNuevoContrato.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnNuevoContrato.Name = "btnNuevoContrato";
-            this.btnNuevoContrato.Size = new System.Drawing.Size(193, 40);
+            this.btnNuevoContrato.Size = new System.Drawing.Size(145, 40);
             this.btnNuevoContrato.TabIndex = 0;
             this.btnNuevoContrato.Text = "Nuevo contrato";
             this.btnNuevoContrato.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -147,17 +153,19 @@
             this.panel1.BackColor = System.Drawing.SystemColors.ControlLight;
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.btnNuevoContrato);
-            this.panel1.Location = new System.Drawing.Point(15, 48);
+            this.panel1.Location = new System.Drawing.Point(11, 39);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1257, 40);
+            this.panel1.Size = new System.Drawing.Size(943, 40);
             this.panel1.TabIndex = 7;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 13);
+            this.label2.Location = new System.Drawing.Point(12, 11);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(135, 16);
+            this.label2.Size = new System.Drawing.Size(108, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "Listados de contratos";
             // 
@@ -173,9 +181,10 @@
             this.btnCerrar.IconColor = System.Drawing.Color.Black;
             this.btnCerrar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnCerrar.IconSize = 44;
-            this.btnCerrar.Location = new System.Drawing.Point(1223, -1);
+            this.btnCerrar.Location = new System.Drawing.Point(917, -1);
+            this.btnCerrar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnCerrar.Name = "btnCerrar";
-            this.btnCerrar.Size = new System.Drawing.Size(48, 48);
+            this.btnCerrar.Size = new System.Drawing.Size(36, 39);
             this.btnCerrar.TabIndex = 18;
             this.btnCerrar.UseVisualStyleBackColor = false;
             this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
@@ -186,11 +195,12 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvDatos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDatos.Location = new System.Drawing.Point(15, 179);
+            this.dgvDatos.Location = new System.Drawing.Point(11, 182);
+            this.dgvDatos.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dgvDatos.Name = "dgvDatos";
             this.dgvDatos.RowHeadersWidth = 51;
             this.dgvDatos.RowTemplate.Height = 24;
-            this.dgvDatos.Size = new System.Drawing.Size(1256, 378);
+            this.dgvDatos.Size = new System.Drawing.Size(942, 270);
             this.dgvDatos.TabIndex = 19;
             this.dgvDatos.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDatos_CellClick);
             this.dgvDatos.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvDatos_CellFormatting);
@@ -202,18 +212,20 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.BackColor = System.Drawing.Color.White;
             this.panel3.Controls.Add(this.txtProyeccion);
-            this.panel3.Location = new System.Drawing.Point(15, 563);
+            this.panel3.Location = new System.Drawing.Point(11, 457);
+            this.panel3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1257, 86);
+            this.panel3.Size = new System.Drawing.Size(943, 70);
             this.panel3.TabIndex = 20;
             // 
             // txtProyeccion
             // 
             this.txtProyeccion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtProyeccion.Location = new System.Drawing.Point(1077, 52);
+            this.txtProyeccion.Location = new System.Drawing.Point(808, 42);
+            this.txtProyeccion.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtProyeccion.Name = "txtProyeccion";
             this.txtProyeccion.ReadOnly = true;
-            this.txtProyeccion.Size = new System.Drawing.Size(167, 22);
+            this.txtProyeccion.Size = new System.Drawing.Size(126, 20);
             this.txtProyeccion.TabIndex = 0;
             // 
             // panel4
@@ -222,9 +234,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel4.Controls.Add(this.iconPictureBox2);
             this.panel4.Controls.Add(this.txtFiltrar);
-            this.panel4.Location = new System.Drawing.Point(15, 90);
+            this.panel4.Location = new System.Drawing.Point(11, 80);
+            this.panel4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1257, 40);
+            this.panel4.Size = new System.Drawing.Size(943, 50);
             this.panel4.TabIndex = 21;
             // 
             // iconPictureBox2
@@ -234,27 +247,29 @@
             this.iconPictureBox2.IconChar = FontAwesome.Sharp.IconChar.MagnifyingGlass;
             this.iconPictureBox2.IconColor = System.Drawing.SystemColors.ControlText;
             this.iconPictureBox2.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconPictureBox2.IconSize = 28;
-            this.iconPictureBox2.Location = new System.Drawing.Point(5, 7);
+            this.iconPictureBox2.IconSize = 21;
+            this.iconPictureBox2.Location = new System.Drawing.Point(14, 19);
+            this.iconPictureBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.iconPictureBox2.Name = "iconPictureBox2";
-            this.iconPictureBox2.Size = new System.Drawing.Size(28, 28);
+            this.iconPictureBox2.Size = new System.Drawing.Size(21, 23);
             this.iconPictureBox2.TabIndex = 11;
             this.iconPictureBox2.TabStop = false;
             // 
             // txtFiltrar
             // 
-            this.txtFiltrar.Location = new System.Drawing.Point(3, 3);
+            this.txtFiltrar.Location = new System.Drawing.Point(10, 9);
+            this.txtFiltrar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtFiltrar.Multiline = true;
             this.txtFiltrar.Name = "txtFiltrar";
-            this.txtFiltrar.Size = new System.Drawing.Size(597, 32);
+            this.txtFiltrar.Size = new System.Drawing.Size(449, 35);
             this.txtFiltrar.TabIndex = 10;
             this.txtFiltrar.TextChanged += new System.EventHandler(this.txtFiltrar_TextChanged_1);
             // 
             // frmListaContrato
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1284, 677);
+            this.ClientSize = new System.Drawing.Size(963, 550);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.dgvDatos);
@@ -263,6 +278,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.lblTotalRegistros);
             this.Controls.Add(this.label1);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "frmListaContrato";
             this.Text = "Listado contratos";
             this.panel2.ResumeLayout(false);

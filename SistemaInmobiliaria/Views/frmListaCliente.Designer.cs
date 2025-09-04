@@ -35,9 +35,11 @@
             // 
             // txtFiltrar
             // 
-            this.txtFiltrar.Location = new System.Drawing.Point(12, 55);
+            this.txtFiltrar.Location = new System.Drawing.Point(9, 32);
+            this.txtFiltrar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtFiltrar.Multiline = true;
             this.txtFiltrar.Name = "txtFiltrar";
-            this.txtFiltrar.Size = new System.Drawing.Size(361, 22);
+            this.txtFiltrar.Size = new System.Drawing.Size(272, 35);
             this.txtFiltrar.TabIndex = 5;
             this.txtFiltrar.TextChanged += new System.EventHandler(this.txtFiltrar_TextChanged);
             // 
@@ -49,9 +51,10 @@
             this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
             this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(12, 97);
+            this.listView1.Location = new System.Drawing.Point(9, 79);
+            this.listView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(689, 325);
+            this.listView1.Size = new System.Drawing.Size(518, 265);
             this.listView1.TabIndex = 4;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.DoubleClick += new System.EventHandler(this.listView1_DoubleClick);
@@ -60,20 +63,22 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(457, 61);
+            this.label1.Location = new System.Drawing.Point(343, 50);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(233, 16);
+            this.label1.Size = new System.Drawing.Size(183, 13);
             this.label1.TabIndex = 6;
             this.label1.Text = "Doble clic para seleccionar el registro";
             // 
             // frmListaCliente
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(713, 450);
+            this.ClientSize = new System.Drawing.Size(535, 366);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtFiltrar);
             this.Controls.Add(this.listView1);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "frmListaCliente";
             this.Text = "Listado de clientes";
             this.ResumeLayout(false);

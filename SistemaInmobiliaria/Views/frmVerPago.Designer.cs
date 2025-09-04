@@ -40,19 +40,22 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvDatos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDatos.Location = new System.Drawing.Point(12, 98);
+            this.dgvDatos.Location = new System.Drawing.Point(9, 80);
+            this.dgvDatos.Margin = new System.Windows.Forms.Padding(2);
             this.dgvDatos.Name = "dgvDatos";
             this.dgvDatos.RowHeadersWidth = 51;
             this.dgvDatos.RowTemplate.Height = 24;
-            this.dgvDatos.Size = new System.Drawing.Size(776, 310);
+            this.dgvDatos.Size = new System.Drawing.Size(582, 252);
             this.dgvDatos.TabIndex = 0;
             this.dgvDatos.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDatos_CellClick);
             // 
             // txtFiltrar
             // 
-            this.txtFiltrar.Location = new System.Drawing.Point(12, 59);
+            this.txtFiltrar.Location = new System.Drawing.Point(9, 37);
+            this.txtFiltrar.Margin = new System.Windows.Forms.Padding(2);
+            this.txtFiltrar.Multiline = true;
             this.txtFiltrar.Name = "txtFiltrar";
-            this.txtFiltrar.Size = new System.Drawing.Size(448, 22);
+            this.txtFiltrar.Size = new System.Drawing.Size(337, 35);
             this.txtFiltrar.TabIndex = 1;
             this.txtFiltrar.TextChanged += new System.EventHandler(this.txtFiltrar_TextChanged);
             // 
@@ -63,9 +66,10 @@
             this.btnExportar.IconColor = System.Drawing.Color.Black;
             this.btnExportar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnExportar.IconSize = 30;
-            this.btnExportar.Location = new System.Drawing.Point(603, 50);
+            this.btnExportar.Location = new System.Drawing.Point(424, 28);
+            this.btnExportar.Margin = new System.Windows.Forms.Padding(2);
             this.btnExportar.Name = "btnExportar";
-            this.btnExportar.Size = new System.Drawing.Size(185, 40);
+            this.btnExportar.Size = new System.Drawing.Size(165, 40);
             this.btnExportar.TabIndex = 2;
             this.btnExportar.Text = "Exportar en pdf";
             this.btnExportar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -74,12 +78,13 @@
             // 
             // frmVerPago
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 506);
+            this.ClientSize = new System.Drawing.Size(600, 411);
             this.Controls.Add(this.btnExportar);
             this.Controls.Add(this.txtFiltrar);
             this.Controls.Add(this.dgvDatos);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "frmVerPago";
             this.Text = "Ver pagos";
             ((System.ComponentModel.ISupportInitialize)(this.dgvDatos)).EndInit();

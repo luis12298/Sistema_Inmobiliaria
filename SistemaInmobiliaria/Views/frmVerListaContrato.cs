@@ -25,7 +25,7 @@ namespace SistemaInmobiliaria.Views
             lsvDatos.Resize += (s, e) => settingC.AjustarColumnas(lsvDatos);
             txtFiltrar.Select();
 
-            PlaceholderController.SetPlaceholder(txtFiltrar, "Buscar dato");
+            PlaceholderController.SetPlaceholder(txtFiltrar, "Buscar dato", 0, 0);
             TextBoxIndent.AplicarIndentacionVisual(txtFiltrar, 30);
             lsvDatos.KeyDown += (s, e) =>
             {
@@ -213,6 +213,8 @@ namespace SistemaInmobiliaria.Views
                 }
             };
         }
+
+
     }
 }
 

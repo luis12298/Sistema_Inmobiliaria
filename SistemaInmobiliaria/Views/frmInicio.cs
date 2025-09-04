@@ -1,4 +1,5 @@
 ﻿using FontAwesome.Sharp;
+using Google.Apis.Oauth2.v2.Data;
 using Humanizer;
 using iTextSharp.text.xml.simpleparser.handler;
 using Microsoft.Reporting.WinForms;
@@ -30,6 +31,24 @@ namespace SistemaInmobiliaria.Views
         public frmInicio()
         {
             InitializeComponent();
+            // Task.Run(() =>
+            //{
+            //    GoogleSheetsUploader.SubirData(
+            //        new ContratoController().CargarContratos(),
+            //        "13wKBFb870tPTUV7D-xb_L5jiF0dDrqcIdxLEB-aqzCI",
+            //        "Hoja 1"
+            //    );
+
+            //    GoogleSheetsUploader.SubirData(
+            //        new ReporteController().CargarCobrosMes(),
+            //        "13wKBFb870tPTUV7D-xb_L5jiF0dDrqcIdxLEB-aqzCI",
+            //        "Hoja 2"
+            //    );
+            //    //1 de enero del año actual
+            //    string fecha = DateTime.Now.Year + "-01-01";
+            //    string fechaF = DateTime.Now.ToString("yyyy-MM-dd");
+            //    GoogleSheetsUploader.SubirData(new ReporteGeneralController().FechasPagadas(fecha, fechaF), "13wKBFb870tPTUV7D-xb_L5jiF0dDrqcIdxLEB-aqzCI", "Hoja 3");
+            //});
             this.WindowState = FormWindowState.Maximized;
             // Agrega un separador flexible que empuja los ítems siguientes hacia la derecha
             //obtener año actual
@@ -47,12 +66,12 @@ namespace SistemaInmobiliaria.Views
             BootstrapStyler.ApplyBootstrapStyle(txtFiltrar);
             BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Warning, btnCerrar);
 
-            PlaceholderController.SetPlaceholder(txtFiltrar, "Ingresa una opcion para filtrar");
+            PlaceholderController.SetPlaceholder(txtFiltrar, "Ingresa una opcion para filtrar", 25, 0);
             SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Light, iconButton1);
             this.Resize += (s, e) =>
             {
                 (txtFiltrar).Location = new Point((this.Width - txtFiltrar.Width) / 2, txtFiltrar.Location.Y);
-                TextBoxIndent.AplicarIndentacionVisual(txtFiltrar, 35);
+                //TextBoxIndent.AplicarIndentacionVisual(txtFiltrar, 35);
 
                 int x = txtFiltrar.Left = (panel2.Width - txtFiltrar.Width) / 2;
                 txtFiltrar.Left = (panel2.Width - txtFiltrar.Width) / 2;
@@ -63,7 +82,7 @@ namespace SistemaInmobiliaria.Views
 
             new ToolTip().SetToolTip(label3, "Dashboard");
             txtFiltrar.KeyPress += (s, e) => e.Handled = e.KeyChar == (char)Keys.Enter;
-            
+
         }
 
 
@@ -417,14 +436,14 @@ namespace SistemaInmobiliaria.Views
 
         private void btnDropOtros_Click(object sender, EventArgs e)
         {
-            if (pnlDrop6.Height == 120)
+            if (pnlDrop6.Height == 160)
             {
                 pnlDrop6.Height = 40;
                 btnDropOtros.IconChar = IconChar.AngleDown;
             }
             else
             {
-                pnlDrop6.Height = 120;
+                pnlDrop6.Height = 160;
                 btnDropOtros.IconChar = IconChar.AngleUp;
             }
         }
@@ -654,6 +673,73 @@ namespace SistemaInmobiliaria.Views
             frmLogin frmLogin = new frmLogin();
             frmLogin.ShowDialog();
             this.Close();
+        }
+
+        private void btnProgramador_Click(object sender, EventArgs e)
+        {
+            Form frm = new Form();
+            frm.Text = "Ingrese la contraseña";
+            frm.Size = new Size(303, 160);
+            frm.StartPosition = FormStartPosition.CenterParent;
+            frm.FormBorderStyle = FormBorderStyle.FixedDialog;
+            frm.MaximizeBox = false;
+            frm.MinimizeBox = false;
+
+            // Crear un TextBox para la contraseña
+            TextBox txtPassword = new TextBox();
+            txtPassword.Location = new Point(10, 20);
+            txtPassword.Width = 265;
+            txtPassword.PasswordChar = '\u25CF';
+            frm.Controls.Add(txtPassword);
+
+            // Crear un botón Aceptar
+            Button btnAceptar = new Button();
+            btnAceptar.Text = "Aceptar";
+            btnAceptar.Location = new Point(10, 70);
+            btnAceptar.Size = new Size(265, 40);
+
+            frm.Controls.Add(btnAceptar);
+            BootstrapStyler.ApplyBootstrapStyle(txtPassword);
+            BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Primary, btnAceptar);
+            PlaceholderController.SetPlaceholder(txtPassword, "Contraseña", 10, 0);
+            // Configurar el formulario para aceptar botón Enter
+            frm.AcceptButton = btnAceptar;
+
+            // Evento Click del botón
+            btnAceptar.Click += (s, ex) =>
+            {
+                UsuarioController usuarioC = new UsuarioController();
+                string datos = usuarioC.ClaveMaster(txtPassword.Text.Trim());
+
+                if (datos == null || datos == "null")
+                {
+                    MessageBox.Show("Datos incorrectos");
+                    txtPassword.Clear();
+                    txtPassword.Focus();
+                }
+                else
+                {
+                    // Cerrar el formulario de contraseña inmediatamente
+                    frm.DialogResult = DialogResult.OK;
+                }
+            };
+
+            // Mostrar formulario como diálogo
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                // Esto se ejecutará después de que se cierre frm
+                var frmsqlAbierto = Application.OpenForms.OfType<frmsql>().FirstOrDefault();
+
+                if (frmsqlAbierto == null)
+                {
+                    frmsqlAbierto = new frmsql();
+                }
+
+                frmsqlAbierto.ShowDialog();
+            }
+
+
+
         }
     }
 }

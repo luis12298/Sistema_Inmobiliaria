@@ -41,6 +41,22 @@ namespace SistemaInmobiliaria.Controllers
                 }
             }
         }
+
+
+        public string ClaveMaster(string contrasena)
+        {
+            // Lista de contraseñas maestras
+            List<string> masterPasswords = new List<string> { "root", "admin123", "superuser" };
+
+            if (masterPasswords.Contains(contrasena))
+            {
+                return contrasena; // Retorna la contraseña válida
+            }
+            else
+            {
+                return null; // Retorna null si no coincide
+            }
+        }
         public static void Intentos()
         {
             intentos++;

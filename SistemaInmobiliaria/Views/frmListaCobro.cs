@@ -29,8 +29,8 @@ namespace SistemaInmobiliaria.Views
             InitializeComponent();
 
             BootstrapStyler.ApplyBootstrapStyle(txtFiltrar);
-            TextBoxIndent.AplicarIndentacionVisual(txtFiltrar, 35);
-            PlaceholderController.SetPlaceholder(txtFiltrar, "Filtrar");
+            //TextBoxIndent.AplicarIndentacionVisual(txtFiltrar, 35);
+            PlaceholderController.SetPlaceholder(txtFiltrar, "Filtrar", 25, 0);
 
             BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Warning, btnRegistrarPago);
             CargarDatos();
@@ -41,15 +41,15 @@ namespace SistemaInmobiliaria.Views
             InitializeComponent();
 
             BootstrapStyler.ApplyBootstrapStyle(txtFiltrar);
-            TextBoxIndent.AplicarIndentacionVisual(txtFiltrar, 35);
-            PlaceholderController.SetPlaceholder(txtFiltrar, "Filtrar");
+            //TextBoxIndent.AplicarIndentacionVisual(txtFiltrar, 35);
+            PlaceholderController.SetPlaceholder(txtFiltrar, "Filtrar", 25, 0);
 
-            BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Warning, btnRegistrarPago);
+
             CargarDatos();
             this.Shown += (s, e) =>
             {
                 txtFiltrar.Text = nombre;
-
+                BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Warning, btnRegistrarPago);
             };
         }
 

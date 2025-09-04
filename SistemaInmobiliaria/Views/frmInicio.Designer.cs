@@ -67,6 +67,7 @@
             this.iconPictureBox2 = new FontAwesome.Sharp.IconPictureBox();
             this.iconButton1 = new FontAwesome.Sharp.IconButton();
             this.btnToggle = new System.Windows.Forms.Button();
+            this.btnProgramador = new FontAwesome.Sharp.IconButton();
             this.panel1.SuspendLayout();
             this.pnlDrop1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconPictureBox1)).BeginInit();
@@ -84,8 +85,9 @@
             // 
             this.Main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Main.Location = new System.Drawing.Point(250, 48);
+            this.Main.Margin = new System.Windows.Forms.Padding(2);
             this.Main.Name = "Main";
-            this.Main.Size = new System.Drawing.Size(1135, 517);
+            this.Main.Size = new System.Drawing.Size(950, 544);
             this.Main.TabIndex = 1;
             // 
             // panel1
@@ -94,36 +96,40 @@
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 565);
+            this.panel1.Location = new System.Drawing.Point(0, 592);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1385, 54);
+            this.panel1.Size = new System.Drawing.Size(1200, 44);
             this.panel1.TabIndex = 3;
             // 
             // lblHora
             // 
             this.lblHora.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblHora.AutoSize = true;
-            this.lblHora.Location = new System.Drawing.Point(1249, 13);
+            this.lblHora.Location = new System.Drawing.Point(1098, 11);
+            this.lblHora.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblHora.Name = "lblHora";
-            this.lblHora.Size = new System.Drawing.Size(44, 16);
+            this.lblHora.Size = new System.Drawing.Size(35, 13);
             this.lblHora.TabIndex = 2;
             this.lblHora.Text = "label3";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(179, 13);
+            this.label2.Location = new System.Drawing.Point(134, 11);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(44, 16);
+            this.label2.Size = new System.Drawing.Size(35, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "label2";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(23, 13);
+            this.label1.Location = new System.Drawing.Point(17, 11);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(149, 16);
+            this.label1.Size = new System.Drawing.Size(120, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Derechos reservados ©";
             // 
@@ -134,8 +140,9 @@
             this.pnlDrop1.Controls.Add(this.label3);
             this.pnlDrop1.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlDrop1.Location = new System.Drawing.Point(0, 0);
+            this.pnlDrop1.Margin = new System.Windows.Forms.Padding(2);
             this.pnlDrop1.Name = "pnlDrop1";
-            this.pnlDrop1.Size = new System.Drawing.Size(250, 58);
+            this.pnlDrop1.Size = new System.Drawing.Size(250, 47);
             this.pnlDrop1.TabIndex = 0;
             // 
             // iconPictureBox1
@@ -146,10 +153,11 @@
             this.iconPictureBox1.IconChar = FontAwesome.Sharp.IconChar.Gauge;
             this.iconPictureBox1.IconColor = System.Drawing.SystemColors.ControlText;
             this.iconPictureBox1.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconPictureBox1.IconSize = 35;
-            this.iconPictureBox1.Location = new System.Drawing.Point(41, 16);
+            this.iconPictureBox1.IconSize = 24;
+            this.iconPictureBox1.Location = new System.Drawing.Point(31, 13);
+            this.iconPictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.iconPictureBox1.Name = "iconPictureBox1";
-            this.iconPictureBox1.Size = new System.Drawing.Size(32, 32);
+            this.iconPictureBox1.Size = new System.Drawing.Size(24, 26);
             this.iconPictureBox1.TabIndex = 1;
             this.iconPictureBox1.TabStop = false;
             // 
@@ -159,9 +167,10 @@
             this.label3.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label3.Location = new System.Drawing.Point(68, 12);
+            this.label3.Location = new System.Drawing.Point(51, 10);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(95, 36);
+            this.label3.Size = new System.Drawing.Size(77, 29);
             this.label3.TabIndex = 0;
             this.label3.Text = "Lottin";
             this.label3.Click += new System.EventHandler(this.label3_Click);
@@ -173,7 +182,8 @@
             this.pnlDrop2.Controls.Add(this.btnVerCliente);
             this.pnlDrop2.Controls.Add(this.btnDropCliente);
             this.pnlDrop2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlDrop2.Location = new System.Drawing.Point(0, 58);
+            this.pnlDrop2.Location = new System.Drawing.Point(0, 47);
+            this.pnlDrop2.Margin = new System.Windows.Forms.Padding(2);
             this.pnlDrop2.Name = "pnlDrop2";
             this.pnlDrop2.Size = new System.Drawing.Size(250, 40);
             this.pnlDrop2.TabIndex = 1;
@@ -190,8 +200,9 @@
             this.btnRegisCliente.IconSize = 30;
             this.btnRegisCliente.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRegisCliente.Location = new System.Drawing.Point(0, 80);
+            this.btnRegisCliente.Margin = new System.Windows.Forms.Padding(2);
             this.btnRegisCliente.Name = "btnRegisCliente";
-            this.btnRegisCliente.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
+            this.btnRegisCliente.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
             this.btnRegisCliente.Size = new System.Drawing.Size(250, 40);
             this.btnRegisCliente.TabIndex = 2;
             this.btnRegisCliente.Text = "Registrar cliente";
@@ -212,8 +223,9 @@
             this.btnVerCliente.IconSize = 30;
             this.btnVerCliente.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnVerCliente.Location = new System.Drawing.Point(0, 40);
+            this.btnVerCliente.Margin = new System.Windows.Forms.Padding(2);
             this.btnVerCliente.Name = "btnVerCliente";
-            this.btnVerCliente.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
+            this.btnVerCliente.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
             this.btnVerCliente.Size = new System.Drawing.Size(250, 40);
             this.btnVerCliente.TabIndex = 1;
             this.btnVerCliente.Text = "Ver clientes";
@@ -237,6 +249,7 @@
             this.btnDropCliente.IconSize = 30;
             this.btnDropCliente.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnDropCliente.Location = new System.Drawing.Point(0, 0);
+            this.btnDropCliente.Margin = new System.Windows.Forms.Padding(2);
             this.btnDropCliente.Name = "btnDropCliente";
             this.btnDropCliente.Size = new System.Drawing.Size(250, 40);
             this.btnDropCliente.TabIndex = 0;
@@ -253,7 +266,8 @@
             this.pnlDrop3.Controls.Add(this.btnVerContrato);
             this.pnlDrop3.Controls.Add(this.btnDropContrato);
             this.pnlDrop3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlDrop3.Location = new System.Drawing.Point(0, 98);
+            this.pnlDrop3.Location = new System.Drawing.Point(0, 87);
+            this.pnlDrop3.Margin = new System.Windows.Forms.Padding(2);
             this.pnlDrop3.Name = "pnlDrop3";
             this.pnlDrop3.Size = new System.Drawing.Size(250, 40);
             this.pnlDrop3.TabIndex = 2;
@@ -270,8 +284,9 @@
             this.btnTramites.IconSize = 30;
             this.btnTramites.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnTramites.Location = new System.Drawing.Point(0, 120);
+            this.btnTramites.Margin = new System.Windows.Forms.Padding(2);
             this.btnTramites.Name = "btnTramites";
-            this.btnTramites.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.btnTramites.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.btnTramites.Size = new System.Drawing.Size(250, 40);
             this.btnTramites.TabIndex = 3;
             this.btnTramites.Text = "Tramites | Cobrar | Recibos";
@@ -291,8 +306,9 @@
             this.btnRegistrarContrato.IconSize = 30;
             this.btnRegistrarContrato.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRegistrarContrato.Location = new System.Drawing.Point(0, 80);
+            this.btnRegistrarContrato.Margin = new System.Windows.Forms.Padding(2);
             this.btnRegistrarContrato.Name = "btnRegistrarContrato";
-            this.btnRegistrarContrato.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.btnRegistrarContrato.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.btnRegistrarContrato.Size = new System.Drawing.Size(250, 40);
             this.btnRegistrarContrato.TabIndex = 2;
             this.btnRegistrarContrato.Text = "Registrar | Editar Contrato";
@@ -313,8 +329,9 @@
             this.btnVerContrato.IconSize = 30;
             this.btnVerContrato.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnVerContrato.Location = new System.Drawing.Point(0, 40);
+            this.btnVerContrato.Margin = new System.Windows.Forms.Padding(2);
             this.btnVerContrato.Name = "btnVerContrato";
-            this.btnVerContrato.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.btnVerContrato.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.btnVerContrato.Size = new System.Drawing.Size(250, 40);
             this.btnVerContrato.TabIndex = 1;
             this.btnVerContrato.Text = "Ver contratos";
@@ -337,6 +354,7 @@
             this.btnDropContrato.IconSize = 30;
             this.btnDropContrato.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnDropContrato.Location = new System.Drawing.Point(0, 0);
+            this.btnDropContrato.Margin = new System.Windows.Forms.Padding(2);
             this.btnDropContrato.Name = "btnDropContrato";
             this.btnDropContrato.Size = new System.Drawing.Size(250, 40);
             this.btnDropContrato.TabIndex = 0;
@@ -352,7 +370,8 @@
             this.pnlDrop4.Controls.Add(this.btnVerLotes);
             this.pnlDrop4.Controls.Add(this.btnDropLote);
             this.pnlDrop4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlDrop4.Location = new System.Drawing.Point(0, 138);
+            this.pnlDrop4.Location = new System.Drawing.Point(0, 127);
+            this.pnlDrop4.Margin = new System.Windows.Forms.Padding(2);
             this.pnlDrop4.Name = "pnlDrop4";
             this.pnlDrop4.Size = new System.Drawing.Size(250, 40);
             this.pnlDrop4.TabIndex = 3;
@@ -369,8 +388,9 @@
             this.btnRegisLote.IconSize = 30;
             this.btnRegisLote.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRegisLote.Location = new System.Drawing.Point(0, 80);
+            this.btnRegisLote.Margin = new System.Windows.Forms.Padding(2);
             this.btnRegisLote.Name = "btnRegisLote";
-            this.btnRegisLote.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.btnRegisLote.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.btnRegisLote.Size = new System.Drawing.Size(250, 40);
             this.btnRegisLote.TabIndex = 2;
             this.btnRegisLote.Text = "Registrar | Editar Lote";
@@ -391,8 +411,9 @@
             this.btnVerLotes.IconSize = 30;
             this.btnVerLotes.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnVerLotes.Location = new System.Drawing.Point(0, 40);
+            this.btnVerLotes.Margin = new System.Windows.Forms.Padding(2);
             this.btnVerLotes.Name = "btnVerLotes";
-            this.btnVerLotes.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.btnVerLotes.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.btnVerLotes.Size = new System.Drawing.Size(250, 40);
             this.btnVerLotes.TabIndex = 1;
             this.btnVerLotes.Text = "Ver lotes ingresados";
@@ -416,6 +437,7 @@
             this.btnDropLote.IconSize = 30;
             this.btnDropLote.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnDropLote.Location = new System.Drawing.Point(0, 0);
+            this.btnDropLote.Margin = new System.Windows.Forms.Padding(2);
             this.btnDropLote.Name = "btnDropLote";
             this.btnDropLote.Size = new System.Drawing.Size(250, 40);
             this.btnDropLote.TabIndex = 0;
@@ -431,7 +453,8 @@
             this.pnlDrop5.Controls.Add(this.btnRegisUsuario);
             this.pnlDrop5.Controls.Add(this.btnDropUsuario);
             this.pnlDrop5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlDrop5.Location = new System.Drawing.Point(0, 178);
+            this.pnlDrop5.Location = new System.Drawing.Point(0, 167);
+            this.pnlDrop5.Margin = new System.Windows.Forms.Padding(2);
             this.pnlDrop5.Name = "pnlDrop5";
             this.pnlDrop5.Size = new System.Drawing.Size(250, 40);
             this.pnlDrop5.TabIndex = 4;
@@ -448,8 +471,9 @@
             this.btnRegisCorreo.IconSize = 30;
             this.btnRegisCorreo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRegisCorreo.Location = new System.Drawing.Point(0, 80);
+            this.btnRegisCorreo.Margin = new System.Windows.Forms.Padding(2);
             this.btnRegisCorreo.Name = "btnRegisCorreo";
-            this.btnRegisCorreo.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.btnRegisCorreo.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.btnRegisCorreo.Size = new System.Drawing.Size(250, 40);
             this.btnRegisCorreo.TabIndex = 2;
             this.btnRegisCorreo.Text = "Agregar | Editar Correo";
@@ -469,8 +493,9 @@
             this.btnRegisUsuario.IconSize = 30;
             this.btnRegisUsuario.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRegisUsuario.Location = new System.Drawing.Point(0, 40);
+            this.btnRegisUsuario.Margin = new System.Windows.Forms.Padding(2);
             this.btnRegisUsuario.Name = "btnRegisUsuario";
-            this.btnRegisUsuario.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.btnRegisUsuario.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.btnRegisUsuario.Size = new System.Drawing.Size(250, 40);
             this.btnRegisUsuario.TabIndex = 1;
             this.btnRegisUsuario.Text = "Agregar | Editar Usuario";
@@ -494,6 +519,7 @@
             this.btnDropUsuario.IconSize = 30;
             this.btnDropUsuario.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnDropUsuario.Location = new System.Drawing.Point(0, 0);
+            this.btnDropUsuario.Margin = new System.Windows.Forms.Padding(2);
             this.btnDropUsuario.Name = "btnDropUsuario";
             this.btnDropUsuario.Size = new System.Drawing.Size(250, 40);
             this.btnDropUsuario.TabIndex = 0;
@@ -505,14 +531,16 @@
             // pnlDrop6
             // 
             this.pnlDrop6.BackColor = System.Drawing.Color.Transparent;
+            this.pnlDrop6.Controls.Add(this.btnProgramador);
             this.pnlDrop6.Controls.Add(this.btnReporteFecha);
             this.pnlDrop6.Controls.Add(this.btnReportes);
             this.pnlDrop6.Controls.Add(this.btnCalculadora);
             this.pnlDrop6.Controls.Add(this.btnDropOtros);
             this.pnlDrop6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlDrop6.Location = new System.Drawing.Point(0, 218);
+            this.pnlDrop6.Location = new System.Drawing.Point(0, 207);
+            this.pnlDrop6.Margin = new System.Windows.Forms.Padding(2);
             this.pnlDrop6.Name = "pnlDrop6";
-            this.pnlDrop6.Size = new System.Drawing.Size(250, 160);
+            this.pnlDrop6.Size = new System.Drawing.Size(250, 200);
             this.pnlDrop6.TabIndex = 5;
             // 
             // btnReporteFecha
@@ -527,8 +555,9 @@
             this.btnReporteFecha.IconSize = 30;
             this.btnReporteFecha.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnReporteFecha.Location = new System.Drawing.Point(0, 120);
+            this.btnReporteFecha.Margin = new System.Windows.Forms.Padding(2);
             this.btnReporteFecha.Name = "btnReporteFecha";
-            this.btnReporteFecha.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.btnReporteFecha.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.btnReporteFecha.Size = new System.Drawing.Size(250, 40);
             this.btnReporteFecha.TabIndex = 3;
             this.btnReporteFecha.Text = "Reporte por fecha";
@@ -549,8 +578,9 @@
             this.btnReportes.IconSize = 30;
             this.btnReportes.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnReportes.Location = new System.Drawing.Point(0, 80);
+            this.btnReportes.Margin = new System.Windows.Forms.Padding(2);
             this.btnReportes.Name = "btnReportes";
-            this.btnReportes.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.btnReportes.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.btnReportes.Size = new System.Drawing.Size(250, 40);
             this.btnReportes.TabIndex = 2;
             this.btnReportes.Text = "Reportes";
@@ -571,8 +601,9 @@
             this.btnCalculadora.IconSize = 30;
             this.btnCalculadora.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnCalculadora.Location = new System.Drawing.Point(0, 40);
+            this.btnCalculadora.Margin = new System.Windows.Forms.Padding(2);
             this.btnCalculadora.Name = "btnCalculadora";
-            this.btnCalculadora.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.btnCalculadora.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.btnCalculadora.Size = new System.Drawing.Size(250, 40);
             this.btnCalculadora.TabIndex = 1;
             this.btnCalculadora.Text = "Calculadora";
@@ -596,6 +627,7 @@
             this.btnDropOtros.IconSize = 30;
             this.btnDropOtros.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnDropOtros.Location = new System.Drawing.Point(0, 0);
+            this.btnDropOtros.Margin = new System.Windows.Forms.Padding(2);
             this.btnDropOtros.Name = "btnDropOtros";
             this.btnDropOtros.Size = new System.Drawing.Size(250, 40);
             this.btnDropOtros.TabIndex = 0;
@@ -615,8 +647,9 @@
             this.pnlSidebar.Controls.Add(this.pnlDrop1);
             this.pnlSidebar.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlSidebar.Location = new System.Drawing.Point(0, 0);
+            this.pnlSidebar.Margin = new System.Windows.Forms.Padding(2);
             this.pnlSidebar.Name = "pnlSidebar";
-            this.pnlSidebar.Size = new System.Drawing.Size(250, 565);
+            this.pnlSidebar.Size = new System.Drawing.Size(250, 592);
             this.pnlSidebar.TabIndex = 5;
             // 
             // btnCerrar
@@ -627,9 +660,10 @@
             this.btnCerrar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnCerrar.IconSize = 42;
             this.btnCerrar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCerrar.Location = new System.Drawing.Point(9, 514);
+            this.btnCerrar.Location = new System.Drawing.Point(38, 551);
+            this.btnCerrar.Margin = new System.Windows.Forms.Padding(2);
             this.btnCerrar.Name = "btnCerrar";
-            this.btnCerrar.Size = new System.Drawing.Size(232, 45);
+            this.btnCerrar.Size = new System.Drawing.Size(174, 37);
             this.btnCerrar.TabIndex = 6;
             this.btnCerrar.Text = "Cerrar sesión";
             this.btnCerrar.UseVisualStyleBackColor = true;
@@ -639,18 +673,20 @@
             // 
             this.lblRuta.AutoSize = true;
             this.lblRuta.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRuta.Location = new System.Drawing.Point(50, 17);
+            this.lblRuta.Location = new System.Drawing.Point(42, 16);
+            this.lblRuta.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblRuta.Name = "lblRuta";
-            this.lblRuta.Size = new System.Drawing.Size(46, 17);
+            this.lblRuta.Size = new System.Drawing.Size(38, 13);
             this.lblRuta.TabIndex = 7;
             this.lblRuta.Text = "Inicio";
             // 
             // txtFiltrar
             // 
-            this.txtFiltrar.Location = new System.Drawing.Point(291, 7);
+            this.txtFiltrar.Location = new System.Drawing.Point(218, 5);
+            this.txtFiltrar.Margin = new System.Windows.Forms.Padding(2);
             this.txtFiltrar.Multiline = true;
             this.txtFiltrar.Name = "txtFiltrar";
-            this.txtFiltrar.Size = new System.Drawing.Size(492, 32);
+            this.txtFiltrar.Size = new System.Drawing.Size(370, 35);
             this.txtFiltrar.TabIndex = 8;
             this.txtFiltrar.TextChanged += new System.EventHandler(this.txtFiltrar_TextChanged);
             // 
@@ -663,8 +699,9 @@
             this.panel2.Controls.Add(this.btnToggle);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(250, 0);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1135, 48);
+            this.panel2.Size = new System.Drawing.Size(950, 48);
             this.panel2.TabIndex = 6;
             // 
             // iconPictureBox2
@@ -674,10 +711,11 @@
             this.iconPictureBox2.IconChar = FontAwesome.Sharp.IconChar.MagnifyingGlass;
             this.iconPictureBox2.IconColor = System.Drawing.SystemColors.ControlText;
             this.iconPictureBox2.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconPictureBox2.IconSize = 28;
-            this.iconPictureBox2.Location = new System.Drawing.Point(293, 10);
+            this.iconPictureBox2.IconSize = 21;
+            this.iconPictureBox2.Location = new System.Drawing.Point(220, 14);
+            this.iconPictureBox2.Margin = new System.Windows.Forms.Padding(2);
             this.iconPictureBox2.Name = "iconPictureBox2";
-            this.iconPictureBox2.Size = new System.Drawing.Size(28, 28);
+            this.iconPictureBox2.Size = new System.Drawing.Size(21, 23);
             this.iconPictureBox2.TabIndex = 9;
             this.iconPictureBox2.TabStop = false;
             // 
@@ -693,9 +731,10 @@
             this.iconButton1.IconColor = System.Drawing.Color.Black;
             this.iconButton1.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.iconButton1.IconSize = 40;
-            this.iconButton1.Location = new System.Drawing.Point(1077, 6);
+            this.iconButton1.Location = new System.Drawing.Point(907, 5);
+            this.iconButton1.Margin = new System.Windows.Forms.Padding(2);
             this.iconButton1.Name = "iconButton1";
-            this.iconButton1.Size = new System.Drawing.Size(36, 36);
+            this.iconButton1.Size = new System.Drawing.Size(35, 35);
             this.iconButton1.TabIndex = 4;
             this.iconButton1.TabStop = false;
             this.iconButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
@@ -711,23 +750,48 @@
             this.btnToggle.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.btnToggle.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btnToggle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnToggle.Location = new System.Drawing.Point(8, 7);
+            this.btnToggle.Location = new System.Drawing.Point(6, 6);
+            this.btnToggle.Margin = new System.Windows.Forms.Padding(2);
             this.btnToggle.Name = "btnToggle";
-            this.btnToggle.Size = new System.Drawing.Size(35, 35);
+            this.btnToggle.Size = new System.Drawing.Size(32, 32);
             this.btnToggle.TabIndex = 6;
             this.btnToggle.UseVisualStyleBackColor = true;
             this.btnToggle.Click += new System.EventHandler(this.btnToggle_Click);
             // 
+            // btnProgramador
+            // 
+            this.btnProgramador.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnProgramador.FlatAppearance.BorderSize = 0;
+            this.btnProgramador.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnProgramador.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnProgramador.IconChar = FontAwesome.Sharp.IconChar.Gears;
+            this.btnProgramador.IconColor = System.Drawing.Color.Black;
+            this.btnProgramador.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnProgramador.IconSize = 30;
+            this.btnProgramador.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnProgramador.Location = new System.Drawing.Point(0, 160);
+            this.btnProgramador.Margin = new System.Windows.Forms.Padding(2);
+            this.btnProgramador.Name = "btnProgramador";
+            this.btnProgramador.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
+            this.btnProgramador.Size = new System.Drawing.Size(250, 40);
+            this.btnProgramador.TabIndex = 4;
+            this.btnProgramador.Text = "Programador";
+            this.btnProgramador.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnProgramador.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnProgramador.UseVisualStyleBackColor = true;
+            this.btnProgramador.Click += new System.EventHandler(this.btnProgramador_Click);
+            // 
             // frmInicio
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1385, 619);
+            this.ClientSize = new System.Drawing.Size(1200, 636);
             this.Controls.Add(this.Main);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.pnlSidebar);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "frmInicio";
             this.Text = "Lottin";
             this.panel1.ResumeLayout(false);
@@ -787,5 +851,6 @@
         private System.Windows.Forms.Panel panel2;
         private FontAwesome.Sharp.IconButton btnReporteFecha;
         private FontAwesome.Sharp.IconButton btnCerrar;
+        private FontAwesome.Sharp.IconButton btnProgramador;
     }
 }

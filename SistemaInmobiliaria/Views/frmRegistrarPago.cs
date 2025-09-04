@@ -1,4 +1,5 @@
-﻿using Microsoft.Reporting.WinForms;
+﻿using FontAwesome.Sharp;
+using Microsoft.Reporting.WinForms;
 using SistemaInmobiliaria.Controllers;
 using SistemaInmobiliaria.Models;
 using System;
@@ -466,17 +467,19 @@ namespace SistemaInmobiliaria.Views
             new SettingController().MostrarTrabajando(this);
             mostrarinform(IdG);
         }
+        private ReportViewer reportViewer;
+        private IconButton btnRegresar;
+
         private void mostrarinform(int Id)
         {
+            string numero;
+            Random random = new Random();
+            numero = random.Next(100000, 999999).ToString();
+
             try
             {
-                Form formularioVistaPrevia = new Form
-                {
-                    Text = "Vista Previa del Informe",
-                    Width = 800,
-                    Height = 600
-                };
-                ReportViewer reportViewer = new ReportViewer
+                // Crear ReportViewer
+                reportViewer = new ReportViewer
                 {
                     Dock = DockStyle.Fill,
                     ProcessingMode = ProcessingMode.Local
@@ -485,16 +488,16 @@ namespace SistemaInmobiliaria.Views
                 reportViewer.SetDisplayMode(DisplayMode.PrintLayout);
                 reportViewer.ZoomMode = ZoomMode.FullPage;
 
-                // Configuración más precisa del tamaño de página y márgenes
-                var pageSettings = new System.Drawing.Printing.PageSettings();
-                pageSettings.PaperSize = new System.Drawing.Printing.PaperSize("Letter", 850, 1100);
-                pageSettings.Margins = new System.Drawing.Printing.Margins(0, 0, 10, 10); // Márgenes más equilibrados
-                pageSettings.Landscape = false;
+                // Configuración de página
+                var pageSettings = new System.Drawing.Printing.PageSettings
+                {
+                    PaperSize = new System.Drawing.Printing.PaperSize("Letter", 850, 1100),
+                    Margins = new System.Drawing.Printing.Margins(0, 0, 0, 0),
+                    Landscape = false
+                };
                 reportViewer.SetPageSettings(pageSettings);
 
-                // Configuraciones adicionales que pueden ayudar
-                reportViewer.LocalReport.DisplayName = "Plan de Amortización";
-
+                // Configuración del informe
                 // Generar los datos y asignarlos al ReportViewer
                 LocalReport report = reportViewer.LocalReport;
                 report.ReportEmbeddedResource = "SistemaInmobiliaria.Reports.PlanAmortizacion.rdlc";
@@ -503,48 +506,70 @@ namespace SistemaInmobiliaria.Views
                 reportViewer.LocalReport.DataSources.Clear();
                 reportViewer.LocalReport.DataSources.Add(rds);
 
-                // Configurar el informe antes de renderizarlo
-                reportViewer.LocalReport.Refresh();
                 reportViewer.RefreshReport();
 
-                formularioVistaPrevia.Controls.Add(reportViewer);
-                formularioVistaPrevia.ShowDialog();
+                // Botón Regresar
+                btnRegresar = new IconButton
+                {
+                    Text = "Regresar",
+                    Dock = DockStyle.Top,
+                    Height = 40,
+                    BackColor = Color.LightGray,
+                    IconChar = IconChar.AngleLeft,
+                    IconSize = 28,
+                    TextAlign = ContentAlignment.MiddleRight,
+                    TextImageRelation = TextImageRelation.ImageBeforeText,
+                };
+                btnRegresar.Click += (s, e) =>
+                {
+                    this.Controls.Remove(reportViewer);
+                    this.Controls.Remove(btnRegresar);
+                    reportViewer.Dispose();
+                    btnRegresar.Dispose();
+                };
+
+                // Agregar al formulario
+                this.Controls.Add(reportViewer);
+                this.Controls.Add(btnRegresar);
+
+                btnRegresar.BringToFront();
+                reportViewer.BringToFront();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al mostrar la vista previa:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private void PagosClientes(int Id)
         {
+            string numero;
+            Random random = new Random();
+            numero = random.Next(100000, 999999).ToString();
 
             try
             {
-                Form formularioVistaPrevia = new Form
-                {
-                    Text = "Vista Previa del Informe",
-                    Width = 800,
-                    Height = 600
-                };
-
-                ReportViewer reportViewer = new ReportViewer
+                // Crear ReportViewer
+                reportViewer = new ReportViewer
                 {
                     Dock = DockStyle.Fill,
                     ProcessingMode = ProcessingMode.Local
                 };
 
-
                 reportViewer.SetDisplayMode(DisplayMode.PrintLayout);
                 reportViewer.ZoomMode = ZoomMode.FullPage;
 
-                var pageSettings = new System.Drawing.Printing.PageSettings();
-                pageSettings.PaperSize = new System.Drawing.Printing.PaperSize("Letter", 850, 1100);
-                pageSettings.Margins = new System.Drawing.Printing.Margins(0, 0, 10, 10);
-                pageSettings.Landscape = false;
+                // Configuración de página
+                var pageSettings = new System.Drawing.Printing.PageSettings
+                {
+                    PaperSize = new System.Drawing.Printing.PaperSize("Letter", 850, 1100),
+                    Margins = new System.Drawing.Printing.Margins(0, 0, 0, 0),
+                    Landscape = false
+                };
                 reportViewer.SetPageSettings(pageSettings);
 
-                // 🔹 Generar los datos y asignarlos al ReportViewer
-
+                // Configuración del informe
+                // Generar los datos y asignarlos al ReportViewer
                 LocalReport report = reportViewer.LocalReport;
                 report.ReportEmbeddedResource = "SistemaInmobiliaria.Reports.ReportePago.rdlc";
                 List<PagoContratoModel> datosFactura = new ReporteController().ReportePagoContrato(Id, lblCliente.Text, TotalPagado.Text, TotalRestante.Text, txtCuotaPagada.Text, txtCuotaPendiente.Text);
@@ -556,15 +581,39 @@ namespace SistemaInmobiliaria.Views
 
                 reportViewer.RefreshReport();
 
+                // Botón Regresar
+                btnRegresar = new IconButton
+                {
+                    Text = "Regresar",
+                    Dock = DockStyle.Top,
+                    Height = 40,
+                    BackColor = Color.LightGray,
+                    IconChar = IconChar.AngleLeft,
+                    IconSize = 28,
+                    TextAlign = ContentAlignment.MiddleRight,
+                    TextImageRelation = TextImageRelation.ImageBeforeText,
+                };
+                btnRegresar.Click += (s, e) =>
+                {
+                    this.Controls.Remove(reportViewer);
+                    this.Controls.Remove(btnRegresar);
+                    reportViewer.Dispose();
+                    btnRegresar.Dispose();
+                };
 
+                // Agregar al formulario
+                this.Controls.Add(reportViewer);
+                this.Controls.Add(btnRegresar);
 
-                formularioVistaPrevia.Controls.Add(reportViewer);
-                formularioVistaPrevia.ShowDialog();
+                btnRegresar.BringToFront();
+                reportViewer.BringToFront();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al mostrar la vista previa:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+
         }
 
         private void btnVerPago_Click(object sender, EventArgs e)
