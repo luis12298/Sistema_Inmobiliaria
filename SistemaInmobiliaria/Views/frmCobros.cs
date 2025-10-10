@@ -1,4 +1,5 @@
 ﻿using FontAwesome.Sharp;
+using Newtonsoft.Json.Linq;
 using SistemaInmobiliaria.Controllers;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,8 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -25,6 +28,10 @@ namespace SistemaInmobiliaria.Views
         {
             InitializeComponent();
             CargarCobros(dgvDatos2);
+            BootstrapStyler.ApplyBootstrapStyle(txtFiltrar);
+
+            PlaceholderController.SetPlaceholder(txtFiltrar, "Ingresa una opcion para filtrar", 25, 0);
+
             this.dgvDatos2.CellFormatting += (sender, e) =>
             {
                 var columnasFormateadas = new List<string> { "Cuota", "MontoPagado", "Saldo" };
@@ -41,7 +48,7 @@ namespace SistemaInmobiliaria.Views
             };
 
             BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Success, btnWhatsApp);
-
+            BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Primary, btnEjecutar);
             dgvDatos2.CellPainting += (sender, e) =>
             {
                 if (e.RowIndex >= 0 && e.ColumnIndex == dgvDatos2.Columns["Estado"].Index)
@@ -96,6 +103,45 @@ Math.Min(textSize.Width + 12, e.CellBounds.Width - 8),
                     );
 
                     e.Paint(e.CellBounds, DataGridViewPaintParts.Border);
+                }
+            };
+            dgvDatos2.CellPainting += (s, e) =>
+            {
+                if (e.ColumnIndex >= 0 && dgvDatos2.Columns[e.ColumnIndex].Name == "colMixta" && e.RowIndex >= 0)
+                {
+                    // Pinta el fondo y bordes de la celda
+                    e.Paint(e.CellBounds, DataGridViewPaintParts.All & ~DataGridViewPaintParts.ContentForeground);
+
+                    // Carga la imagen solid
+                    Image img = IconChar.Check.ToBitmap(20, 20, Color.Black);
+
+                    // Posición de la imagen al inicio (lado izquierdo)
+                    int imgX = e.CellBounds.Left + 3; // 5px de margen desde el borde izquierdo
+                    int imgY = e.CellBounds.Top + (e.CellBounds.Height - img.Height) / 2;
+
+                    // Dibuja la imagen
+                    e.Graphics.DrawImage(img, new Rectangle(imgX, imgY, img.Width, img.Height));
+
+                    // Obtiene el texto de la celda
+                    string cellText = e.FormattedValue?.ToString() ?? "";
+
+                    if (!string.IsNullOrEmpty(cellText))
+                    {
+                        // Posición del texto después de la imagen
+                        int textX = imgX + img.Width + 1; //  separación entre imagen y texto
+                        int textY = e.CellBounds.Top;
+                        int textWidth = e.CellBounds.Right - textX;
+                        int textHeight = e.CellBounds.Height;
+
+                        Rectangle textRect = new Rectangle(textX, textY, textWidth, textHeight);
+
+                        // Dibuja el texto
+                        TextRenderer.DrawText(e.Graphics, cellText, e.CellStyle.Font,
+                            textRect, e.CellStyle.ForeColor,
+                            TextFormatFlags.Left | TextFormatFlags.VerticalCenter);
+                    }
+
+                    e.Handled = true;
                 }
             };
         }
@@ -192,29 +238,59 @@ Math.Min(textSize.Width + 12, e.CellBounds.Width - 8),
             if (e.ColumnIndex == dgvDatos2.Columns["colMixta"].Index)
             {
                 frmPrincipal.SetRutaText("Contrato / Tramites / Cobrar");
-                frmPrincipal.loadform(frm);
+                frmPrincipal.loadform(frm, "frmCobros");
             }
             btnWhatsApp.Visible = true;
         }
 
         private void btnWhatsApp_Click(object sender, EventArgs e)
         {
-            string cliente = dgvDatos2.SelectedRows[0].Cells[3].Value.ToString();
-            string telefono = dgvDatos2.SelectedRows[0].Cells[2].Value.ToString();
-            string fecha = dgvDatos2.SelectedRows[0].Cells[6].Value.ToString();
-            string cuota = dgvDatos2.SelectedRows[0].Cells[7].Value.ToString();
-            string mensaje = $"Estimado/a *{cliente}*, le recordamos amablemente que el día *{Convert.ToDateTime(fecha).ToShortDateString()}* corresponde la cancelación de su cuota de *L.{cuota}* por concepto de terreno. El pago puede realizarse a la cuenta *21-602-032425-0* a nombre de *Luis Gerardo Guevara*. Agradecemos su atención y cumplimiento. Saludos cordiales.";
-            DialogResult result = CustomAlert.ShowConfirm(AlertType.Info, "Mensaje", "¿Enviar recordatorio por WhatsApp?");
-
-            if (result == DialogResult.OK)
+            try
             {
+                string cliente = dgvDatos2.SelectedRows[0].Cells[3].Value.ToString();
+                string telefono = dgvDatos2.SelectedRows[0].Cells[2].Value.ToString();
+                string fecha = dgvDatos2.SelectedRows[0].Cells[6].Value.ToString();
+                string cuota = dgvDatos2.SelectedRows[0].Cells[7].Value.ToString();
+                string lote = dgvDatos2.SelectedRows[0].Cells[10].Value.ToString();
+                string jsonString = File.ReadAllText(@"C:\Data\settings.json");
+
+                var jsonObj = JObject.Parse(jsonString);
+                string plantilla = jsonObj["MensajeW"]?.ToString() ?? "";
+
+                // Diccionario de valores
+                var valores = new Dictionary<string, string>
+{
+    { "[Cliente]", cliente },
+    { "[Fecha]", Convert.ToDateTime(fecha).ToShortDateString() },
+    { "[Cuota]", Convert.ToDouble(cuota).ToString("N2") },
+    { "[Lote]", lote }
+
+};
+
+                DialogResult result = MessageBox.Show("¿Desea enviar el recordatorio por WhatsApp?", "Recordatorio", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+
+                // Reemplazar dinámicamente
+                foreach (var kvp in valores)
+                {
+                    plantilla = plantilla.Replace(kvp.Key, kvp.Value);
+                }
+
+                string mensaje = plantilla;
+
+                if (result == DialogResult.OK)
+                {
 
 
-                NotifyWhatsapp(telefono, mensaje);
+                    NotifyWhatsapp(telefono, mensaje);
+                }
+                else
+                {
+                    MostrarRecordatorio(mensaje);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MostrarRecordatorio(mensaje);
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -402,6 +478,97 @@ Math.Min(textSize.Width + 12, e.CellBounds.Width - 8),
                 // Mostrar el menú contextual en la posición del clic derecho
                 contextMenu.Show(dgv, dgv.PointToClient(Control.MousePosition));
             }
+        }
+        private void FiltrarDataGridView(string filtro)
+        {
+            filtro = filtro.Trim().ToLower();
+
+            // Si no hay filtro, mostramos todo
+            if (string.IsNullOrEmpty(filtro))
+            {
+                foreach (DataGridViewRow row in dgvDatos2.Rows)
+                {
+                    if (!row.IsNewRow)
+                        row.Visible = true;
+                }
+                return;
+            }
+
+            // Si la fila actual va a quedar oculta, quitamos selección antes
+            dgvDatos2.CurrentCell = null;
+
+            foreach (DataGridViewRow row in dgvDatos2.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                bool coincide = row.Cells.Cast<DataGridViewCell>()
+                    .Any(c => c.Value != null &&
+                              c.Value.ToString().ToLower().Contains(filtro));
+
+                row.Visible = coincide;
+                label1.Visible = true;
+                label1.Text = $"L.{dgvDatos2.Rows.Cast<DataGridViewRow>().Where(r => r.Visible).Sum(r => Convert.ToDouble(r.Cells[7].Value)).ToString("N2", new CultureInfo("es-HN"))}";
+
+            }
+        }
+
+        private void txtFiltrar_TextChanged(object sender, EventArgs e)
+        {
+            string filtro = txtFiltrar.Text;
+            FiltrarDataGridView(filtro);
+        }
+        private void FiltrarDataGridViewPorFechas(DateTime fechaInicio, DateTime fechaFin, int columnaFecha = 0)
+        {
+            // Quitar selección actual para evitar errores con filas ocultas
+            dgvDatos2.CurrentCell = null;
+
+            foreach (DataGridViewRow row in dgvDatos2.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                bool visible = false;
+
+                // Asegúrate de que la celda no sea null
+                if (row.Cells[columnaFecha].Value != null)
+                {
+                    DateTime fecha;
+                    // Intentamos convertir la celda a fecha
+                    if (DateTime.TryParse(row.Cells[columnaFecha].Value.ToString(), out fecha))
+                    {
+                        // Si está dentro del rango, la mostramos
+                        if (fecha >= fechaInicio && fecha <= fechaFin)
+                        {
+                            visible = true;
+                        }
+                    }
+                }
+
+                row.Visible = visible;
+                label1.Visible = true;
+                //sumar total de columna cuota filtrada por fechas
+                label1.Text = $"L.{dgvDatos2.Rows.Cast<DataGridViewRow>().Where(r => r.Visible).Sum(r => Convert.ToDouble(r.Cells[7].Value)).ToString("N2", new CultureInfo("es-HN"))}";
+
+
+            }
+        }
+
+        private void btnEjecutar_Click(object sender, EventArgs e)
+        {
+            FiltrarDataGridViewPorFechas(dtpInicio.Value, dtpFinal.Value, 6);
+        }
+
+        private void iconButton1_Click(object sender, EventArgs e)
+        {
+            frmInicio formPrincipal = Application.OpenForms.OfType<frmInicio>().FirstOrDefault();
+
+            // Si existe el formulario principal, mostrar su panel de inicio
+            if (formPrincipal != null)
+            {
+                formPrincipal.loadform(new frmDashboard());
+            }
+
+            // Cerrar este formulario
+            this.Close();
         }
     }
 }

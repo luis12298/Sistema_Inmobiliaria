@@ -16,6 +16,8 @@ namespace SistemaInmobiliaria.Controllers
             Color colorDeFondo = textBox.BackColor;
             textBox.Multiline = true;
             textBox.Height = 35;
+            label.AutoSize = true;
+
             textBox.Font = new Font("Segoe UI", 13.75F, FontStyle.Regular, GraphicsUnit.Point);
             //mantener en la misma posicion
             int y = textBox.Location.Y;
@@ -95,7 +97,7 @@ namespace SistemaInmobiliaria.Controllers
 
                 label.Visible = true;
                 label.Location = GetLabelPosition();
-                label.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+                label.Font = new Font("Segoe UI", 10.75F, FontStyle.Regular);
 
                 // Ajustar color según el estado del textbox
                 if (!textBox.Enabled)

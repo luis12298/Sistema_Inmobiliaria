@@ -39,6 +39,7 @@ namespace SistemaInmobiliaria.Views
         {
             InitializeComponent();
             InicializarMenuContextualGoogle();
+            CargarImagen();
             new ToolTip().SetToolTip(btnGoogle, "Iniciar con Google, clic derecho para salir");
             this.MinimumSize = new Size(450, 570);
 
@@ -53,8 +54,8 @@ namespace SistemaInmobiliaria.Views
             BootstrapStyler.ApplyBootstrapStyle(txtContrasena);
             //TextBoxIndent.AplicarIndentacionVisual(txtUsuario, 35);
             //TextBoxIndent.AplicarIndentacionVisual(txtContrasena, 35);
-            PlaceholderController.SetPlaceholder(txtUsuario, "Usuario", 25, 0);
-            PlaceholderController.SetPlaceholder(txtContrasena, "Contraseña", 25, 0);
+            PlaceholderController.SetPlaceholder(txtUsuario, "Ingrese su ssuario", 25, 0);
+            PlaceholderController.SetPlaceholder(txtContrasena, "Ingrese su contraseña", 25, 0);
 
             txtContrasena.PasswordChar = '\u25CF';
             //evitar saltos de lineas en los textbox
@@ -110,7 +111,12 @@ namespace SistemaInmobiliaria.Views
             DateTime fechaActual = DateTime.Now;
             if (fechaActual.Day >= 28 && fechaActual.Day <= 30)
             {
-                if (new LicenciaInfo().VerificarLicencia("cipres"))
+                string jsonString = File.ReadAllText(@"C:\\Data\\settings.json");
+
+                var jsonObj = JObject.Parse(jsonString);
+
+                string licencia = jsonObj["Licencia"]?.ToString() ?? "";
+                if (new LicenciaInfo().VerificarLicencia(licencia))
                 {
                     //MessageBox.Show("Nice");
                 }
@@ -150,6 +156,31 @@ namespace SistemaInmobiliaria.Views
 
             };
         }
+        string rutaLogo;
+
+        private void CargarImagen()
+        {
+            string json = File.ReadAllText(@"C:\\Data\\settings.json");
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                MessageBox.Show("No se encuentra el archivo de configuración");
+                return;
+            }
+
+            dynamic config = JsonConvert.DeserializeObject(json);
+            string rutaLogo = config.rutaLogo;
+
+            // Validar que la ruta no esté vacía ni nula
+            if (string.IsNullOrWhiteSpace(rutaLogo) || !File.Exists(rutaLogo))
+            {
+                // No hacer nada si viene vacío o el archivo no existe
+                return;
+            }
+
+            iconPictureBox3.BackgroundImage = Image.FromFile(rutaLogo);
+            iconPictureBox3.BackgroundImageLayout = ImageLayout.Zoom;
+        }
+
         //private void InicializarArchivoLicencia()
         //{
         //    string pathJson = @"C:\Data\licencia.json";
@@ -326,8 +357,7 @@ namespace SistemaInmobiliaria.Views
 
         private void btnRecuperar_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            frmRecuperar frm = new frmRecuperar();
-            frm.ShowDialog();
+           
         }
         string tokenPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "token");
         private void btnGoogle_Click(object sender, EventArgs e)
@@ -510,6 +540,12 @@ namespace SistemaInmobiliaria.Views
             {
                 new Toast().Show(Toast.ToastType.Warning, "El PIN es incorrecto");
             }
+        }
+
+        private void btnSetting_Click(object sender, EventArgs e)
+        {
+            frmSettings frm = new frmSettings();
+            frm.ShowDialog();
         }
     }
 }

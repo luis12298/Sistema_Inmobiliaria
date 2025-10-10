@@ -26,12 +26,13 @@ namespace SistemaInmobiliaria.Views
             BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Success, btnActualizar);
             BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Danger, btnEliminar);
             BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Secondary, btnCancelar);
-            BootstrapStyler.ApplyBootstrapStyle(txtUsuario);
-            BootstrapStyler.ApplyBootstrapStyle(txtContrasena);
-            BootstrapStyler.ApplyBootstrapStyle(txtContrasenaC);
+
             new FloatingController().FloatingLabelInput(txtUsuario, "Ingrese usuario");
             new FloatingController().FloatingLabelInput(txtContrasena, "Ingrese contraseña");
             new FloatingController().FloatingLabelInput(txtContrasenaC, "Confirme contraseña");
+            BootstrapStyler.ApplyBootstrapStyle(txtUsuario);
+            BootstrapStyler.ApplyBootstrapStyle(txtContrasena);
+            BootstrapStyler.ApplyBootstrapStyle(txtContrasenaC);
             ListarUsuarios(listView1);
             settingC.AjustarColumnas(listView1);
             this.Resize += (s, e) => settingC.AjustarColumnas(listView1);

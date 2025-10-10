@@ -1,6 +1,8 @@
 ﻿using FontAwesome.Sharp;
+using SistemaInmobiliaria.Components;
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace SistemaInmobiliaria.Controllers
@@ -80,13 +82,13 @@ namespace SistemaInmobiliaria.Controllers
             };
             toastForm.Controls.Add(progressBar);
 
-            // Barra lateral de color
+            // Barra lateral
             var sideBar = new Panel { Dock = DockStyle.Left, Width = 8, BackColor = barColor };
 
             // Panel principal
             var mainPanel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(15, 12, 35, 12), BackColor = Color.White };
 
-            // Panel del icono
+            // Panel icono
             var iconPanel = new Panel { Dock = DockStyle.Left, Width = 40, BackColor = Color.Transparent };
             var iconLabel = new Label
             {
@@ -98,30 +100,22 @@ namespace SistemaInmobiliaria.Controllers
             };
             iconPanel.Controls.Add(iconLabel);
 
-            // Botón de cierre (X)
+            // Botón de cierre
             var closeButton = new Button
             {
                 Text = "❎",
-                TextAlign = ContentAlignment.MiddleCenter,
                 FlatStyle = FlatStyle.Flat,
                 ForeColor = Color.Gray,
                 BackColor = Color.White,
-                FlatAppearance = { BorderSize = 0 },
-                //Cambiar solo el tamaño de la letra
                 Font = new Font("Segoe UI", 12, FontStyle.Bold),
                 Size = new Size(40, 40),
                 Location = new Point(toastForm.Width - 40, 3),
-                //Anchor = AnchorStyles.Top | AnchorStyles.Right,
                 Cursor = Cursors.Hand
             };
             closeButton.FlatAppearance.BorderSize = 0;
-            closeButton.FlatAppearance.BorderColor = Color.White;
-            closeButton.FlatAppearance.MouseDownBackColor = Color.White;
             closeButton.FlatAppearance.MouseOverBackColor = Color.White;
-            closeButton.Click += (s, e) =>
-            {
-                toastForm.Close();
-            };
+            closeButton.FlatAppearance.MouseDownBackColor = Color.White;
+            closeButton.Click += (s, e) => toastForm.Close();
             toastForm.Controls.Add(closeButton);
 
             // Panel de contenido
@@ -152,20 +146,24 @@ namespace SistemaInmobiliaria.Controllers
             toastForm.Controls.Add(mainPanel);
             toastForm.Controls.Add(sideBar);
 
-            // Ajustar altura dinámicamente
+            // Ajustar altura dinámica
             using (Graphics g = toastForm.CreateGraphics())
             {
                 SizeF titleSize = g.MeasureString(title, titleLabel.Font);
                 SizeF messageSize = g.MeasureString(message, messageLabel.Font, contentPanel.Width - 10);
-                int requiredHeight = (int)(titleSize.Height + messageSize.Height) + 60; // + espacio extra
+                int requiredHeight = (int)(titleSize.Height + messageSize.Height) + 60;
                 toastForm.Height = Math.Max(100, Math.Min(requiredHeight, 300));
             }
 
-            // Posicionar en esquina superior derecha
-            var screen = Screen.PrimaryScreen.WorkingArea;
-            toastForm.Location = new Point(screen.Right - toastForm.Width - 10, screen.Top + 50);
-            toastForm.Show();
+            // Posicionar arriba derecha de la pantalla
+            Rectangle workingArea = Screen.PrimaryScreen.WorkingArea;
+            int x = workingArea.Right - toastForm.Width - 10;
+            int y = workingArea.Top + 50;
+            toastForm.Location = new Point(x, y);
 
+            ApplyRoundedCorners(toastForm);
+            toastForm.Show();
+            toastForm.ApplyShadow();
             // Temporizadores
             int timeLeft = 3000;
             Timer fadeOut = new Timer { Interval = 50 };
@@ -199,6 +197,20 @@ namespace SistemaInmobiliaria.Controllers
             };
 
             timer.Start();
+        }
+
+        private static void ApplyRoundedCorners(Form form, int radius = 7)
+        {
+            var path = new GraphicsPath();
+            var rect = new Rectangle(0, 0, form.Width, form.Height);
+
+            path.AddArc(rect.X, rect.Y, radius * 2, radius * 2, 180, 90);
+            path.AddArc(rect.Right - radius * 2, rect.Y, radius * 2, radius * 2, 270, 90);
+            path.AddArc(rect.Right - radius * 2, rect.Bottom - radius * 2, radius * 2, radius * 2, 0, 90);
+            path.AddArc(rect.X, rect.Bottom - radius * 2, radius * 2, radius * 2, 90, 90);
+            path.CloseFigure();
+
+            form.Region = new Region(path);
         }
     }
 }

@@ -28,9 +28,22 @@ namespace SistemaInmobiliaria.Views
         private Form currentForm;
         //PlaceholderController placeholderC = new PlaceholderController();
         private const int CP_NOCLOSE_BUTTON = 0x200;
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Alt | Keys.F4))
+            {
+                // 👉 Aquí decides qué hacer
+                Application.Exit();  // cierra toda la aplicación
+                                     // o this.Close();   // cierra solo este formulario
+                return true; // Indica que ya manejaste la tecla
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
         public frmInicio()
         {
             InitializeComponent();
+
             // Task.Run(() =>
             //{
             //    GoogleSheetsUploader.SubirData(
@@ -63,6 +76,7 @@ namespace SistemaInmobiliaria.Views
             SetLeftAlignedIcon(btnDropLote, IconChar.MapLocation, 35, Color.Black);
             SetLeftAlignedIcon(btnDropUsuario, IconChar.UserAlt, 35, Color.Black);
             SetLeftAlignedIcon(btnDropOtros, IconChar.Cogs, 35, Color.Black);
+            SetLeftAlignedIcon(btnComision, IconChar.Percent, 35, Color.Black);
             BootstrapStyler.ApplyBootstrapStyle(txtFiltrar);
             BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Warning, btnCerrar);
 
@@ -256,11 +270,10 @@ namespace SistemaInmobiliaria.Views
             }
         }
 
-        public void loadform(object Form)
+        public void loadform(object Form, string origen = null)
         {
             try
             {
-                // Cerrar el formulario actual, si existe
                 if (currentForm != null)
                 {
                     currentForm.Close();
@@ -272,34 +285,28 @@ namespace SistemaInmobiliaria.Views
                     return;
                 }
 
-                // Eliminar controles existentes en el panel Main
                 if (this.Main.Controls.Count > 0)
                 {
                     Main.Controls.Clear();
                 }
 
-                // Convertir el objeto recibido a Form
                 Form form = Form as Form;
                 if (form != null)
                 {
-                    form.TopLevel = false; // Configurar como control secundario
-                    form.FormBorderStyle = FormBorderStyle.None; // Sin borde
-                    form.Dock = DockStyle.Fill; // Llenar completamente el panel
-                    form.AutoScroll = true; // Habilitar desplazamiento si es necesario
-                    form.BackColor = Color.White; // Fondo blanco
+                    // ✅ si se pasó origen, lo guardamos en Tag
+                    if (origen != null)
+                        form.Tag = origen;
 
-                    // Agregar el formulario al panel principal
+                    form.TopLevel = false;
+                    form.FormBorderStyle = FormBorderStyle.None;
+                    form.Dock = DockStyle.Fill;
+                    form.AutoScroll = true;
+                    form.BackColor = Color.White;
+
                     this.Main.Controls.Add(form);
                     this.Main.Tag = form;
 
-                    // Mostrar el formulario
                     form.Show();
-
-                    // Evento al cerrar el formulario
-                    form.FormClosed += (s, args) =>
-                    {
-                        //loadform(new frmDashboard()); // Cargar el formulario predeterminado
-                    };
                 }
             }
             catch (Exception ex)
@@ -307,6 +314,7 @@ namespace SistemaInmobiliaria.Views
                 MessageBox.Show($"Error al cargar el formulario: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
 
         public void cobrar(string id)
@@ -338,18 +346,24 @@ namespace SistemaInmobiliaria.Views
 
         private void iconButton1_Click(object sender, EventArgs e)
         {
-            EventHandler cerrarSesionHandler = (s, ex) =>
+            EventHandler logoutHandler = (s, ex) =>
             {
+
                 this.Hide();
                 frmLogin frmLogin = new frmLogin();
                 frmLogin.ShowDialog();
                 this.Close();
+                // Lógica de cierre de sesión
             };
-            EventHandler ayuda = (s, ex) =>
+
+            EventHandler helpHandler = (s, ex) =>
             {
-                Process.Start("https://www.google.com");
+                System.Diagnostics.Process.Start("https://www.google.com");
             };
-            MenuUsuarioFlotante.Mostrar(this, (Button)sender, UsuarioModel.Usuario, cerrarSesionHandler, ayuda);
+
+            UsuarioMenu.Show(this, iconButton1, UsuarioModel.Usuario, logoutHandler, helpHandler);
+            this.ActiveControl = null;
+
 
 
 
@@ -436,14 +450,14 @@ namespace SistemaInmobiliaria.Views
 
         private void btnDropOtros_Click(object sender, EventArgs e)
         {
-            if (pnlDrop6.Height == 160)
+            if (pnlDrop6.Height == 240)
             {
                 pnlDrop6.Height = 40;
                 btnDropOtros.IconChar = IconChar.AngleDown;
             }
             else
             {
-                pnlDrop6.Height = 160;
+                pnlDrop6.Height = 240;
                 btnDropOtros.IconChar = IconChar.AngleUp;
             }
         }
@@ -740,6 +754,46 @@ namespace SistemaInmobiliaria.Views
 
 
 
+        }
+
+        private void btnConfiguracion_Click(object sender, EventArgs e)
+        {
+            frmSettings frmSettings = new frmSettings();
+            frmSettings.ShowDialog();
+        }
+
+        private void btnComision_Click(object sender, EventArgs e)
+        {
+            if (pnlVendedor.Height == 160)
+            {
+                pnlVendedor.Height = 40;
+                btnComision.IconChar = IconChar.AngleDown;
+
+            }
+            else
+            {
+                pnlVendedor.Height = 160;
+                btnComision.IconChar = IconChar.AngleUp;
+
+            }
+        }
+
+        private void btnVendedor_Click(object sender, EventArgs e)
+        {
+            loadform(new frmVendedor());
+            lblRuta.Text = "Comision / Vendedores";
+        }
+
+        private void btnVenta_Click(object sender, EventArgs e)
+        {
+            loadform(new frmVenta());
+            lblRuta.Text = "Venta / Ventas";
+        }
+
+        private void btnPagos_Click(object sender, EventArgs e)
+        {
+            loadform(new frmPagoComision());
+            lblHora.Text = "Pagos / Pagos comisiones";
         }
     }
 }

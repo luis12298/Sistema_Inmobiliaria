@@ -41,6 +41,9 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.txtProyeccion = new System.Windows.Forms.TextBox();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cmbTotal = new System.Windows.Forms.ComboBox();
             this.iconPictureBox2 = new FontAwesome.Sharp.IconPictureBox();
             this.txtFiltrar = new System.Windows.Forms.TextBox();
             this.panel2.SuspendLayout();
@@ -82,7 +85,7 @@
             this.panel2.Controls.Add(this.btnEditarContrato);
             this.panel2.Controls.Add(this.btnEliminarContrato);
             this.panel2.Location = new System.Drawing.Point(11, 138);
-            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(946, 40);
             this.panel2.TabIndex = 5;
@@ -97,7 +100,7 @@
             this.btnEditarContrato.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnEditarContrato.IconSize = 30;
             this.btnEditarContrato.Location = new System.Drawing.Point(727, -1);
-            this.btnEditarContrato.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnEditarContrato.Margin = new System.Windows.Forms.Padding(2);
             this.btnEditarContrato.Name = "btnEditarContrato";
             this.btnEditarContrato.Size = new System.Drawing.Size(112, 40);
             this.btnEditarContrato.TabIndex = 3;
@@ -116,7 +119,7 @@
             this.btnEliminarContrato.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnEliminarContrato.IconSize = 30;
             this.btnEliminarContrato.Location = new System.Drawing.Point(843, -1);
-            this.btnEliminarContrato.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnEliminarContrato.Margin = new System.Windows.Forms.Padding(2);
             this.btnEliminarContrato.Name = "btnEliminarContrato";
             this.btnEliminarContrato.Size = new System.Drawing.Size(99, 40);
             this.btnEliminarContrato.TabIndex = 4;
@@ -137,7 +140,7 @@
             this.btnNuevoContrato.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnNuevoContrato.IconSize = 30;
             this.btnNuevoContrato.Location = new System.Drawing.Point(796, 1);
-            this.btnNuevoContrato.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnNuevoContrato.Margin = new System.Windows.Forms.Padding(2);
             this.btnNuevoContrato.Name = "btnNuevoContrato";
             this.btnNuevoContrato.Size = new System.Drawing.Size(145, 40);
             this.btnNuevoContrato.TabIndex = 0;
@@ -154,7 +157,7 @@
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.btnNuevoContrato);
             this.panel1.Location = new System.Drawing.Point(11, 39);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(943, 40);
             this.panel1.TabIndex = 7;
@@ -182,7 +185,7 @@
             this.btnCerrar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnCerrar.IconSize = 44;
             this.btnCerrar.Location = new System.Drawing.Point(917, -1);
-            this.btnCerrar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnCerrar.Margin = new System.Windows.Forms.Padding(2);
             this.btnCerrar.Name = "btnCerrar";
             this.btnCerrar.Size = new System.Drawing.Size(36, 39);
             this.btnCerrar.TabIndex = 18;
@@ -196,7 +199,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvDatos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvDatos.Location = new System.Drawing.Point(11, 182);
-            this.dgvDatos.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dgvDatos.Margin = new System.Windows.Forms.Padding(2);
             this.dgvDatos.Name = "dgvDatos";
             this.dgvDatos.RowHeadersWidth = 51;
             this.dgvDatos.RowTemplate.Height = 24;
@@ -213,7 +216,7 @@
             this.panel3.BackColor = System.Drawing.Color.White;
             this.panel3.Controls.Add(this.txtProyeccion);
             this.panel3.Location = new System.Drawing.Point(11, 457);
-            this.panel3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel3.Margin = new System.Windows.Forms.Padding(2);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(943, 70);
             this.panel3.TabIndex = 20;
@@ -222,7 +225,7 @@
             // 
             this.txtProyeccion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txtProyeccion.Location = new System.Drawing.Point(808, 42);
-            this.txtProyeccion.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtProyeccion.Margin = new System.Windows.Forms.Padding(2);
             this.txtProyeccion.Name = "txtProyeccion";
             this.txtProyeccion.ReadOnly = true;
             this.txtProyeccion.Size = new System.Drawing.Size(126, 20);
@@ -232,13 +235,57 @@
             // 
             this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel4.Controls.Add(this.label3);
+            this.panel4.Controls.Add(this.label4);
+            this.panel4.Controls.Add(this.cmbTotal);
             this.panel4.Controls.Add(this.iconPictureBox2);
             this.panel4.Controls.Add(this.txtFiltrar);
             this.panel4.Location = new System.Drawing.Point(11, 80);
-            this.panel4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel4.Margin = new System.Windows.Forms.Padding(2);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(943, 50);
             this.panel4.TabIndex = 21;
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(880, 21);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(49, 13);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "Entradas";
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(712, 21);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(42, 13);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "Mostrar";
+            // 
+            // cmbTotal
+            // 
+            this.cmbTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbTotal.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbTotal.FormattingEnabled = true;
+            this.cmbTotal.Items.AddRange(new object[] {
+            "2",
+            "10",
+            "25",
+            "50",
+            "100",
+            "Todos"});
+            this.cmbTotal.Location = new System.Drawing.Point(757, 19);
+            this.cmbTotal.Margin = new System.Windows.Forms.Padding(2);
+            this.cmbTotal.Name = "cmbTotal";
+            this.cmbTotal.Size = new System.Drawing.Size(121, 21);
+            this.cmbTotal.TabIndex = 12;
+            this.cmbTotal.SelectedIndexChanged += new System.EventHandler(this.cmbTotal_SelectedIndexChanged);
             // 
             // iconPictureBox2
             // 
@@ -249,16 +296,17 @@
             this.iconPictureBox2.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.iconPictureBox2.IconSize = 21;
             this.iconPictureBox2.Location = new System.Drawing.Point(14, 19);
-            this.iconPictureBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.iconPictureBox2.Margin = new System.Windows.Forms.Padding(2);
             this.iconPictureBox2.Name = "iconPictureBox2";
             this.iconPictureBox2.Size = new System.Drawing.Size(21, 23);
             this.iconPictureBox2.TabIndex = 11;
             this.iconPictureBox2.TabStop = false;
+            this.iconPictureBox2.Click += new System.EventHandler(this.iconPictureBox2_Click);
             // 
             // txtFiltrar
             // 
             this.txtFiltrar.Location = new System.Drawing.Point(10, 9);
-            this.txtFiltrar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtFiltrar.Margin = new System.Windows.Forms.Padding(2);
             this.txtFiltrar.Multiline = true;
             this.txtFiltrar.Name = "txtFiltrar";
             this.txtFiltrar.Size = new System.Drawing.Size(449, 35);
@@ -278,7 +326,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.lblTotalRegistros);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "frmListaContrato";
             this.Text = "Listado contratos";
             this.panel2.ResumeLayout(false);
@@ -311,5 +359,8 @@
         private System.Windows.Forms.Panel panel4;
         private FontAwesome.Sharp.IconPictureBox iconPictureBox2;
         private System.Windows.Forms.TextBox txtFiltrar;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cmbTotal;
     }
 }

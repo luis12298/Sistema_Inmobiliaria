@@ -23,13 +23,14 @@ namespace SistemaInmobiliaria.Views
         public frmCorreo()
         {
             InitializeComponent();
-
             new FloatingController().FloatingLabelInput(txtCorreo, "Ingrese correo");
             new FloatingController().FloatingLabelInput(txtDescripcion, "Ingrese una descripcion");
             new FloatingController().FloatingLabelInput(txtCodigo, "Ingrese codigo");
+
             BootstrapStyler.ApplyBootstrapStyle(txtCorreo);
             BootstrapStyler.ApplyBootstrapStyle(txtDescripcion);
             BootstrapStyler.ApplyBootstrapStyle(txtCodigo);
+
 
 
 

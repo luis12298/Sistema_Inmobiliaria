@@ -1,15 +1,19 @@
 ﻿using FontAwesome.Sharp;
+using Newtonsoft.Json.Linq;
 using SistemaInmobiliaria.Controllers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -23,6 +27,10 @@ namespace SistemaInmobiliaria.Views
         {
             InitializeComponent();
             BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Warning, btnRecordatorio);
+            BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Success, btnWhatsApp);
+
+            BootstrapStyler.ApplyBootstrapStyle(txtFiltrar);
+            PlaceholderController.SetPlaceholder(txtFiltrar, "Ingresa una opcion para filtrar", 25, 0);
             CargarDatos(dgvDatos);
 
             this.Resize += (s, e) =>
@@ -104,6 +112,45 @@ namespace SistemaInmobiliaria.Views
                     e.Paint(e.CellBounds, DataGridViewPaintParts.Border);
                 }
             };
+            dgvDatos.CellPainting += (s, e) =>
+            {
+                if (e.ColumnIndex >= 0 && dgvDatos.Columns[e.ColumnIndex].Name == "colMixta" && e.RowIndex >= 0)
+                {
+                    // Pinta el fondo y bordes de la celda
+                    e.Paint(e.CellBounds, DataGridViewPaintParts.All & ~DataGridViewPaintParts.ContentForeground);
+
+                    // Carga la imagen solid
+                    Image img = IconChar.Check.ToBitmap(20, 20, Color.Black);
+
+                    // Posición de la imagen al inicio (lado izquierdo)
+                    int imgX = e.CellBounds.Left + 3; // 5px de margen desde el borde izquierdo
+                    int imgY = e.CellBounds.Top + (e.CellBounds.Height - img.Height) / 2;
+
+                    // Dibuja la imagen
+                    e.Graphics.DrawImage(img, new Rectangle(imgX, imgY, img.Width, img.Height));
+
+                    // Obtiene el texto de la celda
+                    string cellText = e.FormattedValue?.ToString() ?? "";
+
+                    if (!string.IsNullOrEmpty(cellText))
+                    {
+                        // Posición del texto después de la imagen
+                        int textX = imgX + img.Width + 1; //  separación entre imagen y texto
+                        int textY = e.CellBounds.Top;
+                        int textWidth = e.CellBounds.Right - textX;
+                        int textHeight = e.CellBounds.Height;
+
+                        Rectangle textRect = new Rectangle(textX, textY, textWidth, textHeight);
+
+                        // Dibuja el texto
+                        TextRenderer.DrawText(e.Graphics, cellText, e.CellStyle.Font,
+                            textRect, e.CellStyle.ForeColor,
+                            TextFormatFlags.Left | TextFormatFlags.VerticalCenter);
+                    }
+
+                    e.Handled = true;
+                }
+            };
         }
 
         private GraphicsPath GetRoundedRectPath(Rectangle rect, int radius)
@@ -174,9 +221,10 @@ namespace SistemaInmobiliaria.Views
             if (e.ColumnIndex == dgvDatos.Columns["colMixta"].Index)
             {
                 frmPrincipal.SetRutaText("Contrato / Tramites / Cobrar");
-                frmPrincipal.loadform(frm);
+                frmPrincipal.loadform(frm, "frmAtrasados");
             }
             btnRecordatorio.Visible = true;
+            btnWhatsApp.Visible = true;
         }
         void AgregarBoton(DataGridView dgvDatos)
         {
@@ -205,10 +253,31 @@ namespace SistemaInmobiliaria.Views
                 string cliente = dgvDatos.SelectedRows[0].Cells[3].Value.ToString();
                 string cuota = dgvDatos.SelectedRows[0].Cells[6].Value.ToString();
                 string fecha = Convert.ToDateTime(dgvDatos.SelectedRows[0].Cells[5].Value.ToString().ToString()).ToShortDateString();
-                string residencial = "Residencial El Ciprés";
                 string cuenta = "21-602-032425-0 Luis Gerardo Guevara";
+                string lote = dgvDatos.SelectedRows[0].Cells[9].Value.ToString();
+                string jsonString = File.ReadAllText(@"C:\Data\settings.json");
 
-                string mensaje = $"Estimado/a {cliente} recordarle que tiene un pago de L.{Convert.ToDouble(cuota).ToString("N2")} pendiente a su terreno en {residencial}. La Fecha de pago fue {fecha}. La cuenta a depositar es {cuenta}. Administrador General. Saludos.";
+                var jsonObj = JObject.Parse(jsonString);
+
+
+                string plantilla = jsonObj["Mensaje"]?.ToString() ?? "";
+
+                // Diccionario de valores a reemplazar
+                var valores = new Dictionary<string, string>
+{
+    { "[Cliente]", cliente },
+    { "[Cuota]", Convert.ToDouble(cuota).ToString("N2") },
+    { "[Fecha]", fecha },
+    { "[Cuenta]", cuenta },
+    { "[Lote]", lote }
+};
+
+                // Reemplazar dinámicamente
+                foreach (var kvp in valores)
+                {
+                    plantilla = plantilla.Replace(kvp.Key, kvp.Value);
+                }
+                string mensaje = plantilla;
                 MostrarRecordatorio($"{mensaje}");
 
 
@@ -381,6 +450,124 @@ namespace SistemaInmobiliaria.Views
                 // Mostrar el menú contextual en la posición del clic derecho
                 contextMenu.Show(dgv, dgv.PointToClient(Control.MousePosition));
             }
+        }
+        private void FiltrarDataGridView(string filtro)
+        {
+            filtro = filtro.Trim().ToLower();
+
+            // Si no hay filtro, mostramos todo
+            if (string.IsNullOrEmpty(filtro))
+            {
+                foreach (DataGridViewRow row in dgvDatos.Rows)
+                {
+                    if (!row.IsNewRow)
+                        row.Visible = true;
+                }
+                return;
+            }
+
+            // Si la fila actual va a quedar oculta, quitamos selección antes
+            dgvDatos.CurrentCell = null;
+
+            foreach (DataGridViewRow row in dgvDatos.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                bool coincide = row.Cells.Cast<DataGridViewCell>()
+                    .Any(c => c.Value != null &&
+                              c.Value.ToString().ToLower().Contains(filtro));
+
+                row.Visible = coincide;
+            }
+        }
+
+        private void txtFiltrar_TextChanged(object sender, EventArgs e)
+        {
+            string filtro = txtFiltrar.Text;
+            FiltrarDataGridView(filtro);
+        }
+
+        private void btnWhatsApp_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string cliente = dgvDatos.SelectedRows[0].Cells[3].Value.ToString();
+                string telefono = dgvDatos.SelectedRows[0].Cells[2].Value.ToString();
+                string fecha = dgvDatos.SelectedRows[0].Cells[5].Value.ToString();
+                string cuota = dgvDatos.SelectedRows[0].Cells[6].Value.ToString();
+                string lote = dgvDatos.SelectedRows[0].Cells[9].Value.ToString();
+                string jsonString = File.ReadAllText(@"C:\Data\settings.json");
+
+                var jsonObj = JObject.Parse(jsonString);
+                string plantilla = jsonObj["MensajeW"]?.ToString() ?? "";
+
+                // Diccionario de valores
+                var valores = new Dictionary<string, string>
+{
+    { "[Cliente]", cliente },
+    { "[Fecha]", Convert.ToDateTime(fecha).ToShortDateString() },
+    { "[Cuota]", Convert.ToDouble(cuota).ToString("N2") },
+    { "[Lote]", lote }
+
+};
+
+                DialogResult result = MessageBox.Show("¿Desea enviar el recordatorio por WhatsApp?", "Recordatorio", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+
+                // Reemplazar dinámicamente
+                foreach (var kvp in valores)
+                {
+                    plantilla = plantilla.Replace(kvp.Key, kvp.Value);
+                }
+
+                string mensaje = plantilla;
+
+                if (result == DialogResult.OK)
+                {
+
+
+                    NotifyWhatsapp(telefono, mensaje);
+                }
+                else
+                {
+                    MostrarRecordatorio(mensaje);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        public void NotifyWhatsapp(string numero, string mensaje)
+        {
+
+
+            // Codificar el mensaje para que funcione en URL
+            string mensajeCodificado = HttpUtility.UrlEncode(mensaje);
+
+            // Crear la URL de WhatsApp Web con el número y el mensaje
+            string url = $"https://wa.me/{numero.Replace("+", "")}?text={mensajeCodificado}";
+
+            // Abrir el navegador con la URL
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = url,
+                UseShellExecute = true
+            });
+        }
+
+        private void iconButton1_Click(object sender, EventArgs e)
+        {
+
+            frmInicio formPrincipal = Application.OpenForms.OfType<frmInicio>().FirstOrDefault();
+
+            // Si existe el formulario principal, mostrar su panel de inicio
+            if (formPrincipal != null)
+            {
+                formPrincipal.loadform(new frmDashboard());
+            }
+
+            // Cerrar este formulario
+            this.Close();
         }
     }
 }

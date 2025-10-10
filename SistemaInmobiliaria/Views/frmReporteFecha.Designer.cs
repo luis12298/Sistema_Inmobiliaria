@@ -52,7 +52,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvDatos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvDatos.Location = new System.Drawing.Point(26, 175);
-            this.dgvDatos.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dgvDatos.Margin = new System.Windows.Forms.Padding(2);
             this.dgvDatos.Name = "dgvDatos";
             this.dgvDatos.RowHeadersWidth = 51;
             this.dgvDatos.RowTemplate.Height = 24;
@@ -66,7 +66,7 @@
             this.dtpInicio.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpInicio.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpInicio.Location = new System.Drawing.Point(26, 111);
-            this.dtpInicio.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtpInicio.Margin = new System.Windows.Forms.Padding(2);
             this.dtpInicio.Name = "dtpInicio";
             this.dtpInicio.Size = new System.Drawing.Size(151, 27);
             this.dtpInicio.TabIndex = 1;
@@ -78,7 +78,7 @@
             this.dtpFinal.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpFinal.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpFinal.Location = new System.Drawing.Point(212, 111);
-            this.dtpFinal.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtpFinal.Margin = new System.Windows.Forms.Padding(2);
             this.dtpFinal.Name = "dtpFinal";
             this.dtpFinal.Size = new System.Drawing.Size(151, 27);
             this.dtpFinal.TabIndex = 2;
@@ -129,11 +129,11 @@
             this.btnEjecutar.IconChar = FontAwesome.Sharp.IconChar.Filter;
             this.btnEjecutar.IconColor = System.Drawing.Color.White;
             this.btnEjecutar.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnEjecutar.IconSize = 30;
-            this.btnEjecutar.Location = new System.Drawing.Point(379, 111);
-            this.btnEjecutar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnEjecutar.IconSize = 28;
+            this.btnEjecutar.Location = new System.Drawing.Point(378, 106);
+            this.btnEjecutar.Margin = new System.Windows.Forms.Padding(2);
             this.btnEjecutar.Name = "btnEjecutar";
-            this.btnEjecutar.Size = new System.Drawing.Size(110, 31);
+            this.btnEjecutar.Size = new System.Drawing.Size(110, 35);
             this.btnEjecutar.TabIndex = 7;
             this.btnEjecutar.Text = "Ejecutar";
             this.btnEjecutar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -157,7 +157,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.lblTotalRegistros);
             this.panel1.Location = new System.Drawing.Point(26, 514);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(956, 64);
             this.panel1.TabIndex = 9;
@@ -177,7 +177,7 @@
             // 
             this.TotalPagado.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.TotalPagado.Location = new System.Drawing.Point(755, 128);
-            this.TotalPagado.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TotalPagado.Margin = new System.Windows.Forms.Padding(2);
             this.TotalPagado.Name = "TotalPagado";
             this.TotalPagado.ReadOnly = true;
             this.TotalPagado.Size = new System.Drawing.Size(227, 20);
@@ -211,7 +211,7 @@
             this.Controls.Add(this.dtpFinal);
             this.Controls.Add(this.dtpInicio);
             this.Controls.Add(this.dgvDatos);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "frmReporteFecha";
             this.Text = "frmReporteFecha";
             ((System.ComponentModel.ISupportInitialize)(this.dgvDatos)).EndInit();

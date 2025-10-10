@@ -23,7 +23,7 @@ namespace SistemaInmobiliaria
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmsql());
+            Application.Run(new frmLogin());
         }
     }
 }

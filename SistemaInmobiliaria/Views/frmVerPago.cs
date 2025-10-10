@@ -18,6 +18,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using static SistemaInmobiliaria.Controllers.Alert.SweetAlert;
+using Image = System.Drawing.Image;
+using Rectangle = System.Drawing.Rectangle;
 
 namespace SistemaInmobiliaria.Views
 {
@@ -36,7 +38,45 @@ namespace SistemaInmobiliaria.Views
             floatingC.FloatingLabelInput(txtFiltrar, "Filtrar");
             BootstrapStyler.ApplyBootstrapStyle(txtFiltrar);
             BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Info, btnExportar);
+            dgvDatos.CellPainting += (s, e) =>
+            {
+                if (e.ColumnIndex >= 0 && dgvDatos.Columns[e.ColumnIndex].Name == "colMixta" && e.RowIndex >= 0)
+                {
+                    // Pinta el fondo y bordes de la celda
+                    e.Paint(e.CellBounds, DataGridViewPaintParts.All & ~DataGridViewPaintParts.ContentForeground);
 
+                    // Carga la imagen solid
+                    Image img = IconChar.Eye.ToBitmap(20, 20, Color.Black);
+
+                    // Posición de la imagen al inicio (lado izquierdo)
+                    int imgX = e.CellBounds.Left + 3; // 5px de margen desde el borde izquierdo
+                    int imgY = e.CellBounds.Top + (e.CellBounds.Height - img.Height) / 2;
+
+                    // Dibuja la imagen
+                    e.Graphics.DrawImage(img, new Rectangle(imgX, imgY, img.Width, img.Height));
+
+                    // Obtiene el texto de la celda
+                    string cellText = e.FormattedValue?.ToString() ?? "";
+
+                    if (!string.IsNullOrEmpty(cellText))
+                    {
+                        // Posición del texto después de la imagen
+                        int textX = imgX + img.Width + 1; //  separación entre imagen y texto
+                        int textY = e.CellBounds.Top;
+                        int textWidth = e.CellBounds.Right - textX;
+                        int textHeight = e.CellBounds.Height;
+
+                        Rectangle textRect = new Rectangle(textX, textY, textWidth, textHeight);
+
+                        // Dibuja el texto
+                        TextRenderer.DrawText(e.Graphics, cellText, e.CellStyle.Font,
+                            textRect, e.CellStyle.ForeColor,
+                            TextFormatFlags.Left | TextFormatFlags.VerticalCenter);
+                    }
+
+                    e.Handled = true;
+                }
+            };
         }
 
 
@@ -233,11 +273,28 @@ namespace SistemaInmobiliaria.Views
 
                 // Obtener datos
                 List<FactCuotaModel> datosFactura = new FactPrimaController().FacturaPago(Id);
+
+
                 ReportDataSource rds = new ReportDataSource("DataSet2", datosFactura);
 
                 reportViewer.LocalReport.DataSources.Clear();
                 reportViewer.LocalReport.DataSources.Add(rds);
 
+                // habilitar imágenes externas antes de pasar parámetros
+                reportViewer.LocalReport.EnableExternalImages = true;
+                // Preparar rutas (asegúrate de que existan los archivos)
+                string rutaLogo = @"file:///" + datosFactura[0].RutaLogo.Replace("\\", "/");
+                string rutaFirma = @"file:///" + datosFactura[0].RutaFirma.Replace("\\", "/");
+
+                // Crear los parámetros
+                ReportParameter[] parametros = new ReportParameter[]
+                {
+    new ReportParameter("RutaImagen", rutaLogo),
+    new ReportParameter("FirmaImagen", rutaFirma)
+                };
+
+                // Asignar los parámetros al reporte
+                reportViewer.LocalReport.SetParameters(parametros);
                 reportViewer.RefreshReport();
 
                 // Botón Regresar
@@ -261,6 +318,7 @@ namespace SistemaInmobiliaria.Views
                 };
 
                 // Agregar al formulario
+                BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Warning, btnRegresar);
                 this.Controls.Add(reportViewer);
                 this.Controls.Add(btnRegresar);
 
@@ -269,7 +327,8 @@ namespace SistemaInmobiliaria.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al mostrar la vista previa:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al mostrar la vista previa:\n{ex.Message}\n\nDetalle: {ex.InnerException}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -285,7 +344,8 @@ namespace SistemaInmobiliaria.Views
             DataGridViewButtonColumn colMixta = new DataGridViewButtonColumn();
             colMixta.HeaderText = "Acción";
             colMixta.Name = "colMixta";
-            colMixta.Text = "Imprimir";
+            colMixta.Text = "Ver factura";
+
             colMixta.ToolTipText = "Imprimir factura";
             colMixta.UseColumnTextForButtonValue = true; // Para que muestre el texto en cada botón
 

@@ -354,7 +354,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(197, 172);
+            this.label12.Location = new System.Drawing.Point(254, 175);
             this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(24, 20);
@@ -365,7 +365,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(90, 172);
+            this.label11.Location = new System.Drawing.Point(96, 172);
             this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(24, 20);
@@ -376,7 +376,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(230, 154);
+            this.label10.Location = new System.Drawing.Point(288, 151);
             this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(40, 13);
@@ -394,11 +394,11 @@
             // 
             // txtInteresAtraso
             // 
-            this.txtInteresAtraso.Location = new System.Drawing.Point(122, 169);
+            this.txtInteresAtraso.Location = new System.Drawing.Point(131, 169);
             this.txtInteresAtraso.Margin = new System.Windows.Forms.Padding(2);
             this.txtInteresAtraso.Multiline = true;
             this.txtInteresAtraso.Name = "txtInteresAtraso";
-            this.txtInteresAtraso.Size = new System.Drawing.Size(72, 35);
+            this.txtInteresAtraso.Size = new System.Drawing.Size(112, 35);
             this.txtInteresAtraso.TabIndex = 46;
             this.txtInteresAtraso.TextChanged += new System.EventHandler(this.txtInteresAtraso_TextChanged);
             // 
@@ -415,7 +415,7 @@
             // txtCuota
             // 
             this.txtCuota.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCuota.Location = new System.Drawing.Point(231, 169);
+            this.txtCuota.Location = new System.Drawing.Point(289, 172);
             this.txtCuota.Margin = new System.Windows.Forms.Padding(2);
             this.txtCuota.Multiline = true;
             this.txtCuota.Name = "txtCuota";
@@ -626,7 +626,7 @@
             // 
             this.ckPrima.AutoSize = true;
             this.ckPrima.Enabled = false;
-            this.ckPrima.Location = new System.Drawing.Point(332, 181);
+            this.ckPrima.Location = new System.Drawing.Point(390, 184);
             this.ckPrima.Margin = new System.Windows.Forms.Padding(2);
             this.ckPrima.Name = "ckPrima";
             this.ckPrima.Size = new System.Drawing.Size(70, 17);

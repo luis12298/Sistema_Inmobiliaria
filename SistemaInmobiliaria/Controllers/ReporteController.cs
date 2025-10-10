@@ -32,6 +32,7 @@ PlanCuotas AS (
     SELECT 
         co.IdContrato,
         co.IdCliente,
+        co.IdLote, -- ✅ Incluimos IdLote
         n.Numero + 1 AS NoCuota,
         DATEADD(MONTH, n.Numero, co.FechaInicio) AS FechaCuota,
         CAST(co.MontoTotal / co.CantidadCuota AS DECIMAL(18,2)) AS MontoCuota
@@ -52,6 +53,7 @@ CuotasAtrasadas AS (
         c.Nombre + ' ' + c.Apellido AS Cliente,
         c.Telefono AS Telefono,
         cp.IdContrato,
+        cp.IdLote, -- ✅ Propagamos IdLote aquí también
         cp.NoCuota AS NumeroCuota,
         cp.FechaCuota,
         cp.MontoCuota AS Cuota,
@@ -69,19 +71,22 @@ CuotasAtrasadas AS (
     WHERE cp.MontoPagado < cp.MontoCuota AND cp.FechaCuota < GETDATE()
 )
 SELECT 
-    IdContrato,
-    Identidad,
-    Telefono,
-    Cliente,
-    NumeroCuota as NoCuota,
-    FechaCuota,
-    Cuota,
-    MontoAtrasado,
-    MesAtrasado,
-    Estado
-FROM CuotasAtrasadas
-WHERE DiasAtraso > 0
-ORDER BY FechaCuota;";
+    ca.IdContrato,
+    ca.Identidad,
+    ca.Telefono,
+    ca.Cliente,
+    ca.NumeroCuota AS NoCuota,
+    ca.FechaCuota,
+    ca.Cuota,
+    ca.MontoAtrasado,
+    ca.MesAtrasado,
+    l.LoteNo,
+    ca.Estado
+    
+FROM CuotasAtrasadas ca
+JOIN Lote l ON l.IdLote = ca.IdLote
+WHERE ca.DiasAtraso > 0
+ORDER BY ca.FechaCuota;";
                 SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(query, sqlConnection);
                 sqlDataAdapter.SelectCommand.CommandType = CommandType.Text;
                 sqlDataAdapter.Fill(data);
@@ -107,6 +112,7 @@ PlanCuotas AS (
         co.IdContrato,
         co.IdCliente,
         co.FechaInicio,
+        co.IdLote,
         n.Numero + 1 AS NoCuota,
         DATEADD(MONTH, n.Numero, co.FechaInicio) AS FechaCuota,
         CAST(co.MontoTotal / co.CantidadCuota AS DECIMAL(18,2)) AS MontoCuota
@@ -125,10 +131,11 @@ CuotasDelMes AS (
     SELECT 
         c.Identificacion AS Identidad,
         c.Nombre + ' ' + c.Apellido AS Cliente,
-        c.Telefono as Telefono,
+        c.Telefono,
         cp.IdContrato,
+        cp.IdLote,
         cp.FechaInicio,
-        cp.NoCuota as NumeroCuota,
+        cp.NoCuota AS NumeroCuota,
         cp.FechaCuota,
         cp.MontoCuota AS Cuota,
         cp.MontoPagado,
@@ -144,22 +151,24 @@ CuotasDelMes AS (
     JOIN Cliente c ON c.IdCliente = cp.IdCliente
     WHERE YEAR(cp.FechaCuota) = YEAR(GETDATE()) 
       AND MONTH(cp.FechaCuota) = MONTH(GETDATE())
-      AND cp.FechaCuota >= cp.FechaInicio  -- Asegurar que la cuota no sea anterior al inicio del contrato
+      AND cp.FechaCuota >= cp.FechaInicio
 )
 SELECT 
-    IdContrato,
-    Identidad,
-    Telefono,
-    Cliente,
-    FechaInicio,
-    NumeroCuota as NoCuota,
-    FechaCuota,
-    Cuota,
-    MontoPagado,
-    Mes,
-    Estado
-FROM CuotasDelMes
-ORDER BY fechaCuota;";
+    cd.IdContrato,
+    cd.Identidad,
+    cd.Telefono,
+    cd.Cliente,
+    cd.FechaInicio,
+    cd.NumeroCuota AS NoCuota,
+    cd.FechaCuota,
+    cd.Cuota,
+    cd.MontoPagado,
+    cd.Mes,
+    l.LoteNo,
+    cd.Estado
+FROM CuotasDelMes cd
+JOIN Lote l ON l.IdLote = cd.IdLote
+ORDER BY cd.FechaCuota;";
                 SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(query, sqlConnection);
                 sqlDataAdapter.SelectCommand.CommandType = CommandType.Text;
                 sqlDataAdapter.Fill(data);

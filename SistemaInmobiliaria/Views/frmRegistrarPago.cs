@@ -47,11 +47,12 @@ namespace SistemaInmobiliaria.Views
             SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Danger, btnEliminarPago);
             SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Secondary, btnPlan);
             SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Success, btnVerPago);
+            new FloatingController().FloatingLabelInput(txtNoCuota, "No Cuota");
+            new FloatingController().FloatingLabelInput(txtMontoPagar, "Monto a Pagar");
             BootstrapStyler.ApplyBootstrapStyle(txtNoCuota);
             BootstrapStyler.ApplyBootstrapStyle(txtMontoPagar);
             Formatear(txtMontoPagar);
-            new FloatingController().FloatingLabelInput(txtNoCuota, "No Cuota");
-            new FloatingController().FloatingLabelInput(txtMontoPagar, "Monto a Pagar");
+
 
 
             ContratoModel.IdContratoG = Id;
@@ -347,9 +348,40 @@ namespace SistemaInmobiliaria.Views
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
-            frmInicio frmPrincipal = (frmInicio)this.Parent.FindForm();
-            frmPrincipal.SetRutaText("Contratos / Tramites");
-            frmPrincipal.loadform(new frmListaCobro());
+            frmInicio formPrincipal = Application.OpenForms.OfType<frmInicio>().FirstOrDefault();
+
+            if (formPrincipal != null)
+            {
+                string origen = this.Tag?.ToString();
+
+                if (origen == "frmCobros")
+                {
+                    // Volver a frmCobro
+                    formPrincipal.SetRutaText("Contratos / Cobros");
+                    formPrincipal.loadform(new frmCobros());
+                }
+                else if (origen == "frmAtrasados")
+                {
+                    // Volver a frmAtrasados
+                    formPrincipal.SetRutaText("Contratos / Atrasados");
+                    formPrincipal.loadform(new frmAtrasados());
+                }
+                else if (origen == "frmListaCobro")
+                {
+                    // Volver a frmAtrasados
+                    formPrincipal.SetRutaText("Contratos / Tramites / Cobrar");
+                    formPrincipal.loadform(new frmListaCobro());
+                }
+                else
+                {
+                    // Volver al Dashboard u otra página inicial
+                    formPrincipal.SetRutaText("Inicio");
+                    formPrincipal.loadform(new frmDashboard());
+                }
+            }
+
+            // Cerrar este formulario
+            this.Close();
         }
 
         private void ckModificar_CheckedChanged(object sender, EventArgs e)

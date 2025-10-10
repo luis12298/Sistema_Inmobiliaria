@@ -16,6 +16,7 @@ namespace SistemaInmobiliaria.Views
 {
     public partial class frmListaCobro : Form
     {
+        public DataTable dtG = null;
         SettingController settingC = new SettingController();
         ContratoController contratoC = new ContratoController();
         PaginationManager paginationManager = new PaginationManager();
@@ -33,52 +34,16 @@ namespace SistemaInmobiliaria.Views
             PlaceholderController.SetPlaceholder(txtFiltrar, "Filtrar", 25, 0);
 
             BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Warning, btnRegistrarPago);
-            CargarDatos();
-
-        }
-        public frmListaCobro(string nombre)
-        {
-            InitializeComponent();
-
-            BootstrapStyler.ApplyBootstrapStyle(txtFiltrar);
-            //TextBoxIndent.AplicarIndentacionVisual(txtFiltrar, 35);
-            PlaceholderController.SetPlaceholder(txtFiltrar, "Filtrar", 25, 0);
-
-
-            CargarDatos();
-            this.Shown += (s, e) =>
+            cmbTotal.DataSource = paginationManager.FillPageSizeComboBox();
+            cmbTotal.DisplayMember = "Value";
+            cmbTotal.ValueMember = "Key";
+            //cmbTotal.SelectedItem = cmbTotal.Items[2];
+            int cmbTotalValue = int.Parse(cmbTotal.SelectedValue.ToString());
+            paginationManager.Setup(dgvDatos, CargarDato(), panel3, cmbTotalValue);
+            cmbTotal.SelectedIndex = 1;
+            dgvDatos.DataBindingComplete += (s, ex) =>
             {
-                txtFiltrar.Text = nombre;
-                BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Warning, btnRegistrarPago);
-            };
-        }
 
-
-        private async void CargarDatos()
-        {
-
-            typeof(DataGridView).InvokeMember("DoubleBuffered",
-                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,
-                null, dgvDatos, new object[] { true });
-
-            // 2. Suspende el layout durante la actualización
-            dgvDatos.SuspendLayout();
-
-            try
-            {
-                // 3. Carga los datos en segundo plano
-                var datos = await Task.Run(() => contratoC.CargarContratos());
-
-                // 4. Actualiza el DataGridView de una sola vez
-                dgvDatos.DataSource = datos;
-                originalDataTable = datos.Copy();
-                paginationManager.Setup(dgvDatos, datos, panel3, 20);
-                settingC.AjustarColumnas(dgvDatos);
-            }
-            finally
-            {
-                // 5. Reanuda el layout
-                dgvDatos.ResumeLayout();
                 settingC.AjustarColumnas(dgvDatos);
                 dgvDatos.Columns["IdLote"].Visible = false;
                 //sumar total de registros
@@ -96,8 +61,54 @@ namespace SistemaInmobiliaria.Views
                         e.FormattingApplied = true;
                     }
                 };
-            }
+            };
         }
+        public frmListaCobro(string nombre)
+        {
+            InitializeComponent();
+
+            BootstrapStyler.ApplyBootstrapStyle(txtFiltrar);
+            //TextBoxIndent.AplicarIndentacionVisual(txtFiltrar, 35);
+            PlaceholderController.SetPlaceholder(txtFiltrar, "Filtrar", 25, 0);
+
+
+
+            this.Shown += (s, e) =>
+            {
+                txtFiltrar.Text = nombre;
+                BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Warning, btnRegistrarPago);
+            };
+        }
+        public void CargarContratos() => dgvDatos.DataSource = CargarDato();
+        public DataTable CargarDato()
+        {
+            DataTable datos = null;
+            try
+            {
+                typeof(DataGridView).InvokeMember("DoubleBuffered",
+              BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,
+              null, dgvDatos, new object[] { true });
+
+                // 2. Suspende el layout durante la actualización
+                dgvDatos.SuspendLayout();
+                datos = Task.Run(() => contratoC.CargarContratos())
+                           .ConfigureAwait(false)
+                           .GetAwaiter()
+                           .GetResult();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar los datos: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                // 10. Reanudar el layout una vez terminada la carga
+                dgvDatos.ResumeLayout();
+            }
+            return datos;
+        }
+
 
         private void btnRegistrarPago_Click(object sender, EventArgs e)
         {
@@ -111,7 +122,7 @@ namespace SistemaInmobiliaria.Views
                 frmInicio frmPrincipal = (frmInicio)this.Parent.FindForm();
                 frmRegistrarPago frm = new frmRegistrarPago(IdContratoG);
 
-                frmPrincipal.loadform(frm);
+                frmPrincipal.loadform(frm, "frmListaCobro");
             }
             frmInicio formPrincipal = Application.OpenForms.OfType<frmInicio>().FirstOrDefault();
 
@@ -180,6 +191,14 @@ namespace SistemaInmobiliaria.Views
 
             lblTotalRegistros.Text = dt.DefaultView.Count.ToString();
 
+        }
+
+        private void cmbTotal_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbTotal.SelectedValue != null && int.TryParse(cmbTotal.SelectedValue.ToString(), out int total))
+            {
+                paginationManager.UpdatePageSize(total);
+            }
         }
     }
 }

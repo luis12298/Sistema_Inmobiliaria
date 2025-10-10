@@ -16,7 +16,7 @@ namespace SistemaInmobiliaria.Controllers
     {
         Conexion conexion = new Conexion();
         public static int intentos = 0;
-        public static int maxIntentos = 3;
+        public static int maxIntentos = 4;
         public List<string> Login(string usuario, string contrasena)
         {
             List<string> user = new List<string>();

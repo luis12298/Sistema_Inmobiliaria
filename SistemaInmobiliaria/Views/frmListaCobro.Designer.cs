@@ -40,6 +40,9 @@
             this.dgvDatos = new System.Windows.Forms.DataGridView();
             this.panel3 = new System.Windows.Forms.Panel();
             this.btnCerrar = new FontAwesome.Sharp.IconButton();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cmbTotal = new System.Windows.Forms.ComboBox();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconPictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -55,9 +58,9 @@
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.btnRegistrarPago);
             this.panel2.Location = new System.Drawing.Point(10, 139);
-            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(910, 40);
+            this.panel2.Size = new System.Drawing.Size(910, 45);
             this.panel2.TabIndex = 12;
             // 
             // btnRegistrarPago
@@ -70,8 +73,8 @@
             this.btnRegistrarPago.IconColor = System.Drawing.Color.Black;
             this.btnRegistrarPago.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnRegistrarPago.IconSize = 30;
-            this.btnRegistrarPago.Location = new System.Drawing.Point(5, 0);
-            this.btnRegistrarPago.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnRegistrarPago.Location = new System.Drawing.Point(5, 1);
+            this.btnRegistrarPago.Margin = new System.Windows.Forms.Padding(2);
             this.btnRegistrarPago.Name = "btnRegistrarPago";
             this.btnRegistrarPago.Size = new System.Drawing.Size(135, 40);
             this.btnRegistrarPago.TabIndex = 5;
@@ -105,7 +108,7 @@
             // txtFiltrar
             // 
             this.txtFiltrar.Location = new System.Drawing.Point(9, 99);
-            this.txtFiltrar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtFiltrar.Margin = new System.Windows.Forms.Padding(2);
             this.txtFiltrar.Multiline = true;
             this.txtFiltrar.Name = "txtFiltrar";
             this.txtFiltrar.Size = new System.Drawing.Size(447, 35);
@@ -121,7 +124,7 @@
             this.iconPictureBox1.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.iconPictureBox1.IconSize = 22;
             this.iconPictureBox1.Location = new System.Drawing.Point(11, 106);
-            this.iconPictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.iconPictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.iconPictureBox1.Name = "iconPictureBox1";
             this.iconPictureBox1.Size = new System.Drawing.Size(22, 24);
             this.iconPictureBox1.TabIndex = 13;
@@ -135,7 +138,7 @@
             this.panel1.Controls.Add(this.iconPictureBox2);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Location = new System.Drawing.Point(11, 52);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(907, 32);
             this.panel1.TabIndex = 14;
@@ -149,7 +152,7 @@
             this.iconPictureBox2.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.iconPictureBox2.IconSize = 24;
             this.iconPictureBox2.Location = new System.Drawing.Point(2, 2);
-            this.iconPictureBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.iconPictureBox2.Margin = new System.Windows.Forms.Padding(2);
             this.iconPictureBox2.Name = "iconPictureBox2";
             this.iconPictureBox2.Size = new System.Drawing.Size(24, 26);
             this.iconPictureBox2.TabIndex = 2;
@@ -173,7 +176,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvDatos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvDatos.Location = new System.Drawing.Point(9, 186);
-            this.dgvDatos.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dgvDatos.Margin = new System.Windows.Forms.Padding(2);
             this.dgvDatos.Name = "dgvDatos";
             this.dgvDatos.RowHeadersWidth = 51;
             this.dgvDatos.RowTemplate.Height = 24;
@@ -187,7 +190,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.BackColor = System.Drawing.Color.White;
             this.panel3.Location = new System.Drawing.Point(9, 500);
-            this.panel3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel3.Margin = new System.Windows.Forms.Padding(2);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(909, 70);
             this.panel3.TabIndex = 16;
@@ -205,18 +208,62 @@
             this.btnCerrar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnCerrar.IconSize = 44;
             this.btnCerrar.Location = new System.Drawing.Point(882, 10);
-            this.btnCerrar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnCerrar.Margin = new System.Windows.Forms.Padding(2);
             this.btnCerrar.Name = "btnCerrar";
             this.btnCerrar.Size = new System.Drawing.Size(36, 39);
             this.btnCerrar.TabIndex = 17;
             this.btnCerrar.UseVisualStyleBackColor = false;
             this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
             // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(865, 108);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(49, 13);
+            this.label3.TabIndex = 20;
+            this.label3.Text = "Entradas";
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(697, 108);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(42, 13);
+            this.label4.TabIndex = 19;
+            this.label4.Text = "Mostrar";
+            // 
+            // cmbTotal
+            // 
+            this.cmbTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbTotal.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbTotal.FormattingEnabled = true;
+            this.cmbTotal.Items.AddRange(new object[] {
+            "2",
+            "10",
+            "25",
+            "50",
+            "100",
+            "Todos"});
+            this.cmbTotal.Location = new System.Drawing.Point(742, 106);
+            this.cmbTotal.Margin = new System.Windows.Forms.Padding(2);
+            this.cmbTotal.Name = "cmbTotal";
+            this.cmbTotal.Size = new System.Drawing.Size(121, 21);
+            this.cmbTotal.TabIndex = 18;
+            this.cmbTotal.SelectedIndexChanged += new System.EventHandler(this.cmbTotal_SelectedIndexChanged);
+            // 
             // frmListaCobro
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(927, 606);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.cmbTotal);
             this.Controls.Add(this.iconPictureBox1);
             this.Controls.Add(this.btnCerrar);
             this.Controls.Add(this.panel3);
@@ -226,7 +273,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtFiltrar);
             this.Controls.Add(this.panel1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "frmListaCobro";
             this.Text = "frmListaCobro";
             this.panel2.ResumeLayout(false);
@@ -254,5 +301,8 @@
         private System.Windows.Forms.Panel panel3;
         private FontAwesome.Sharp.IconPictureBox iconPictureBox2;
         private FontAwesome.Sharp.IconButton btnCerrar;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cmbTotal;
     }
 }

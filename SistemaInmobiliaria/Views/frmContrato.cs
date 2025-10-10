@@ -40,6 +40,7 @@ namespace SistemaInmobiliaria.Views
             configuraciones();
 
             _frmListaContrato = frmListaContrato;
+
         }
         void configuraciones()
         {
@@ -56,12 +57,12 @@ namespace SistemaInmobiliaria.Views
             Formatear(txtMonto);
             Formatear(txtPrima);
             Formatear(txtPrecioLote);
-            SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Primary, btnGuardar);
-            SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Secondary, btnCancelarTodo);
-            SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Info, btnEjecutar);
-            SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Secondary, btnCancelar);
-            SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Info, btnCargar);
-            SettingController.AplicarEstiloBootstrap(SettingController.ButtonType.Info, btnCargarC);
+            BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Primary, btnGuardar, BootstrapButton.ButtonSize.Normal);
+            BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Secondary, btnCancelarTodo);
+            BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Info, btnEjecutar);
+            BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Secondary, btnCancelar);
+            BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Info, btnCargar, BootstrapButton.ButtonSize.Small);
+            BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Info, btnCargarC);
             ApplyBootstrapToAllTextBoxes(this);
             txtDia.Font = new Font("Segoe UI", 11.75F, FontStyle.Regular, GraphicsUnit.Point);
 
@@ -109,14 +110,17 @@ namespace SistemaInmobiliaria.Views
         {
             try
             {
-                // Validar años
-                if (!int.TryParse(txtAnios.Text, out int años) || años <= 0)
+                // Validar años en decimales
+                if (!double.TryParse(txtAnios.Text, out double años) || años <= 0)
                 {
                     MessageBox.Show("Ingrese un número de años válido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                // Calcular la nueva fecha inicial sumando los meses
+                // Convertir años a meses (soporta decimales, ejemplo 4.5 = 54 meses)
+                int totalMesesAnios = (int)Math.Round(años * 12);
+
+                // Calcular la nueva fecha inicial sumando los meses de parámetro
                 DateTime fechaTemporal = fechaInicio.AddMonths(meses);
                 int ultimoDiaMesInicial = DateTime.DaysInMonth(fechaTemporal.Year, fechaTemporal.Month);
                 DateTime fechaInicial = new DateTime(
@@ -125,8 +129,8 @@ namespace SistemaInmobiliaria.Views
                     Math.Min(diaAsignado, ultimoDiaMesInicial)
                 );
 
-                // Calcular la fecha final sumando los años a la fecha inicial
-                DateTime fechaFinalTemporal = fechaInicial.AddYears(años);
+                // Calcular la fecha final sumando los meses equivalentes a los años decimales
+                DateTime fechaFinalTemporal = fechaInicial.AddMonths(totalMesesAnios);
                 int ultimoDiaMesFinal = DateTime.DaysInMonth(fechaFinalTemporal.Year, fechaFinalTemporal.Month);
                 DateTime fechaFinal = new DateTime(
                     fechaFinalTemporal.Year,
@@ -143,6 +147,7 @@ namespace SistemaInmobiliaria.Views
                 MessageBox.Show($"Error al calcular fechas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
 
 
@@ -241,6 +246,13 @@ namespace SistemaInmobiliaria.Views
                 ReportDataSource rds = new ReportDataSource("DataSet1", datosFactura);
                 report.DataSources.Clear();
                 report.DataSources.Add(rds);
+
+                // habilitar imágenes externas antes de pasar parámetros
+                report.EnableExternalImages = true;
+
+                string ruta = @"file:///" + datosFactura[0].LogoRuta.Replace("\\", "/");
+                ReportParameter pRuta = new ReportParameter("RutaImagen", ruta);
+                report.SetParameters(new ReportParameter[] { pRuta });
                 report.Refresh();
 
                 // Configurar los parámetros de imagen

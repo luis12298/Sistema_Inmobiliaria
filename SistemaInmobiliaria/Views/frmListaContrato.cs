@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -19,18 +20,29 @@ namespace SistemaInmobiliaria.Views
     public partial class frmListaContrato : Form
     {
         ContratoController contratoC = new ContratoController();
+        PaginationManager pagination = new PaginationManager();
         SettingController settingC = new SettingController();
         FloatingController floatingC = new FloatingController();
         private DataTable originalDataTable;
         public int idContratoG;
 
-
         public frmListaContrato()
         {
             InitializeComponent();
-            ListarContratos();
-            new PaginationManager().Setup(dgvDatos, contratoC.CargarContratos(), panel3, 25);
+            cmbTotal.DataSource = pagination.FillPageSizeComboBox();
+            cmbTotal.DisplayMember = "Value";
+            cmbTotal.ValueMember = "Key";
 
+            pagination.Setup(dgvDatos, ListaContrato(), panel3, int.Parse(cmbTotal.SelectedValue.ToString()));
+            cmbTotal.SelectedIndex = 1;
+            dgvDatos.DataBindingComplete += (sender, e) =>
+            {
+                settingC.AjustarColumnas(dgvDatos);
+                dgvDatos.Columns["IdLote"].Visible = false;
+                //sumar total de registros
+                lblTotalRegistros.Text = dgvDatos.Rows.Count.ToString();
+                txtProyeccion.Text = $"L. {SumaTotalCuota()}";
+            };
 
 
             new FloatingController().FloatingLabelInput(txtProyeccion, "Proyeccion total");
@@ -49,42 +61,42 @@ namespace SistemaInmobiliaria.Views
 
             };
         }
+        public void ListarContratos() => dgvDatos.DataSource = ListaContrato();
         public string total()
         {
             return dgvDatos.Rows.Count.ToString();
         }
-
-        async public void ListarContratos()
+        public DataTable ListaContrato()
         {
-
-            typeof(DataGridView).InvokeMember("DoubleBuffered",
-                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,
-                null, dgvDatos, new object[] { true });
-
-            // 2. Suspende el layout durante la actualización
-            dgvDatos.SuspendLayout();
-
+            DataTable datos = null;
             try
             {
-                // 3. Carga los datos en segundo plano
-                var datos = await Task.Run(() => contratoC.CargarContratos());
+                typeof(DataGridView).InvokeMember("DoubleBuffered",
+              BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,
+              null, dgvDatos, new object[] { true });
 
-                // 4. Actualiza el DataGridView de una sola vez
-                dgvDatos.DataSource = datos;
-                originalDataTable = datos.Copy();
-                settingC.AjustarColumnas(dgvDatos);
+                // 2. Suspende el layout durante la actualización
+                dgvDatos.SuspendLayout();
+                datos = Task.Run(() => contratoC.CargarContratos())
+                           .ConfigureAwait(false)
+                           .GetAwaiter()
+                           .GetResult();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar los datos: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
-                // 5. Reanuda el layout
+                // 10. Reanudar el layout una vez terminada la carga
                 dgvDatos.ResumeLayout();
-                settingC.AjustarColumnas(dgvDatos);
-                dgvDatos.Columns["IdLote"].Visible = false;
-                //sumar total de registros
-                lblTotalRegistros.Text = dgvDatos.Rows.Count.ToString();
-                txtProyeccion.Text = $"L. {SumaTotalCuota()}";
             }
+            return datos;
         }
+
+
+
         public string SumaTotalCuota()
         {
             return dgvDatos.Rows
@@ -270,30 +282,54 @@ namespace SistemaInmobiliaria.Views
             }
 
         }
+        private void FiltrarDataGridView(string filtro)
+        {
+            filtro = filtro.Trim().ToLower();
 
+            // Si no hay filtro, mostramos todo
+            if (string.IsNullOrEmpty(filtro))
+            {
+                foreach (DataGridViewRow row in dgvDatos.Rows)
+                {
+                    if (!row.IsNewRow)
+                        row.Visible = true;
+                }
+                return;
+            }
+
+            // Si la fila actual va a quedar oculta, quitamos selección antes
+            dgvDatos.CurrentCell = null;
+
+            foreach (DataGridViewRow row in dgvDatos.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                bool coincide = row.Cells.Cast<DataGridViewCell>()
+                    .Any(c => c.Value != null &&
+                              c.Value.ToString().ToLower().Contains(filtro));
+
+                row.Visible = coincide;
+            }
+        }
         private void txtFiltrar_TextChanged_1(object sender, EventArgs e)
         {
             string filtro = txtFiltrar.Text.Trim().ToLower();
 
-            if (string.IsNullOrEmpty(filtro))
-            {
-                dgvDatos.DataSource = originalDataTable;
-                return;
-            }
+            FiltrarDataGridView(filtro);
+        }
 
-            // Creamos una copia filtrada
-            DataTable filtrada = originalDataTable.Clone();
+        private void cmbTotal_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
-            foreach (DataRow fila in originalDataTable.Rows)
+            if (cmbTotal.SelectedValue != null && int.TryParse(cmbTotal.SelectedValue.ToString(), out int total))
             {
-                if (fila.ItemArray.Any(valor =>
-                    valor != null && valor.ToString().ToLower().Contains(filtro)))
-                {
-                    filtrada.ImportRow(fila);
-                }
+                pagination.UpdatePageSize(total);
             }
-            lblTotalRegistros.Text = filtrada.Rows.Count.ToString();
-            dgvDatos.DataSource = filtrada;
+        }
+
+        private void iconPictureBox2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -40,9 +40,9 @@
             this.btnMostrar = new FontAwesome.Sharp.IconButton();
             this.txtUsuario = new System.Windows.Forms.TextBox();
             this.txtContrasena = new System.Windows.Forms.TextBox();
-            this.btnRecuperar = new System.Windows.Forms.LinkLabel();
             this.btnGoogle = new FontAwesome.Sharp.IconButton();
             this.btnIniciar = new FontAwesome.Sharp.IconButton();
+            this.btnSetting = new FontAwesome.Sharp.IconButton();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconPictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconPictureBox3)).BeginInit();
@@ -62,7 +62,6 @@
             this.panel1.Controls.Add(this.btnMostrar);
             this.panel1.Controls.Add(this.txtUsuario);
             this.panel1.Controls.Add(this.txtContrasena);
-            this.panel1.Controls.Add(this.btnRecuperar);
             this.panel1.Controls.Add(this.btnGoogle);
             this.panel1.Controls.Add(this.btnIniciar);
             this.panel1.Location = new System.Drawing.Point(286, 9);
@@ -142,7 +141,6 @@
             // iconPictureBox3
             // 
             this.iconPictureBox3.BackColor = System.Drawing.Color.Transparent;
-            this.iconPictureBox3.BackgroundImage = global::SistemaInmobiliaria.Properties.Resources.Logo_negro_PNG_;
             this.iconPictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.iconPictureBox3.ForeColor = System.Drawing.SystemColors.ControlText;
             this.iconPictureBox3.IconChar = FontAwesome.Sharp.IconChar.None;
@@ -183,7 +181,7 @@
             this.btnMostrar.IconColor = System.Drawing.Color.Black;
             this.btnMostrar.IconFont = FontAwesome.Sharp.IconFont.Solid;
             this.btnMostrar.IconSize = 30;
-            this.btnMostrar.Location = new System.Drawing.Point(314, 308);
+            this.btnMostrar.Location = new System.Drawing.Point(314, 312);
             this.btnMostrar.Margin = new System.Windows.Forms.Padding(2);
             this.btnMostrar.Name = "btnMostrar";
             this.btnMostrar.Size = new System.Drawing.Size(26, 24);
@@ -208,19 +206,6 @@
             this.txtContrasena.Name = "txtContrasena";
             this.txtContrasena.Size = new System.Drawing.Size(316, 33);
             this.txtContrasena.TabIndex = 3;
-            // 
-            // btnRecuperar
-            // 
-            this.btnRecuperar.AutoSize = true;
-            this.btnRecuperar.Enabled = false;
-            this.btnRecuperar.Location = new System.Drawing.Point(140, 558);
-            this.btnRecuperar.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.btnRecuperar.Name = "btnRecuperar";
-            this.btnRecuperar.Size = new System.Drawing.Size(119, 13);
-            this.btnRecuperar.TabIndex = 2;
-            this.btnRecuperar.TabStop = true;
-            this.btnRecuperar.Text = "¿Olvidó su contraseña?";
-            this.btnRecuperar.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.btnRecuperar_LinkClicked);
             // 
             // btnGoogle
             // 
@@ -261,12 +246,27 @@
             this.btnIniciar.UseVisualStyleBackColor = false;
             this.btnIniciar.Click += new System.EventHandler(this.btnIniciar_Click);
             // 
+            // btnSetting
+            // 
+            this.btnSetting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSetting.IconChar = FontAwesome.Sharp.IconChar.Gears;
+            this.btnSetting.IconColor = System.Drawing.Color.Black;
+            this.btnSetting.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnSetting.IconSize = 25;
+            this.btnSetting.Location = new System.Drawing.Point(899, 9);
+            this.btnSetting.Name = "btnSetting";
+            this.btnSetting.Size = new System.Drawing.Size(35, 35);
+            this.btnSetting.TabIndex = 4;
+            this.btnSetting.UseVisualStyleBackColor = true;
+            this.btnSetting.Click += new System.EventHandler(this.btnSetting_Click);
+            // 
             // frmLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(946, 603);
+            this.Controls.Add(this.btnSetting);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -294,7 +294,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtUsuario;
         private System.Windows.Forms.TextBox txtContrasena;
-        private System.Windows.Forms.LinkLabel btnRecuperar;
         private FontAwesome.Sharp.IconButton btnMostrar;
         private FontAwesome.Sharp.IconPictureBox iconPictureBox2;
         private FontAwesome.Sharp.IconPictureBox iconPictureBox1;
@@ -302,5 +301,6 @@
         private FontAwesome.Sharp.IconButton btnPin;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
+        private FontAwesome.Sharp.IconButton btnSetting;
     }
 }

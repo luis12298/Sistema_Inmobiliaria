@@ -29,13 +29,25 @@ namespace SistemaInmobiliaria.Views
         public frmDashboard()
         {
             InitializeComponent();
+            var dt = new ReporteController().CargarCobrosMes();
+            int totalPagados = dt.AsEnumerable()
+                               .Count(row => row.Field<string>("Estado") == "Pagado");
             lblTotalDeudas.Text = new ReporteController().CargarClientesAtrasados().Rows.Count.ToString();
-            lblTotalCob.Text = new ReporteController().CargarCobrosMes().Rows.Count.ToString();
+            lblTotalCob.Text = new ReporteController().CargarCobrosMes().Rows.Count - totalPagados + " de " + dt.Rows.Count.ToString();
+
+
+
+            lblPorcentaje.Text = totalPagados.ToString() + " de " + dt.Rows.Count.ToString();
+            lblPorcentaj.Text = (totalPagados / (double)dt.Rows.Count * 100)
+                     .ToString("F2") + "%";   // 2 decimales fijos
+
             lblTotalCon.Text = new ContratoController().CargarContratos().Rows.Count.ToString();
             lblTotalLote.Text = new LoteController().CargarLotes().Rows.Count.ToString();
             DataTable clientes = new ReporteController().CargarClientesAtrasados();
             GraficarClientesAtrasadosPorMes(clientes, chart1);
-            BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Danger, btnMostrarAtra);
+            GraficarPorcentajePagos(totalPagados, dt.Rows.Count, chart2);
+            GraficarCobradosVsEsperados(totalPagados, dt.Rows.Count, chart3);
+            BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Danger, btnMostrarAtra, BootstrapButton.ButtonSize.Normal);
             BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Secondary, btnMostrarCob);
             BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Success, btnMostrarSus);
             BootstrapButton.AplicarEstiloBootstrap(BootstrapButton.ButtonType.Primary, btnMostrarLote);
@@ -91,7 +103,7 @@ namespace SistemaInmobiliaria.Views
 
                     serie.Points[index].Color = colores[i % colores.Length];
                     serie.Points[index].Label = item.Cantidad.ToString();
-                    serie.Points[index].LabelForeColor = Color.White;
+                    serie.Points[index].LabelForeColor = Color.Black;
                     serie.Points[index].Font = new Font("Arial", 18, FontStyle.Bold);
                     serie["LabelStyle"] = "Top"; // Posición del texto encima de la barra
                 }
@@ -100,6 +112,44 @@ namespace SistemaInmobiliaria.Views
             }
         }
 
+        public void GraficarPorcentajePagos(int totalPagados, int totalEsperados, Chart chart2)
+        {
+            chart2.Series.Clear();
+            chart2.ChartAreas.Clear();
+            chart2.ChartAreas.Add(new ChartArea());
+
+            Series serie = new Series("PorcentajePagos") { ChartType = SeriesChartType.Pie };
+            serie.Points.AddXY("", totalPagados);
+            serie.Points.AddXY("", totalEsperados - totalPagados);
+
+            foreach (var point in serie.Points)
+            {
+                point.Label = $" {point.YValues[0]} ({point.YValues[0] / (double)totalEsperados * 100:F2}%)";
+                point.LabelForeColor = Color.Black;
+                point.Font = new Font("Arial", 12, FontStyle.Bold);
+            }
+
+            chart2.Series.Add(serie);
+        }
+        public void GraficarCobradosVsEsperados(int totalPagados, int totalEsperados, Chart chart3)
+        {
+            chart3.Series.Clear();
+            chart3.ChartAreas.Clear();
+            chart3.ChartAreas.Add(new ChartArea());
+
+            Series serie = new Series("Cobros") { ChartType = SeriesChartType.FastLine };
+            serie.Points.AddXY("Esperados", totalEsperados);
+            serie.Points.AddXY("Cobrados", totalPagados);
+
+            foreach (var point in serie.Points)
+            {
+                point.Label = point.YValues[0].ToString();
+                point.LabelForeColor = Color.Black;
+                point.Font = new Font("Arial", 14, FontStyle.Bold);
+            }
+
+            chart3.Series.Add(serie);
+        }
         private void dgvDatos2_CellClick(object sender, DataGridViewCellEventArgs e)
         {
 

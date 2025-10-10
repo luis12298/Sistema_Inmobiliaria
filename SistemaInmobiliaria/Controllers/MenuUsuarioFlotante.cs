@@ -10,66 +10,197 @@ using System.Linq;
 
 namespace SistemaInmobiliaria.Controllers
 {
-    public static class MenuUsuarioFlotante
+    public static class UsuarioMenu
     {
-        private static Panel menuFlotante;
-        private static Button botonAncla;
-        private static Form formActual;
+        private static UsuarioMenuForm _currentMenu;
 
-        public static void Mostrar(Form form, Button boton, string userLog, EventHandler onCerrarSesion = null, EventHandler onAyuda = null)
+        public static void Show(Form parentForm, Button anchorButton, string username,
+            EventHandler logoutHandler = null, EventHandler helpHandler = null)
         {
-            if (menuFlotante != null && !menuFlotante.IsDisposed)
+            CloseCurrentMenu();
+            _currentMenu = new UsuarioMenuForm(parentForm, anchorButton, username, logoutHandler, helpHandler);
+            _currentMenu.MenuClosed += () => _currentMenu = null;
+            _currentMenu.Show(parentForm);
+        }
+
+        public static void Close() => CloseCurrentMenu();
+
+        private static void CloseCurrentMenu()
+        {
+            _currentMenu?.CloseMenu();
+        }
+    }
+
+    public class UsuarioMenuForm : Form
+    {
+        // Constantes para el efecto de sombra
+        private const int CS_DROPSHADOW = 0x00020000;
+
+        private const int WM_NCPAINT = 0x0085;
+
+        [DllImport("dwmapi.dll")]
+        public static extern int DwmExtendFrameIntoClientArea(IntPtr hWnd, ref MARGINS pMarInset);
+        [DllImport("dwmapi.dll")]
+        public static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int attrValue, int attrSize);
+        [DllImport("dwmapi.dll")]
+        public static extern int DwmIsCompositionEnabled(ref int pfEnabled);
+
+        private readonly Form _parentForm;
+        private readonly Button _anchorButton;
+        private readonly EventHandler _logoutHandler;
+        private readonly EventHandler _helpHandler;
+        private bool _aeroEnabled;
+
+        public struct MARGINS
+        {
+            public int leftWidth;
+            public int rightWidth;
+            public int topHeight;
+            public int bottomHeight;
+        }
+
+        public event Action MenuClosed;
+
+        public UsuarioMenuForm(Form parent, Button anchor, string username,
+            EventHandler logoutHandler, EventHandler helpHandler)
+        {
+            _parentForm = parent ?? throw new ArgumentNullException(nameof(parent));
+            _anchorButton = anchor ?? throw new ArgumentNullException(nameof(anchor));
+            _logoutHandler = logoutHandler;
+            _helpHandler = helpHandler;
+            _aeroEnabled = CheckAeroEnabled();
+
+            InitializeComponents(username);
+            ConfigureEvents();
+            PositionMenu();
+        }
+
+        protected override CreateParams CreateParams
+        {
+            get
             {
-                Cerrar(form);
-                return;
+                CreateParams cp = base.CreateParams;
+                if (!_aeroEnabled)
+                    cp.ClassStyle |= CS_DROPSHADOW;
+                return cp;
             }
+        }
 
-            Color bcolor = ColorTranslator.FromHtml("#f8f9fa");
-
-            menuFlotante = new Panel
+        protected override void WndProc(ref Message m)
+        {
+            switch (m.Msg)
             {
-                BackColor = bcolor,
-                Size = new Size(250, 150),
-                Visible = false,
-            };
-            botonAncla = boton;
-            formActual = form;
-            //menuFlotante.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, menuFlotante.Width + 1, menuFlotante.Height + 1, 12, 12));
-            AplicarBordesRedondeados(menuFlotante, 10);
-            menuFlotante.Paint += (sender, e) =>
-            {
-                using (Pen borderPen = new Pen(ColorTranslator.FromHtml("#D3D3D3"), 2))
-                {
-                    e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-                    e.Graphics.DrawRoundedRectangle(borderPen, new Rectangle(0, 0, menuFlotante.Width - 1, menuFlotante.Height - 1), 10);
-                }
-            };
-            ReposicionarMenu();
+                case WM_NCPAINT:
+                    if (_aeroEnabled)
+                    {
+                        var v = 2;
+                        DwmSetWindowAttribute(this.Handle, 2, ref v, 4);
+                        MARGINS margins = new MARGINS()
+                        {
+                            bottomHeight = 1,
+                            leftWidth = 1,
+                            rightWidth = 1,
+                            topHeight = 1
+                        };
+                        DwmExtendFrameIntoClientArea(this.Handle, ref margins);
+                    }
+                    break;
+            }
+            base.WndProc(ref m);
+        }
 
-            PictureBox avatar = new PictureBox
+        private bool CheckAeroEnabled()
+        {
+            if (Environment.OSVersion.Version.Major >= 6)
+            {
+                int enabled = 0;
+                DwmIsCompositionEnabled(ref enabled);
+                return enabled == 1;
+            }
+            return false;
+        }
+
+        private void InitializeComponents(string username)
+        {
+            // Configuración básica del formulario
+            FormBorderStyle = FormBorderStyle.None;
+            StartPosition = FormStartPosition.Manual;
+            BackColor = Color.FromArgb(248, 249, 250);
+            Size = new Size(300, 160);
+            ShowInTaskbar = false;
+            TopMost = true;
+            Owner = _parentForm;
+
+            // Forma redondeada
+            ApplyRoundedForm();
+
+            // Controles
+            CreateAvatar();
+            CreateLabels(username);
+            CreateSeparator();
+            CreateMenuButtons();
+        }
+
+        private void ApplyRoundedForm()
+        {
+            var path = new GraphicsPath();
+            int radius = 13;
+            var rect = new Rectangle(0, 0, Width, Height);
+
+            path.AddArc(rect.X, rect.Y, radius * 2, radius * 2, 180, 90);
+            path.AddArc(rect.Right - radius * 2, rect.Y, radius * 2, radius * 2, 270, 90);
+            path.AddArc(rect.Right - radius * 2, rect.Bottom - radius * 2, radius * 2, radius * 2, 0, 90);
+            path.AddArc(rect.X, rect.Bottom - radius * 2, radius * 2, radius * 2, 90, 90);
+            path.CloseFigure();
+
+            Region = new Region(path);
+
+        }
+
+
+        private void CreateAvatar()
+        {
+            var avatar = new PictureBox
             {
                 Size = new Size(48, 48),
                 Location = new Point(10, 15),
                 BackColor = Color.Transparent
             };
-            avatar.Paint += (s, e) =>
+
+            avatar.Paint += PaintAvatar;
+            Controls.Add(avatar);
+        }
+
+        private void PaintAvatar(object sender, PaintEventArgs e)
+        {
+            var avatar = (PictureBox)sender;
+            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+
+            // Fondo circular
+            using (var brush = new SolidBrush(Color.FromArgb(242, 242, 242)))
+                e.Graphics.FillEllipse(brush, 0, 0, avatar.Width - 1, avatar.Height - 1);
+
+            // Icono de usuario
+            try
             {
-                e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-                using (SolidBrush brush = new SolidBrush(ColorTranslator.FromHtml("#f2f2f2")))
-                    e.Graphics.FillEllipse(brush, 0, 0, avatar.Width - 1, avatar.Height - 1);
-
-                using (Bitmap iconBmp = FormsIconHelper.ToBitmap(IconChar.User, IconFont.Solid, 26, Color.DarkGray))
+                using (var icon = FormsIconHelper.ToBitmap(IconChar.User, IconFont.Solid, 26, Color.DarkGray))
                 {
-                    int x = (avatar.Width - iconBmp.Width) / 2;
-                    int y = (avatar.Height - iconBmp.Height) / 2;
-                    e.Graphics.DrawImage(iconBmp, x, y);
+                    int x = (avatar.Width - icon.Width) / 2;
+                    int y = (avatar.Height - icon.Height) / 2;
+                    e.Graphics.DrawImage(icon, x, y);
                 }
+            }
+            catch { }
 
-                using (Pen borderPen = new Pen(Color.LightGray, 1))
-                    e.Graphics.DrawEllipse(borderPen, 0, 0, avatar.Width - 1, avatar.Height - 1);
-            };
+            // Borde
+            using (var pen = new Pen(Color.LightGray, 1))
+                e.Graphics.DrawEllipse(pen, 0, 0, avatar.Width - 1, avatar.Height - 1);
+        }
 
-            Label lblNombre = new Label
+        private void CreateLabels(string username)
+        {
+            // Etiqueta "Usuario"
+            var lblTitle = new Label
             {
                 Text = "Usuario",
                 ForeColor = Color.Black,
@@ -78,278 +209,224 @@ namespace SistemaInmobiliaria.Controllers
                 AutoSize = true,
                 BackColor = Color.Transparent
             };
+            Controls.Add(lblTitle);
 
-            Label lblUserLog = new Label
+
+            // Nombre de usuario
+            var lblUsername = new TextBox
             {
-                Text = userLog,
-                ForeColor = Color.DarkGray,
+                Text = username ?? "Invitado",
+                BorderStyle = BorderStyle.None,
+                Height = 20,
+                ForeColor = Color.FromArgb(100, 100, 100),
                 Font = new Font("Segoe UI", 8),
                 Location = new Point(70, 42),
                 AutoSize = true,
-                BackColor = Color.Transparent
+                Cursor = Cursors.Hand,
+                ReadOnly = true,
+                TabStop = false,
+                BackColor = Color.White,
+
             };
-            lblUserLog.MouseEnter += (s, e) => { lblUserLog.ForeColor = Color.Black; };
-            lblUserLog.MouseLeave += (s, e) => { lblUserLog.ForeColor = Color.DarkGray; };
-            //copiar al portapapeles el texto del labe
-            Panel linea = new Panel
+
+            //lblUsername.MouseEnter += (s, e) => lblUsername.ForeColor = Color.Black;
+            //lblUsername.MouseLeave += (s, e) => lblUsername.ForeColor = Color.FromArgb(100, 100, 100);
+            lblUsername.GotFocus += (s, e) => HideCaret(lblUsername.Handle);
+            lblUsername.MouseDown += (s, e) =>
             {
-                Size = new Size(220, 1),
+                HideCaret(lblUsername.Handle);
+            };
+            Controls.Add(lblUsername);
+            new ToolTip().SetToolTip(lblUsername, "Doble clic para copiar");
+            lblUsername.DoubleClick += (s, e) => Clipboard.SetText(lblUsername.Text);
+        }
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        static extern bool HideCaret(IntPtr hWnd);
+        private void CreateSeparator()
+        {
+            var separator = new Panel
+            {
+                Size = new Size(270, 1),
                 Location = new Point(15, 70),
-                BackColor = Color.FromArgb(70, 70, 70)
+                BackColor = Color.FromArgb(230, 230, 230)
+            };
+            Controls.Add(separator);
+        }
+
+        private void CreateMenuButtons()
+        {
+            // Botón de cerrar sesión
+            var btnLogout = CreateMenuButton("Cerrar sesión", 80, IconChar.SignOutAlt, OnLogoutClick);
+
+            using (GraphicsPath path = CreateRoundRectRgn(
+       new RectangleF(0, 0, btnLogout.Width, btnLogout.Height), 8))
+            {
+                btnLogout.Region = new Region(path);
+            }
+            Controls.Add(btnLogout);
+
+            // Botón de ayuda
+            var btnHelp = CreateMenuButton("Ayuda", 115, IconChar.QuestionCircle, OnHelpClick);
+
+
+            using (GraphicsPath path = CreateRoundRectRgn(
+        new RectangleF(0, 0, btnHelp.Width, btnHelp.Height), 8))
+            {
+                btnHelp.Region = new Region(path);
+            }
+            Controls.Add(btnHelp);
+
+            btnLogout.MouseEnter += (s, e) =>
+            {
+                btnLogout.BackColor = ColorTranslator.FromHtml("#1d2124");
+                btnLogout.ForeColor = Color.White;
+                btnLogout.IconColor = Color.White;
+            };
+            btnLogout.MouseLeave += (s, e) =>
+            {
+                btnLogout.BackColor = Color.Transparent;
+                btnLogout.ForeColor = Color.Black;
+                btnLogout.IconColor = Color.Black;
             };
 
-            IconButton btnCerrarSesion = CrearBotonMenu("Cerrar sesión", 80, (s, e) =>
+            btnHelp.MouseEnter += (s, e) =>
             {
-                Cerrar(form);
-                if (onCerrarSesion != null)
-                    onCerrarSesion.Invoke(s, e);
-                else
-                    MessageBox.Show("Sesión cerrada");
-            });
-            btnCerrarSesion.IconChar = IconChar.SignOutAlt;
-            btnCerrarSesion.IconColor = Color.Black;
-            btnCerrarSesion.FlatAppearance.MouseOverBackColor = ColorTranslator.FromHtml("#DEECFF");
-            btnCerrarSesion.ImageAlign = ContentAlignment.MiddleLeft;
-            btnCerrarSesion.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnCerrarSesion.IconSize = 20;
-
-            IconButton ayuda = CrearBotonMenu("Ayuda", 115, (s, e) =>
+                btnHelp.BackColor = ColorTranslator.FromHtml("#1d2124");
+                btnHelp.ForeColor = Color.White;
+                btnHelp.IconColor = Color.White;
+            };
+            btnHelp.MouseLeave += (s, e) =>
             {
-                Cerrar(form);
-                if (onAyuda != null)
-                    onAyuda.Invoke(s, e);
-                else
-                    MessageBox.Show("Ayuda");
-            });
-            ayuda.IconChar = IconChar.QuestionCircle;
-            ayuda.IconColor = Color.Black;
-            ayuda.FlatAppearance.MouseOverBackColor = ColorTranslator.FromHtml("#DEECFF");
-            ayuda.ImageAlign = ContentAlignment.MiddleLeft;
-            ayuda.TextImageRelation = TextImageRelation.ImageBeforeText;
-            ayuda.IconSize = 20;
-
-            menuFlotante.Controls.Add(avatar);
-            menuFlotante.Controls.Add(lblNombre);
-            menuFlotante.Controls.Add(lblUserLog);
-            menuFlotante.Controls.Add(linea);
-            menuFlotante.Controls.Add(ayuda);
-            menuFlotante.Controls.Add(btnCerrarSesion);
-
-            form.Controls.Add(menuFlotante);
-            menuFlotante.BringToFront();
-            menuFlotante.Visible = true;
-            form.MouseDown += CerrarMenuAlHacerClicFuera;
-            form.Resize += Form_ResizeReposicionarMenu;
-            AgregarEventosCerrarMenu(form, form);
-            //agregar la sombra
-
+                btnHelp.BackColor = Color.Transparent;
+                btnHelp.ForeColor = Color.Black;
+                btnHelp.IconColor = Color.Black;
+            };
         }
-        private static GraphicsPath RoundedRect(Rectangle bounds, int radius)
-        {
-            GraphicsPath path = new GraphicsPath();
 
-            if (radius <= 0)
+        private IconButton CreateMenuButton(string text, int top, IconChar icon, EventHandler clickHandler)
+        {
+            return new IconButton
             {
-                path.AddRectangle(bounds);
-                return path;
-            }
-
-            int diameter = radius * 2;
-            Rectangle arc = new Rectangle(bounds.Location, new Size(diameter, diameter));
-
-            // Esquina superior izquierda
-            path.AddArc(arc, 180, 90);
-
-            // Esquina superior derecha
-            arc.X = bounds.Right - diameter;
-            path.AddArc(arc, 270, 90);
-
-            // Esquina inferior derecha
-            arc.Y = bounds.Bottom - diameter;
-            path.AddArc(arc, 0, 90);
-
-            // Esquina inferior izquierda
-            arc.X = bounds.Left;
-            path.AddArc(arc, 95, 90);
-
-            path.CloseFigure();
-            return path;
-        }
-        private static void AplicarBordesRedondeados(Panel panel, int radius)
-        {
-            Rectangle bounds = new Rectangle(0, 0, panel.Width, panel.Height);
-            using (GraphicsPath path = RoundedRect(bounds, radius))
-            {
-                panel.Region = new Region(path);
-            }
-        }
-
-        public static void DrawRoundedRectangle(this Graphics graphics, Pen pen, Rectangle bounds, int cornerRadius)
-        {
-            GraphicsPath path = new GraphicsPath();
-            path.AddArc(bounds.X, bounds.Y, cornerRadius * 2, cornerRadius * 2, 180, 90);
-            path.AddArc(bounds.X + bounds.Width - cornerRadius * 2, bounds.Y, cornerRadius * 2, cornerRadius * 2, 270, 90);
-            path.AddArc(bounds.X + bounds.Width - cornerRadius * 2, bounds.Y + bounds.Height - cornerRadius * 2, cornerRadius * 2, cornerRadius * 2, 0, 90);
-            path.AddArc(bounds.X, bounds.Y + bounds.Height - cornerRadius * 2, cornerRadius * 2, cornerRadius * 2, 90, 90);
-            path.CloseFigure();
-            graphics.DrawPath(pen, path);
-        }
-        private static void ReposicionarMenu()
-        {
-            if (menuFlotante == null || menuFlotante.IsDisposed || formActual == null || botonAncla == null)
-                return;
-
-            Point botonPantalla = botonAncla.PointToScreen(Point.Empty);
-            Point botonRelativo = formActual.PointToClient(botonPantalla);
-            menuFlotante.Location = new Point(botonRelativo.X - 200, botonRelativo.Y + botonAncla.Height + 5);
-        }
-
-        private static void Form_ResizeReposicionarMenu(object sender, EventArgs e)
-        {
-            ReposicionarMenu();
-        }
-
-        private static IconButton CrearBotonMenu(string texto, int posY, EventHandler onClick)
-        {
-            IconButton btn = new IconButton
-            {
-                Text = texto,
-                Font = new Font("Segoe UI", 9),
-                ForeColor = Color.Black,
+                Text = text,
+                Font = new Font("Segoe UI", 10),
+                //ForeColor = Color.Black,
                 BackColor = Color.Transparent,
                 FlatStyle = FlatStyle.Flat,
-                Location = new Point(15, posY),
-                Size = new Size(220, 30),
+                Location = new Point(15, top),
+                Size = new Size(270, 35),
                 TextAlign = ContentAlignment.MiddleLeft,
-                TabStop = false
-            };
-            btn.FlatAppearance.BorderSize = 0;
-            btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(36, 36, 36);
-            btn.FlatAppearance.MouseDownBackColor = Color.FromArgb(36, 36, 36);
-            btn.Click += onClick;
-            return btn;
-        }
-
-        private static void CerrarMenuAlHacerClicFuera(object sender, MouseEventArgs e)
-        {
-            if (menuFlotante == null || menuFlotante.IsDisposed || menuFlotante.Parent == null)
-                return;
-
-            Form form = menuFlotante.FindForm();
-            if (form == null)
-                return;
-
-            Point puntoEnPanel = menuFlotante.PointToClient(form.PointToScreen(e.Location));
-
-            if (!menuFlotante.ClientRectangle.Contains(puntoEnPanel))
-            {
-                Cerrar(form);
-            }
-        }
-
-        private static void AgregarEventosCerrarMenu(Form form, Control contenedor)
-        {
-            foreach (Control control in contenedor.Controls)
-            {
-                if (control != menuFlotante)
-                {
-                    control.MouseDown += CerrarMenuAlHacerClicFuera;
-                    if (control.HasChildren)
-                        AgregarEventosCerrarMenu(form, control);
+                TabStop = false,
+                IconChar = icon,
+                IconColor = Color.Black,
+                IconSize = 20,
+                ImageAlign = ContentAlignment.MiddleLeft,
+                TextImageRelation = TextImageRelation.ImageBeforeText,
+                FlatAppearance = {
+                    BorderSize = 0,
+                    MouseOverBackColor = ColorTranslator.FromHtml("#1d2124"),
+                    MouseDownBackColor = Color.FromArgb(222, 236, 255)
                 }
+            }.WithClickHandler(clickHandler);
+        }
+
+        private void OnLogoutClick(object sender, EventArgs e)
+        {
+            CloseMenu();
+            _logoutHandler?.Invoke(sender, e);
+        }
+
+        private void OnHelpClick(object sender, EventArgs e)
+        {
+            CloseMenu();
+            _helpHandler?.Invoke(sender, e);
+        }
+
+        private void ConfigureEvents()
+        {
+            Deactivate += (s, e) => CloseMenu();
+
+            if (_parentForm != null)
+            {
+                _parentForm.Move += RepositionMenu;
+                _parentForm.Resize += RepositionMenu;
+                _parentForm.Activated += (s, e) => BringToFront();
+                _parentForm.FormClosing += (s, e) => CloseMenu();
             }
         }
 
-        private static void RemoverEventosCerrarMenu(Form form, Control contenedor)
+        private void PositionMenu()
         {
-            foreach (Control control in contenedor.Controls)
+            if (_anchorButton == null || _parentForm == null || IsDisposed) return;
+
+            try
             {
-                control.MouseDown -= CerrarMenuAlHacerClicFuera;
-                if (control.HasChildren)
-                    RemoverEventosCerrarMenu(form, control);
+                var buttonLocation = _anchorButton.PointToScreen(Point.Empty);
+                Location = new Point(
+                    buttonLocation.X + _anchorButton.Width - Width - 5,
+                    buttonLocation.Y + _anchorButton.Height + 2);
             }
+            catch { }
         }
 
-        public static void Cerrar(Form form)
+        GraphicsPath CreateRoundRectRgn(RectangleF Rect, int radius)
         {
-            if (menuFlotante != null && !menuFlotante.IsDisposed)
-            {
-                form.Controls.Remove(menuFlotante);
-                menuFlotante.Dispose();
-                menuFlotante = null;
-                form.MouseDown -= CerrarMenuAlHacerClicFuera;
-                form.Resize -= Form_ResizeReposicionarMenu;
-                RemoverEventosCerrarMenu(form, form);
-                botonAncla = null;
-                formActual = null;
-            }
+            float m = 2.75F;
+            float r2 = radius / 2f;
+            GraphicsPath GraphPath = new GraphicsPath();
+
+            GraphPath.AddArc(Rect.X + m, Rect.Y + m, radius, radius, 180, 90);
+            GraphPath.AddLine(Rect.X + r2 + m, Rect.Y + m, Rect.Width - r2 - m, Rect.Y + m);
+            GraphPath.AddArc(Rect.X + Rect.Width - radius - m, Rect.Y + m, radius, radius, 270, 90);
+            GraphPath.AddLine(Rect.Width - m, Rect.Y + r2, Rect.Width - m, Rect.Height - r2 - m);
+            GraphPath.AddArc(Rect.X + Rect.Width - radius - m,
+                           Rect.Y + Rect.Height - radius - m, radius, radius, 0, 90);
+            GraphPath.AddLine(Rect.Width - r2 - m, Rect.Height - m, Rect.X + r2 - m, Rect.Height - m);
+            GraphPath.AddArc(Rect.X + m, Rect.Y + Rect.Height - radius - m, radius, radius, 90, 90);
+            GraphPath.AddLine(Rect.X + m, Rect.Height - r2 - m, Rect.X + m, Rect.Y + r2 + m);
+
+            GraphPath.CloseFigure();
+            return GraphPath;
         }
-        public static void AgregarSombraConPanel(Panel panelPrincipal)
+
+        private void RepositionMenu(object sender, EventArgs e) => PositionMenu();
+
+        public void CloseMenu()
         {
-            int sombraTamaño = 20;  // Aumenté el tamaño para mejor difuminado
-            int radio = 8;
+            if (IsDisposed) return;
 
-            // Crear el panel de sombra (más grande que el panel principal)
-            Panel sombra = new Panel
+            try
             {
-                BackColor = Color.Transparent,
-                Size = new Size(panelPrincipal.Width + sombraTamaño * 2,
-                               panelPrincipal.Height + sombraTamaño * 2),
-                Location = new Point(panelPrincipal.Left - sombraTamaño,
-                                   panelPrincipal.Top - sombraTamaño),
-                Parent = panelPrincipal.Parent
-            };
-
-            // Dibujar la sombra difuminada
-            sombra.Paint += (s, e) =>
-            {
-                // Crear un rectángulo del tamaño del panel principal
-                Rectangle rectPrincipal = new Rectangle(
-                    sombraTamaño,
-                    sombraTamaño,
-                    panelPrincipal.Width,
-                    panelPrincipal.Height);
-
-                using (GraphicsPath path = RoundedRect(rectPrincipal, radio))
+                if (_parentForm != null && !_parentForm.IsDisposed)
                 {
-                    // Configuración para mejor difuminado
-                    int pasosDifuminado = sombraTamaño;
-                    Color colorSombra = Color.FromArgb(4, 0, 0, 0);
-
-                    for (int i = pasosDifuminado; i >= 1; i--)
-                    {
-                        int alpha = colorSombra.A * i / pasosDifuminado;
-                        using (Pen pen = new Pen(Color.FromArgb(alpha, colorSombra), i))
-                        {
-                            e.Graphics.DrawPath(pen, path);
-                        }
-                    }
-
-                    // Relleno central
-                    using (SolidBrush brush = new SolidBrush(Color.FromArgb(15, 0, 0, 0)))
-                    {
-                        e.Graphics.FillPath(brush, path);
-                    }
+                    _parentForm.Move -= RepositionMenu;
+                    _parentForm.Resize -= RepositionMenu;
                 }
-            };
 
-            // Asegurar el orden z
-            sombra.SendToBack();
-            panelPrincipal.BringToFront();
+                MenuClosed?.Invoke();
+                Dispose();
+            }
+            catch { }
+        }
 
-            // Manejar cambios en el panel principal
-            panelPrincipal.LocationChanged += (s, e) =>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
             {
-                sombra.Location = new Point(panelPrincipal.Left - sombraTamaño,
-                                          panelPrincipal.Top - sombraTamaño);
-            };
+                MenuClosed = null;
+            }
+            base.Dispose(disposing);
+        }
+    }
 
-            panelPrincipal.SizeChanged += (s, e) =>
+    internal static class ControlExtensions
+    {
+        public static T WithClickHandler<T>(this T control, EventHandler handler) where T : Control
+        {
+            if (handler != null)
             {
-                sombra.Size = new Size(panelPrincipal.Width + sombraTamaño * 2,
-                                     panelPrincipal.Height + sombraTamaño * 2);
-                sombra.Invalidate();
-            };
+                control.Click += handler;
+            }
+            return control;
         }
     }
 }
