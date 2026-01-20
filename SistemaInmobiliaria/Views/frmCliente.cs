@@ -292,6 +292,7 @@ namespace SistemaInmobiliaria.Views
             if (result == DialogResult.OK)
             {
                 clienteC.EliminarCliente(IdClienteG);
+                new ContratoController().EliminarContratoPorIdCliente(IdClienteG);
                 ListarClientes();
                 settingC.AjustarColumnas(lvDatos);
             }

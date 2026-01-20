@@ -1,4 +1,5 @@
-﻿using Google;
+﻿using FontAwesome.Sharp;
+using Google;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Auth.OAuth2.Responses;
@@ -29,9 +30,13 @@ namespace SistemaInmobiliaria.Views
     public partial class frmLogin : Form
     {
         UsuarioController usuarioC = new UsuarioController();
+        private ContextMenuStrip menuContextual;
+
         public frmLogin()
         {
             InitializeComponent();
+            InicializarMenuContextualGoogle();
+            new ToolTip().SetToolTip(btnGoogle, "Iniciar con Google, clic derecho para salir");
             this.MinimumSize = new Size(450, 570);
 
             //floatingC.FloatingLabelInput(txtUsuario, "Usuario");
@@ -264,10 +269,32 @@ namespace SistemaInmobiliaria.Views
 
 
         }
+        private void InicializarMenuContextualGoogle()
+        {
+            var menu = new ContextMenuStrip();
+
+
+
+            var itemSalir = new ToolStripMenuItem("Cerrar Sesión");
+            itemSalir.Image = FormsIconHelper.ToBitmap(IconChar.SignOutAlt, IconFont.Auto, 16, Color.Black);
+            itemSalir.Click += (s, e) => CerrarSesion();
+            menu.Items.Add(itemSalir);
+
+            // Asociar al botón
+            btnGoogle.MouseUp += (s, e) =>
+            {
+                if (e.Button == MouseButtons.Right)
+                {
+                    menu.Show(btnGoogle, new Point(e.X, e.Y));
+                }
+            };
+        }
 
         private void frmLogin_FormClosed(object sender, FormClosedEventArgs e)
         {
             CerrarSesion();
         }
+
+
     }
 }

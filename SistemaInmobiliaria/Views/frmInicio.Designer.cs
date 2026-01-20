@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmInicio));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.clientesToolStripMenuItem = new FontAwesome.Sharp.IconMenuItem();
             this.verClientesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,16 +48,12 @@
             this.reportesToolStripMenuItem = new FontAwesome.Sharp.IconMenuItem();
             this.verReporteGeneralToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Main = new System.Windows.Forms.Panel();
-            this.menuStrip2 = new System.Windows.Forms.MenuStrip();
-            this.iconMenuItem1 = new FontAwesome.Sharp.IconMenuItem();
-            this.userLog = new FontAwesome.Sharp.IconMenuItem();
-            this.toolStripMenuItem2 = new FontAwesome.Sharp.IconMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lblHora = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.iconButton1 = new FontAwesome.Sharp.IconButton();
             this.menuStrip1.SuspendLayout();
-            this.menuStrip2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -73,7 +70,7 @@
             this.reportesToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(9, 9);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(832, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(682, 28);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -122,7 +119,7 @@
             this.registrarContratoToolStripMenuItem.IconColor = System.Drawing.Color.Black;
             this.registrarContratoToolStripMenuItem.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.registrarContratoToolStripMenuItem.Name = "registrarContratoToolStripMenuItem";
-            this.registrarContratoToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.registrarContratoToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
             this.registrarContratoToolStripMenuItem.Text = "Ver contratos";
             this.registrarContratoToolStripMenuItem.Click += new System.EventHandler(this.registrarContratoToolStripMenuItem_Click);
             // 
@@ -132,7 +129,7 @@
             this.registrarContratoToolStripMenuItem1.IconColor = System.Drawing.Color.Black;
             this.registrarContratoToolStripMenuItem1.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.registrarContratoToolStripMenuItem1.Name = "registrarContratoToolStripMenuItem1";
-            this.registrarContratoToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.registrarContratoToolStripMenuItem1.Size = new System.Drawing.Size(211, 26);
             this.registrarContratoToolStripMenuItem1.Text = "Registrar contrato";
             this.registrarContratoToolStripMenuItem1.Click += new System.EventHandler(this.registrarContratoToolStripMenuItem1_Click);
             // 
@@ -142,7 +139,7 @@
             this.cobrarToolStripMenuItem.IconColor = System.Drawing.Color.Black;
             this.cobrarToolStripMenuItem.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.cobrarToolStripMenuItem.Name = "cobrarToolStripMenuItem";
-            this.cobrarToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.cobrarToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
             this.cobrarToolStripMenuItem.Text = "Tramites";
             this.cobrarToolStripMenuItem.Click += new System.EventHandler(this.cobrarToolStripMenuItem_Click);
             // 
@@ -244,53 +241,6 @@
             this.Main.Size = new System.Drawing.Size(1360, 507);
             this.Main.TabIndex = 1;
             // 
-            // menuStrip2
-            // 
-            this.menuStrip2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.menuStrip2.BackColor = System.Drawing.Color.Transparent;
-            this.menuStrip2.Dock = System.Windows.Forms.DockStyle.None;
-            this.menuStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.menuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.iconMenuItem1});
-            this.menuStrip2.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-            this.menuStrip2.Location = new System.Drawing.Point(1265, 9);
-            this.menuStrip2.Name = "menuStrip2";
-            this.menuStrip2.Size = new System.Drawing.Size(99, 28);
-            this.menuStrip2.TabIndex = 2;
-            this.menuStrip2.Text = "menuStrip2";
-            // 
-            // iconMenuItem1
-            // 
-            this.iconMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.userLog,
-            this.toolStripMenuItem2});
-            this.iconMenuItem1.IconChar = FontAwesome.Sharp.IconChar.UserTie;
-            this.iconMenuItem1.IconColor = System.Drawing.Color.Black;
-            this.iconMenuItem1.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconMenuItem1.Name = "iconMenuItem1";
-            this.iconMenuItem1.Size = new System.Drawing.Size(93, 24);
-            this.iconMenuItem1.Text = "Usuario";
-            // 
-            // userLog
-            // 
-            this.userLog.IconChar = FontAwesome.Sharp.IconChar.User;
-            this.userLog.IconColor = System.Drawing.Color.Black;
-            this.userLog.IconFont = FontAwesome.Sharp.IconFont.Solid;
-            this.userLog.Name = "userLog";
-            this.userLog.Size = new System.Drawing.Size(204, 26);
-            this.userLog.Text = "User";
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.IconChar = FontAwesome.Sharp.IconChar.RightFromBracket;
-            this.toolStripMenuItem2.IconColor = System.Drawing.Color.Black;
-            this.toolStripMenuItem2.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(204, 26);
-            this.toolStripMenuItem2.Text = "Cerrar aplicación";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
-            // 
             // panel1
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -331,23 +281,39 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Derechos reservados ©";
             // 
+            // iconButton1
+            // 
+            this.iconButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.iconButton1.FlatAppearance.BorderSize = 0;
+            this.iconButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.iconButton1.IconChar = FontAwesome.Sharp.IconChar.UserCircle;
+            this.iconButton1.IconColor = System.Drawing.Color.Black;
+            this.iconButton1.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.iconButton1.IconSize = 36;
+            this.iconButton1.Location = new System.Drawing.Point(1327, 1);
+            this.iconButton1.Name = "iconButton1";
+            this.iconButton1.Size = new System.Drawing.Size(36, 36);
+            this.iconButton1.TabIndex = 4;
+            this.iconButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.iconButton1.UseVisualStyleBackColor = true;
+            this.iconButton1.Click += new System.EventHandler(this.iconButton1_Click);
+            // 
             // frmInicio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1385, 619);
+            this.Controls.Add(this.iconButton1);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.menuStrip2);
             this.Controls.Add(this.Main);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "frmInicio";
             this.Text = "Inicio";
             this.Load += new System.EventHandler(this.frmInicio_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.menuStrip2.ResumeLayout(false);
-            this.menuStrip2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
@@ -371,10 +337,6 @@
         private System.Windows.Forms.ToolStripMenuItem verLotesToolStripMenuItem;
         private FontAwesome.Sharp.IconMenuItem calculadoraToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem calculadoraDeCuotasToolStripMenuItem;
-        private System.Windows.Forms.MenuStrip menuStrip2;
-        private FontAwesome.Sharp.IconMenuItem iconMenuItem1;
-        private FontAwesome.Sharp.IconMenuItem userLog;
-        private FontAwesome.Sharp.IconMenuItem toolStripMenuItem2;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
@@ -384,5 +346,6 @@
         private System.Windows.Forms.ToolStripMenuItem agregarCorreoToolStripMenuItem;
         private FontAwesome.Sharp.IconMenuItem reportesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem verReporteGeneralToolStripMenuItem;
+        private FontAwesome.Sharp.IconButton iconButton1;
     }
 }
